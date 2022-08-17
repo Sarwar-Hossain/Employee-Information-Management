@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if toast_mes %}
+<script>swal("{{toast_mes.toast_message}}");</script>
+{% endif %}
+
+<section class="main-layout-bg">
+    <div id="content">
+        {% include 'messages.html' %}
+    </div>
+    <div id='error_message'></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="login-box">
+                    <div class="logo-box">
+<!--                        <img src="{% static 'icon-images/rise.png' %}" alt="" class="img-fluid">-->
+                        <h1>BARI HOME CARE</h1>
+                    </div>
+                    <form method="post" id="login_form" name="login_form" enctype="multipart/form-data"
+                          onsubmit="return login_Form()">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" class="form-control"
+                                   placeholder="Please enter your email"
+                                   autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Please enter your password"
+                                   autocomplete="off">
+                        </div>
+                        <div class="w-100 text-center">
+                            <button type="submit" id="login-btn" class="btn btn-primary login-btn">log in</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    function showLoader() {
+        document.getElementById("preloader").style.display = "block";
+    }
+
+    function showWarningToasty(message) {
+        Toastify({
+            text: message,
+            duration: 4000,
+            close: true,
+            backgroundColor: "#0000FF",
+        }).showToast();
+    }
+
+    function login_Form() {
+        if (document.login_form.email.value === "") {
+            showWarningToasty("Shop Email Id is Empty!");
+            document.login_form.email.focus();
+            return false;
+        } else if (document.login_form.password.value === "") {
+            showWarningToasty("Password is Empty!");
+            document.login_form.password.focus();
+            return false;
+        } else {
+            showLoader();
+        }
+    }
+
+</script>
+
+{% endblock %}
