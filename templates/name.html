@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load form_helpers %}
 
-{% block extra_media %}
-{{ form.media }}
-{% endblock %}
 
 {% block content %}
 <section class="page-one-main">
@@ -95,5 +92,9 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_media %}
+{{ form.media }}
 {% endblock %}
 
