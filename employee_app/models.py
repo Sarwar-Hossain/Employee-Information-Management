@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from jsignature.fields import JSignatureField
 
 
 # Create your models here.
@@ -15,11 +16,25 @@ class Employee(models.Model):
     is_active = models.BooleanField(null=False, default=True)
     password = models.CharField(max_length=100, null=False)
     email = models.CharField(max_length=30, null=True)
+    signature = JSignatureField(default=None)
 
     created_by = models.CharField(max_length=100, null=False)
     created_at = models.DateTimeField(auto_now_add=timezone.now(), null=False)
     updated_by = models.CharField(max_length=100, null=True)
     updated_at = models.DateTimeField(auto_now_add=timezone.now(), null=True)
+
+
+# Create your models here.
+class DemoUser(models.Model):
+    objects = None
+
+    employee_name = models.CharField(max_length=50, null=False)
+    date = models.DateTimeField(null=False)
+    signature = JSignatureField(default=None)
+
+
+class SignatureModel(models.Model):
+    signature = JSignatureField(max_length=1000)
 
 
 class Demographics(models.Model):

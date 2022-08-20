@@ -5,3 +5,4 @@ pycryptodome==3.14.1
 pytz==2022.2.1
 sqlparse==0.4.2
 typing_extensions==4.3.0
+django-jsignature==0.11

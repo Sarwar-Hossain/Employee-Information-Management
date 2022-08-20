@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load form_helpers %}
+
+{% block extra_media %}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+<section class="page-one-main">
+    <div class="form-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="common-header">
+                        CONSUMER DIRECTED PERSONAL ASSRISTANT PROGRAM APPLICATION
+                    </h3>
+                </div>
+            </div>
+
+            <form action="" method="post">
+
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">Basic Infromation</legend>
+                                <div class="row">
+                                    {{ form.non_field_errors }}
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.subject.errors }}
+                                            <label for="" class="form-label">member Name</label>
+                                            {{ form.employee_name }}
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter member Name">-->
+                                        </div>
+                                    </div>
+<!--                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="" class="form-label">medicaid ID</label>-->
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter medicaid ID">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.subject.errors }}
+                                            <label for="" class="form-label">date</label>
+                                            {{ form.date }}
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter first date of service">-->
+                                        </div>
+                                    </div>
+<!--                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="" class="form-label">PA name</label>-->
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter PA name">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="" class="form-label">employee ID</label>-->
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter employee id">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="" class="form-label">mobile number</label>-->
+<!--                                            <input type="text" class="form-control" id=""-->
+<!--                                                placeholder="Enter mobile no">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <div class="mb-3">
+                                                {{ form.subject.errors }}
+                                                <label for="" class="form-label">Signature</label>
+                                                {{ form.signature }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Save"/>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

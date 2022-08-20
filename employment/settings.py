@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'employee_app',
+    'jsignature',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'employment_hire',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '12345',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -152,3 +154,6 @@ MESSAGE_TAGS = {
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 24 * 60 * 60  # set just 10 seconds to test
 SESSION_SAVE_EVERY_REQUEST = True
+
+JSIGNATURE_WIDTH = 300
+JSIGNATURE_HEIGHT = 150

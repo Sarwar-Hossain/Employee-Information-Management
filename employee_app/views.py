@@ -4,6 +4,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.views import View
 from .models import *
 from django.contrib import messages
+from employee_app.forms import *
+from jsignature.utils import draw_signature
 
 """ Login View """
 
@@ -42,13 +44,18 @@ class LoginView(View):
             return render(request, 'log-in.html', )
 
 
-class MyView(View):
+class CreateEmployeeProfile(View):
 
     @staticmethod
     def get(request):
         try:
-            messages.success(request, 'Login Successful!!')
-            return render(request, 'index.html')
+
+            form = EmployeeForm()
+            # form = EmployeeForm(request.POST or None)
+            context = {'form': form}
+            return render(request, "name.html", context)
+            # messages.success(request, 'Login Successful!!')
+            # return render(request, 'index.html')
         except Exception as e:
             print(e)
             return render(request, 'log-in.html', )
@@ -56,9 +63,43 @@ class MyView(View):
     @staticmethod
     def post(request):
         try:
-            name = request.POST.get('name')
-            print(name)
-            return HttpResponse('POST')
+            form = EmployeeForm(request.POST or None)
+            if request.method == "POST" and form.is_valid():
+                signature = form.cleaned_data.get('signature')
+                name = request.POST.get('name')
+                form.save()
+                return HttpResponse('POST')
+        except Exception as e:
+            print(e)
+            return render(request, 'log-in.html', )
+
+
+class UpdateEmployeeProfile(View):
+
+    @staticmethod
+    def get(request):
+        try:
+            user = DemoUser.objects.get(id=1)
+            form = EmployeeForm(instance=user)
+
+            # form = EmployeeForm(request.POST or None)
+            context = {'form': form}
+            return render(request, "name.html", context)
+            # messages.success(request, 'Login Successful!!')
+            # return render(request, 'index.html')
+        except Exception as e:
+            print(e)
+            return render(request, 'log-in.html', )
+
+    @staticmethod
+    def post(request):
+        try:
+            form = EmployeeForm(request.POST or None)
+            if request.method == "POST" and form.is_valid():
+                signature = form.cleaned_data.get('signature')
+                name = request.POST.get('name')
+                form.save()
+                return HttpResponse('POST')
         except Exception as e:
             print(e)
             return render(request, 'log-in.html', )
