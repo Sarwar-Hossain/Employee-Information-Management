@@ -67,12 +67,14 @@ class CreateEmployeeProfile(View):
             if request.method == "POST" and form.is_valid():
                 # signature = form.cleaned_data.get('signature')
                 # name = request.POST.get('name')
-                
-                obj = form.save(commit=False)
-                obj.created_by = request.user
-                obj.save()
-                # form.save()
+
+                # obj = form.save(commit=False)
+                # obj.created_by = request.user
+                # obj.save()
+                form.save()
                 return HttpResponse('POST')
+            context = {'form': form}
+            return render(request, "name.html", context)
         except Exception as e:
             print(e)
             return render(request, 'log-in.html', )
