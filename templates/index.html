@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load form_helpers %}
 
 {% if toast_mes %}
-<script>swal("{{toast_mes.toast_message}}");</script>
+<script xmlns="http://www.w3.org/1999/html">swal("{{toast_mes.toast_message}}");</script>
 {% endif %}
 
 <section class="page-one-main">
@@ -13,8 +14,9 @@
                 <img src="{% static 'icon-images/logo-2-1.png'%}" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,8 +28,6 @@
                 </ul>
 
             </div>
-
-
         </div>
     </nav>
     <div class="form-section">
@@ -39,53 +39,61 @@
                     </h3>
                 </div>
             </div>
-            <form action="">
+            <form action="" method="post">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-12">
                         <div class="billing-address">
                             <fieldset class="billing-fieldset">
                                 <legend class="rounded">Basic Infromation</legend>
+                                {{ form.non_field_errors }}
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">member Name</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter member Name">
+                                            {{ form.employee_name.errors }}
+                                            <label for="{{ form.employee_name.id_for_label }}" class="form-label">member
+                                                Name</label>
+                                            {{ form.employee_name }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">medicaid ID</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter medicaid ID">
+                                            {{ form.medicaid_id.errors }}
+                                            <label for="{{ form.medicaid_id.id_for_label }}" class="form-label">medicaid
+                                                ID</label>
+                                            {{ form.medicaid_id }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">first date of service</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter first date of service">
+                                            {{ form.date_of_service.errors }}
+                                            <label for="{{ form.date_of_service.id_for_label }}" class="form-label">first
+                                                date of service</label>
+                                            {{ form.date_of_service }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">PA name</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter PA name">
+                                            {{ form.pa_name.errors }}
+                                            <label for="{{ form.pa_name.id_for_label }}" class="form-label">PA
+                                                name</label>
+                                            {{ form.pa_name }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">employee ID</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter employee id">
+                                            {{ form.employee_id.errors }}
+                                            <label for="{{ form.employee_id.id_for_label }}" class="form-label">employee
+                                                ID</label>
+                                            {{ form.employee_id }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">mobile number</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter mobile no">
+                                            {{ form.mobile_no.errors }}
+                                            <label for="{{ form.mobile_no.id_for_label }}" class="form-label">mobile
+                                                number</label>
+                                            {{ form.mobile_no }}
                                         </div>
                                     </div>
                                 </div>
@@ -97,48 +105,56 @@
                             <fieldset class="billing-fieldset">
                                 <legend class="rounded">demographics</legend>
                                 <div class="row">
+
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        {{ demographics_form.non_field_errors }}
                                         <div class="mb-3">
-                                            <label for="" class="form-label">last name</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your Last Name">
+                                            {{ demographics_form.last_name.errors }}
+                                            <label for="{{ demographics_form.last_name.id_for_label }}"
+                                                   class="form-label">last name</label>
+                                            {{ demographics_form.last_name }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">First name</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your First Name">
+                                            {{ demographics_form.first_name.errors }}
+                                            <label for="{{ demographics_form.first_name.id_for_label }}"
+                                                   class="form-label">First name</label>
+                                            {{ demographics_form.first_name }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">social security number</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your social security number">
+                                            {{ demographics_form.social_security_number.errors }}
+                                            <label for="{{ demographics_form.social_security_number.id_for_label }}"
+                                                   class="form-label">social security number</label>
+                                            {{ demographics_form.social_security_number }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">Street address</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your Street address">
+                                            {{ demographics_form.street_address.errors }}
+                                            <label for="{{ demographics_form.street_address.id_for_label }}"
+                                                   class="form-label">Street address</label>
+                                            {{ demographics_form.street_address }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">city/town</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your city/town">
+                                            {{ demographics_form.city_town.errors }}
+                                            <label for="{{ demographics_form.city_town.id_for_label }}"
+                                                   class="form-label">city/town</label>
+                                            {{ demographics_form.city_town }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">state zip code</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter state zip code">
+                                            {{ demographics_form.state_zip_code.errors }}
+                                            <label for="{{ demographics_form.state_zip_code.id_for_label }}"
+                                                   class="form-label">state zip code</label>
+                                            {{ demographics_form.state_zip_code }}
                                         </div>
                                     </div>
                                 </div>
@@ -146,16 +162,18 @@
 
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="mb-">
-                                            <label for="" class="form-label">home phone number</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter Your home phone number">
+                                            {{ demographics_form.home_phone.errors }}
+                                            <label for="{{ demographics_form.home_phone.id_for_label }}"
+                                                   class="form-label">home phone number</label>
+                                            {{ demographics_form.home_phone }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="mb-">
-                                            <label for="" class="form-label">cell phone number</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter cell phone number">
+                                            {{ demographics_form.cell_phone.errors }}
+                                            <label for="{{ demographics_form.cell_phone.id_for_label }}"
+                                                   class="form-label">cell phone number</label>
+                                            {{ demographics_form.cell_phone }}
                                         </div>
                                     </div>
                                 </div>
@@ -166,30 +184,35 @@
                                 <legend class="rounded">education</legend>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        {{ education_form.non_field_errors }}
                                         <div class="mb-3">
-                                            <label for="" class="form-label">high school name</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter high school name">
+                                            {{ education_form.high_school_name.errors }}
+                                            <label for="{{ education_form.high_school_name.id_for_label }}"
+                                                   class="form-label">high school name</label>
+                                            {{ education_form.high_school_name }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">City,State</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter City,State">
+                                            {{ education_form.high_school_city_state.errors }}
+                                            <label for="{{ education_form.high_school_city_state.id_for_label }}"
+                                                   class="form-label">City,State</label>
+                                            {{ education_form.high_school_city_state }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="mb-">
-                                            <label for="" class="form-label">college</label>
-                                            <input type="text" class="form-control" id="" placeholder="Enter college">
+                                            {{ education_form.college.errors }}
+                                            <label for="{{ education_form.college.id_for_label }}" class="form-label">college</label>
+                                            {{ education_form.college }}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                         <div class="mb-">
-                                            <label for="" class="form-label">City,State</label>
-                                            <input type="text" class="form-control" id=""
-                                                placeholder="Enter City,State">
+                                            {{ education_form.college_city_state.errors }}
+                                            <label for="{{ education_form.college_city_state.id_for_label }}"
+                                                   class="form-label">City,State</label>
+                                            {{ education_form.college_city_state }}
                                         </div>
                                     </div>
                                 </div>
@@ -202,68 +225,90 @@
                                 <legend class="rounded">hours available</legend>
                                 <div class="mb-3">
                                     <h5>time</h5>
+                                    {{ hours_available_form.non_field_errors }}
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_day|addcss:'form-check-input' }}
+                                        <!--                                        <input class="form-check-input" type="checkbox" value="" id="">-->
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_day.id_for_label }}">
                                             day
                                         </label>
+                                        {{ hours_available_form.is_day.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_night|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_night.id_for_label }}">
                                             night
                                         </label>
+                                        {{ hours_available_form.is_night.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_live_in|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_live_in.id_for_label }}">
                                             live-in
                                         </label>
+                                        {{ hours_available_form.is_live_in.errors }}
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <h5>days</h5>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_monday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_monday.id_for_label }}">
                                             monday
                                         </label>
+                                        {{ hours_available_form.is_monday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_tuesday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_tuesday.id_for_label }}">
                                             tuesday
                                         </label>
+                                        {{ hours_available_form.is_tuesday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_wednesday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_wednesday.id_for_label }}">
                                             wednesday
                                         </label>
+                                        {{ hours_available_form.is_wednesday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_thursday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_thursday.id_for_label }}">
                                             thursday
                                         </label>
+                                        {{ hours_available_form.is_thursday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_friday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_friday.id_for_label }}">
                                             friday
                                         </label>
+                                        {{ hours_available_form.is_friday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_saturday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_saturday.id_for_label }}">
                                             saturday
                                         </label>
+                                        {{ hours_available_form.is_saturday.errors }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="">
-                                        <label class="form-check-label" for="">
+                                        {{ hours_available_form.is_sunday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_sunday.id_for_label }}">
                                             sunday
                                         </label>
+                                        {{ hours_available_form.is_sunday.errors }}
                                     </div>
                                 </div>
                             </fieldset>
@@ -280,7 +325,7 @@
 
                                         <label for="" class="form-label">name of school, city,state</label>
                                         <input type="text" class="form-control" id=""
-                                            placeholder=" Enter name of school, city,state">
+                                               placeholder=" Enter name of school, city,state">
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
@@ -291,13 +336,13 @@
 
                                         <label for="" class="form-label">graduate (Y/N)</label>
                                         <input type="text" class="form-control" id=""
-                                            placeholder=" Enter graduate (Y/N)">
+                                               placeholder=" Enter graduate (Y/N)">
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
                                         <label for="" class="form-label">certificate / degree</label>
                                         <input type="text" class="form-control" id=""
-                                            placeholder=" Enter certificate / degree">
+                                               placeholder=" Enter certificate / degree">
                                     </div>
                                 </div>
                                 <button class="btn bnt-addmore">
@@ -349,7 +394,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                                Special Diets 
+                                                Special Diets
                                             </label>
                                         </div>
                                     </div>
@@ -421,7 +466,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                              Hoyer Lift
+                                                Hoyer Lift
                                             </label>
                                         </div>
                                     </div>
@@ -429,7 +474,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                                Geriatrics 
+                                                Geriatrics
                                             </label>
                                         </div>
                                     </div>
@@ -437,7 +482,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                               others
+                                                others
                                             </label>
                                         </div>
                                     </div>
@@ -477,7 +522,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                                Bed Bath 
+                                                Bed Bath
                                             </label>
                                         </div>
                                     </div>
@@ -501,11 +546,11 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
-                                               other
+                                                other
                                             </label>
                                         </div>
                                     </div>
-                                     
+
                                 </div>
                             </fieldset>
                         </div>
@@ -520,15 +565,15 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  mb-3">
                                         <label class="form-check-label me-3" for="">Bus/Train/Car</label>
                                         <div class="form-check form-check-inline">
-                                            
+
                                             <input class="form-check-input" type="checkbox" id="" value="option1">
                                             <label class="form-check-label" for="">yes</label>
-                                          </div>
-                                          <div class="form-check form-check-inline">
+                                        </div>
+                                        <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id=" " value="option2">
                                             <label class="form-check-label" for=" ">no</label>
-                                          </div>
-                                          
+                                        </div>
+
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 mb-3">
                                         <input type="text" class="form-control">
@@ -536,19 +581,19 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <label class="form-check-label me-3" for="">valid licenses</label>
                                         <div class="form-check form-check-inline">
-                                            
+
                                             <input class="form-check-input" type="checkbox" id="" value="option1">
                                             <label class="form-check-label" for="">yes</label>
-                                          </div>
-                                          <div class="form-check form-check-inline">
+                                        </div>
+                                        <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id=" " value="option2">
                                             <label class="form-check-label" for=" ">no</label>
-                                          </div>
+                                        </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                         <input type="text" class="form-control">
                                     </div>
-                                   
+
                                 </div>
                             </fieldset>
                         </div>
@@ -556,28 +601,30 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <label class="form-check-label me-3" for="">Do you give permission for a criminal background screen to be conducted by the consumers:</label>
+                        <label class="form-check-label me-3" for="">Do you give permission for a criminal background
+                            screen to be conducted by the consumers:</label>
                         <div class="form-check form-check-inline">
-                            
+
                             <input class="form-check-input" type="checkbox" id="" value="option1">
                             <label class="form-check-label" for="">yes</label>
-                          </div>
-                          <div class="form-check form-check-inline">
+                        </div>
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id=" " value="option2">
                             <label class="form-check-label" for=" ">no</label>
-                          </div>
+                        </div>
                     </div>
                     <div class="col-12">
-                        <label class="form-check-label me-3" for="">I have received the Personal Assistant Guide to the Consumer Directed Personal Assistance Programs:</label>
+                        <label class="form-check-label me-3" for="">I have received the Personal Assistant Guide to the
+                            Consumer Directed Personal Assistance Programs:</label>
                         <div class="form-check form-check-inline">
-                            
+
                             <input class="form-check-input" type="checkbox" id="" value="option1">
                             <label class="form-check-label" for="">yes</label>
-                          </div>
-                          <div class="form-check form-check-inline">
+                        </div>
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id=" " value="option2">
                             <label class="form-check-label" for=" ">no</label>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="signature-box-main">
@@ -596,6 +643,7 @@
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
     </div>
