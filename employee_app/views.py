@@ -53,7 +53,7 @@ class CreateEmployeeProfile(View):
             form = EmployeeForm()
             # form = EmployeeForm(request.POST or None)
             context = {'form': form}
-            return render(request, "name.html", context)
+            return render(request, "index.html", context)
             # messages.success(request, 'Login Successful!!')
             # return render(request, 'index.html')
         except Exception as e:
