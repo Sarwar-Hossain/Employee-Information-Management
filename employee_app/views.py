@@ -27,7 +27,7 @@ class LoginView(View):
             password = request.POST.get('password')
             # user = Employee.objects.get(email=email)
             messages.success(request, 'Login Successful!!')
-            return HttpResponseRedirect("index")
+            return redirect("index")
 
             # if user is not None:
             #     if user.is_active:
