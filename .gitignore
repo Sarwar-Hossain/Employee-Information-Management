@@ -1,1 +1,7 @@
 /employment/settings.py
+*.log
+*.iml
+*.zip
+.idea
+vendor
+venv/*
