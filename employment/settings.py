@@ -87,7 +87,7 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'employment_hire',
+        'NAME': 'employment_hires',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
@@ -155,5 +155,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 24 * 60 * 60  # set just 10 seconds to test
 SESSION_SAVE_EVERY_REQUEST = True
 
-JSIGNATURE_WIDTH = 300
-JSIGNATURE_HEIGHT = 150
+JSIGNATURE_WIDTH = 350
+JSIGNATURE_HEIGHT = 43

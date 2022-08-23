@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load form_helpers %}
 
 {% if toast_mes %}
-<script>swal("{{toast_mes.toast_message}}");</script>
+<script xmlns="http://www.w3.org/1999/html">swal("{{toast_mes.toast_message}}");</script>
 {% endif %}
 
 <section class="page-one-main">
@@ -27,12 +28,11 @@
                 </ul>
 
             </div>
-
-
         </div>
     </nav>
     <div class="form-section">
         <div class="container">
+<<<<<<< HEAD
 
             <form action="">
                 <div class="step-1 d-none" id="step-1">
@@ -210,66 +210,486 @@
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 day
+=======
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="common-header">
+                        CONSUMER DIRECTED PERSONAL ASSRISTANT PROGRAM APPLICATION
+                    </h3>
+                </div>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">Basic Infromation</legend>
+                                {{ form.non_field_errors }}
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.employee_name.errors }}
+                                            <label for="{{ form.employee_name.id_for_label }}" class="form-label">member
+                                                Name</label>
+                                            {{ form.employee_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.medicaid_id.errors }}
+                                            <label for="{{ form.medicaid_id.id_for_label }}" class="form-label">medicaid
+                                                ID</label>
+                                            {{ form.medicaid_id }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.date_of_service.errors }}
+                                            <label for="{{ form.date_of_service.id_for_label }}" class="form-label">first
+                                                date of service</label>
+                                            {{ form.date_of_service }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.pa_name.errors }}
+                                            <label for="{{ form.pa_name.id_for_label }}" class="form-label">PA
+                                                name</label>
+                                            {{ form.pa_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.employee_id.errors }}
+                                            <label for="{{ form.employee_id.id_for_label }}" class="form-label">employee
+                                                ID</label>
+                                            {{ form.employee_id }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ form.mobile_no.errors }}
+                                            <label for="{{ form.mobile_no.id_for_label }}" class="form-label">mobile
+                                                number</label>
+                                            {{ form.mobile_no }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">demographics</legend>
+                                <div class="row">
+
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        {{ demographics_form.non_field_errors }}
+                                        <div class="mb-3">
+                                            {{ demographics_form.last_name.errors }}
+                                            <label for="{{ demographics_form.last_name.id_for_label }}"
+                                                   class="form-label">last name</label>
+                                            {{ demographics_form.last_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ demographics_form.first_name.errors }}
+                                            <label for="{{ demographics_form.first_name.id_for_label }}"
+                                                   class="form-label">First name</label>
+                                            {{ demographics_form.first_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ demographics_form.social_security_number.errors }}
+                                            <label for="{{ demographics_form.social_security_number.id_for_label }}"
+                                                   class="form-label">social security number</label>
+                                            {{ demographics_form.social_security_number }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ demographics_form.street_address.errors }}
+                                            <label for="{{ demographics_form.street_address.id_for_label }}"
+                                                   class="form-label">Street address</label>
+                                            {{ demographics_form.street_address }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ demographics_form.city_town.errors }}
+                                            <label for="{{ demographics_form.city_town.id_for_label }}"
+                                                   class="form-label">city/town</label>
+                                            {{ demographics_form.city_town }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <div class="mb-3">
+                                            {{ demographics_form.state_zip_code.errors }}
+                                            <label for="{{ demographics_form.state_zip_code.id_for_label }}"
+                                                   class="form-label">state zip code</label>
+                                            {{ demographics_form.state_zip_code }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="mb-">
+                                            {{ demographics_form.home_phone.errors }}
+                                            <label for="{{ demographics_form.home_phone.id_for_label }}"
+                                                   class="form-label">home phone number</label>
+                                            {{ demographics_form.home_phone }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="mb-">
+                                            {{ demographics_form.cell_phone.errors }}
+                                            <label for="{{ demographics_form.cell_phone.id_for_label }}"
+                                                   class="form-label">cell phone number</label>
+                                            {{ demographics_form.cell_phone }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">education</legend>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        {{ education_form.non_field_errors }}
+                                        <div class="mb-3">
+                                            {{ education_form.high_school_name.errors }}
+                                            <label for="{{ education_form.high_school_name.id_for_label }}"
+                                                   class="form-label">high school name</label>
+                                            {{ education_form.high_school_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="mb-3">
+                                            {{ education_form.high_school_city_state.errors }}
+                                            <label for="{{ education_form.high_school_city_state.id_for_label }}"
+                                                   class="form-label">City,State</label>
+                                            {{ education_form.high_school_city_state }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="mb-">
+                                            {{ education_form.college.errors }}
+                                            <label for="{{ education_form.college.id_for_label }}" class="form-label">college</label>
+                                            {{ education_form.college }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="mb-">
+                                            {{ education_form.college_city_state.errors }}
+                                            <label for="{{ education_form.college_city_state.id_for_label }}"
+                                                   class="form-label">City,State</label>
+                                            {{ education_form.college_city_state }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">hours available</legend>
+                                <div class="mb-3">
+                                    <h5>time</h5>
+                                    {{ hours_available_form.non_field_errors }}
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_day|addcss:'form-check-input' }}
+                                        <!--                                        <input class="form-check-input" type="checkbox" value="" id="">-->
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_day.id_for_label }}">
+                                            day
+                                        </label>
+                                        {{ hours_available_form.is_day.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_night|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_night.id_for_label }}">
+                                            night
+                                        </label>
+                                        {{ hours_available_form.is_night.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_live_in|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_live_in.id_for_label }}">
+                                            live-in
+                                        </label>
+                                        {{ hours_available_form.is_live_in.errors }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h5>days</h5>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_monday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_monday.id_for_label }}">
+                                            monday
+                                        </label>
+                                        {{ hours_available_form.is_monday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_tuesday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_tuesday.id_for_label }}">
+                                            tuesday
+                                        </label>
+                                        {{ hours_available_form.is_tuesday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_wednesday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_wednesday.id_for_label }}">
+                                            wednesday
+                                        </label>
+                                        {{ hours_available_form.is_wednesday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_thursday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_thursday.id_for_label }}">
+                                            thursday
+                                        </label>
+                                        {{ hours_available_form.is_thursday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_friday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_friday.id_for_label }}">
+                                            friday
+                                        </label>
+                                        {{ hours_available_form.is_friday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_saturday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_saturday.id_for_label }}">
+                                            saturday
+                                        </label>
+                                        {{ hours_available_form.is_saturday.errors }}
+                                    </div>
+                                    <div class="form-check">
+                                        {{ hours_available_form.is_sunday|addcss:'form-check-input' }}
+                                        <label class="form-check-label"
+                                               for="{{ hours_available_form.is_sunday.id_for_label }}">
+                                            sunday
+                                        </label>
+                                        {{ hours_available_form.is_sunday.errors }}
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset position-relative">
+                                <legend class="rounded">professional training</legend>
+                                <div class="row">
+                                    {{ training_form.non_field_errors }}
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        {{ training_form.name_of_school_city_state.errors }}
+                                        <label for="{{ training_form.name_of_school_city_state.id_for_label }}"
+                                               class="form-label">name of school, city,state</label>
+                                        {{training_form.name_of_school_city_state}}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        {{ training_form.entrance_date.errors }}
+                                        <label for="{{ training_form.entrance_date.id_for_label }}" class="form-label">entrance
+                                            date (MM/YY)</label>
+                                        {{training_form.entrance_date}}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+
+                                        <label for="" class="form-label">graduate (Y/N)</label>
+                                        <br>
+                                        {{ training_form.is_graduate.errors }}
+                                        <div class="form-check form-check-inline">
+                                            {{training_form.is_graduate|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ training_form.is_graduate.id_for_label }}">yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="graduate" value="option2">
+                                            <label class="form-check-label" for="graduate">no</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        {{ training_form.certificate_degree.errors }}
+                                        <label for="{{ training_form.certificate_degree.id_for_label }}"
+                                               class="form-label">certificate / degree</label>
+                                        {{training_form.certificate_degree}}
+                                    </div>
+                                </div>
+                                <button class="btn bnt-addmore">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                </button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">SKILLS CHECKLIST</legend>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        {{ skills_form.non_field_errors }}
+                                        <div class="form-check">
+                                            {{skills_form.is_home_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_home_care.id_for_label }}">
+                                                home care
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_home_care.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 night
+=======
+                                            {{skills_form.is_denture_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_denture_care.id_for_label }}">
+                                                dental care
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_denture_care.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 live-in
+=======
+                                            {{skills_form.is_non_sterile_dressing|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_non_sterile_dressing.id_for_label }}">
+                                                non-steril dressing
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_non_sterile_dressing.errors }}
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <h5>days</h5>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 monday
+=======
+                                            {{skills_form.is_orthopedics|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_orthopedics.id_for_label }}">
+                                                Orthopedics
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_orthopedics.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 tuesday
+=======
+                                            {{skills_form.is_special_diets|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_special_diets.id_for_label }}">
+                                                Special Diets
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_special_diets.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 wednesday
+=======
+                                            {{skills_form.is_range_of_motion|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_range_of_motion.id_for_label }}">
+                                                Range of Motion
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_range_of_motion.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 thursday
+=======
+                                            {{skills_form.is_vital_signs|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_vital_signs.id_for_label }}">
+                                                Vital Signs
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_vital_signs.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 friday
+=======
+                                            {{skills_form.is_diabetes_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_diabetes_care.id_for_label }}">
+                                                Diabetes Care
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_diabetes_care.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 saturday
+=======
+                                            {{skills_form.is_kosher_cooking|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_kosher_cooking.id_for_label }}">
+                                                Kosher Cooking
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_kosher_cooking.errors }}
                                         </div>
                                         <div class="form-check">
+<<<<<<< HEAD
                                             <input class="form-check-input" type="checkbox" value="" id="">
                                             <label class="form-check-label" for="">
                                                 sunday
+=======
+                                            {{skills_form.is_transfer_techniques|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_transfer_techniques.id_for_label }}">
+                                                Transfer Techniques
+>>>>>>> sarwar
                                             </label>
+                                            {{ skills_form.is_transfer_techniques.errors }}
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                 </fieldset>
                             </div>
                         </div>
@@ -508,9 +928,60 @@
                                                     other
                                                 </label>
                                             </div>
+=======
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_urine_testing|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_urine_testing.id_for_label }}">
+                                                Urine Testing
+                                            </label>
+                                            {{ skills_form.is_urine_testing.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_patient_teaching|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_patient_teaching.id_for_label }}">
+                                                Patient Teaching
+                                            </label>
+                                            {{ skills_form.is_patient_teaching.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_household_maintenance|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_household_maintenance.id_for_label }}">
+                                                Household Maintenance
+                                            </label>
+                                            {{ skills_form.is_household_maintenance.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_hoyer_lift|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_hoyer_lift.id_for_label }}">
+                                                Hoyer Lift
+                                            </label>
+                                            {{ skills_form.is_hoyer_lift.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_geriatrics|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_geriatrics.id_for_label }}">
+                                                Geriatrics
+                                            </label>
+                                            {{ skills_form.is_geriatrics.errors }}
+>>>>>>> sarwar
                                         </div>
 
                                     </div>
+<<<<<<< HEAD
                                 </fieldset>
                             </div>
                         </div>
@@ -552,9 +1023,50 @@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                             <input type="text" class="form-control">
+=======
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.other1}}
+                                            <!--                                            <input class="form-check-input" type="checkbox" value="" id="">-->
+                                            <label class="form-check-label" for="{{ skills_form.other1.id_for_label }}">
+                                                others
+                                            </label>
+                                            {{ skills_form.other1.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_laundry|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_laundry.id_for_label }}">
+                                                Laundry
+                                            </label>
+                                            {{ skills_form.is_laundry.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_foyer_lift|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_foyer_lift.id_for_label }}">
+                                                Foyer Lift
+                                            </label>
+                                            {{ skills_form.is_foyer_lift.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_child_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_child_care.id_for_label }}">
+                                                Child Care
+                                            </label>
+                                            {{ skills_form.is_child_care.errors }}
+>>>>>>> sarwar
                                         </div>
 
                                     </div>
+<<<<<<< HEAD
                                 </fieldset>
                             </div>
                         </div>
@@ -695,12 +1207,107 @@
                                             than half the costs of keeping up a home for yourself
                                             and a quality individual.)
                                         </label>
+=======
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.other2}}
+                                            <!--                                            <input class="form-check-input" type="checkbox" value="" id="">-->
+                                            <label class="form-check-label" for="{{ skills_form.other2.id_for_label }}">
+                                                other
+                                            </label>
+                                            {{ skills_form.other2.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_bed_bath|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_bed_bath.id_for_label }}">
+                                                Bed Bath
+                                            </label>
+                                            {{ skills_form.is_bed_bath.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_ostomy_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_ostomy_care.id_for_label }}">
+                                                ostomy Care
+                                            </label>
+                                            {{ skills_form.is_ostomy_care.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.is_newborn_care|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ skills_form.is_newborn_care.id_for_label }}">
+                                                Newborn Care
+                                            </label>
+                                            {{ skills_form.is_newborn_care.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-check">
+                                            {{skills_form.other3}}
+                                            <!--                                            <input class="form-check-input" type="checkbox" value="" id="">-->
+                                            <label class="form-check-label" for="{{ skills_form.other3.id_for_label }}">
+                                                other
+                                            </label>
+                                            {{ skills_form.other3.errors }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="billing-address">
+                            <fieldset class="billing-fieldset">
+                                <legend class="rounded">transportaion (Convenient Transportation to Assignment)</legend>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  mb-3">
+                                        <label class="form-check-label me-3" for="">Bus/Train/Car</label>
+                                        {{ transportation_form.non_field_errors }}
+                                        <div class="form-check form-check-inline">
+                                            {{transportation_form.is_bus_train_car|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ transportation_form.is_bus_train_car.id_for_label }}">yes</label>
+                                            {{ transportation_form.is_bus_train_car.errors }}
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id=" " value="option2">
+                                            <label class="form-check-label" for=" ">no</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 mb-3">
+                                        {{ transportation_form.routes.errors }}
+                                        {{transportation_form.routes}}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                        <label class="form-check-label me-3" for="">valid licenses</label>
+                                        <div class="form-check form-check-inline">
+                                            {{transportation_form.is_valid_licenses|addcss:'form-check-input'}}
+                                            <label class="form-check-label"
+                                                   for="{{ transportation_form.is_valid_licenses.id_for_label }}">yes</label>
+                                            {{ transportation_form.is_valid_licenses.errors }}
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id=" " value="option2">
+                                            <label class="form-check-label" for=" ">no</label>
+                                        </div>
+>>>>>>> sarwar
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
+<<<<<<< HEAD
                     <div class="steptwo-main">
                         <div class="left-box">
                             <span>Complete Steps 2-4 ONLY if they apply to you; otherwise, skip to Step 5.</span> See
@@ -746,9 +1353,60 @@
                         <div class="left-box">
                             <span>Complete Steps 3-4(b) on Form W-4 for only ONE of these jobs.</span> Leave those steps blank for the other jobs.
                             (Your withholding will be most accurate if you complete Steps 3-4(b) on the Form W-4 for the highest paying job.)
+=======
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-check-label me-3" for="">Do you give permission for a criminal background
+                            screen to be conducted by the consumers:</label>
+                        <div class="form-check form-check-inline">
+                            {{transportation_form.is_permission_for_criminal_background|addcss:'form-check-input'}}
+                            <label class="form-check-label"
+                                   for="{{ transportation_form.is_permission_for_criminal_background.id_for_label }}">yes</label>
+                            {{ transportation_form.is_permission_for_criminal_background.errors }}
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="criminal_background" value="option2">
+                            <label class="form-check-label" for="criminal_background">no</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-check-label me-3" for="">I have received the Personal Assistant Guide to the
+                            Consumer Directed Personal Assistance Programs:</label>
+                        <div class="form-check form-check-inline">
+                            {{transportation_form.is_personal_assistant_guide|addcss:'form-check-input'}}
+                            <label class="form-check-label"
+                                   for="{{ transportation_form.is_personal_assistant_guide.id_for_label }}">yes</label>
+                            {{ transportation_form.is_personal_assistant_guide.errors }}
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="guide" value="option2">
+                            <label class="form-check-label" for="guide">no</label>
                         </div>
                     </div>
                 </div>
+                <div class="signature-box-main">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            {{transportation_form.printed_name}}
+                            <label for="{{ transportation_form.printed_name.id_for_label }}" class="form-label">printed name</label>
+                            {{ transportation_form.printed_name.errors }}
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <!--                            <input type="text" class="form-control">-->
+                            {{transportation_form.signature_img|addcss:'form-control'}}
+                            <label for="{{ transportation_form.signature_img.id_for_label }}" class="form-label">signature</label>
+                            {{ transportation_form.signature_img.errors }}
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            {{transportation_form.date}}
+                            <label  for="{{ transportation_form.date.id_for_label }}" class="form-label">date</label>
+                            {{ transportation_form.date.errors }}
+>>>>>>> sarwar
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
     </div>
@@ -772,5 +1430,5 @@
 {% endblock %}
 
 {% block extra_media %}
-{{ form.media }}
+{{ transportation_form.media }}
 {% endblock %}
