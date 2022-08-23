@@ -58,6 +58,7 @@ class CreateEmployeeProfile(View):
             transportation_form = TransportationForm()
 
             # form = EmployeeForm(request.POST or None)
+
             context = {
                 'form': form,
                 'demographics_form': demographics_form,
@@ -67,6 +68,7 @@ class CreateEmployeeProfile(View):
                 'skills_form': skills_form,
                 'transportation_form': transportation_form,
             }
+
             return render(request, "index.html", context)
             # messages.success(request, 'Login Successful!!')
             # return render(request, 'index.html')
