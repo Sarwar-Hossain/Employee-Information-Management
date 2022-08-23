@@ -1,7 +1,10 @@
 from django import forms
-from jsignature.forms import JSignatureField
 from .models import *
+from jsignature.forms import JSignatureField
+from jsignature.widgets import JSignatureWidget
 
+
+# JSignatureField(widget=JSignatureWidget(jsignature_attrs={'color': '#CCC'}))
 
 class SignatureForm(forms.Form):
     signature = JSignatureField()
@@ -101,6 +104,81 @@ class EducationForm(forms.ModelForm):
                                               'placeholder': 'Enter college', 'required': 'required'}),
             'college_city_state': forms.TextInput(attrs={'class': 'form-control',
                                                          'placeholder': 'Enter City,State', 'required': 'required'}),
+        }
+
+
+class ProfessionalTrainingForm(forms.ModelForm):
+    is_graduate: forms.BooleanField(required=False, initial=False)
+
+    class Meta:
+        model = ProfessionalTraining
+        exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
+        fields = '__all__'
+        widgets = {
+            'name_of_school_city_state': forms.TextInput(attrs={'class': 'form-control',
+                                                                'placeholder': 'Enter name of school, city,state'}),
+            'entrance_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+
+            'certificate_degree': forms.TextInput(attrs={'class': 'form-control',
+                                                         'placeholder': 'Enter certificate / degree',
+                                                         'required': 'required'}),
+        }
+
+
+class SkillsChecklistForm(forms.ModelForm):
+    is_home_care = forms.BooleanField(required=False, initial=False)
+    is_denture_care = forms.BooleanField(required=False, initial=False)
+    is_non_sterile_dressing = forms.BooleanField(required=False, initial=False)
+    is_orthopedics = forms.BooleanField(required=False, initial=False)
+    is_special_diets = forms.BooleanField(required=False, initial=False)
+    is_range_of_motion = forms.BooleanField(required=False, initial=False)
+    is_vital_signs = forms.BooleanField(required=False, initial=False)
+    is_diabetes_care = forms.BooleanField(required=False, initial=False)
+    is_kosher_cooking = forms.BooleanField(required=False, initial=False)
+    is_transfer_techniques = forms.BooleanField(required=False, initial=False)
+    is_urine_testing = forms.BooleanField(required=False, initial=False)
+    is_patient_teaching = forms.BooleanField(required=False, initial=False)
+    is_household_maintenance = forms.BooleanField(required=False, initial=False)
+    is_hoyer_lift = forms.BooleanField(required=False, initial=False)
+    is_geriatrics = forms.BooleanField(required=False, initial=False)
+    is_laundry = forms.BooleanField(required=False, initial=False)
+    is_foyer_lift = forms.BooleanField(required=False, initial=False)
+    is_child_care = forms.BooleanField(required=False, initial=False)
+    is_bed_bath = forms.BooleanField(required=False, initial=False)
+    is_ostomy_care = forms.BooleanField(required=False, initial=False)
+    is_newborn_care = forms.BooleanField(required=False, initial=False)
+
+    class Meta:
+        model = SkillsChecklist
+        exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
+        fields = '__all__'
+        widgets = {
+            'other1': forms.TextInput(attrs={'class': 'form-control',
+                                             'placeholder': 'Others'}),
+            'other2': forms.TextInput(attrs={'class': 'form-control',
+                                             'placeholder': 'Others'}),
+            'other3': forms.TextInput(attrs={'class': 'form-control',
+                                             'placeholder': 'Others'}),
+        }
+
+
+class TransportationForm(forms.ModelForm):
+    is_bus_train_car = forms.BooleanField(required=False, initial=False)
+    is_valid_licenses = forms.BooleanField(required=False, initial=False)
+    is_permission_for_criminal_background = forms.BooleanField(required=False, initial=False)
+    is_personal_assistant_guide = forms.BooleanField(required=False, initial=False)
+    signature_img = JSignatureField()
+
+    class Meta:
+        model = Transportation
+        exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
+        fields = '__all__'
+        widgets = {
+            'routes': forms.TextInput(attrs={'class': 'form-control',
+                                             'placeholder': 'Type routes'}),
+            'printed_name': forms.TextInput(attrs={'class': 'form-control',
+                                                   'placeholder': 'Type printed name'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
 
 

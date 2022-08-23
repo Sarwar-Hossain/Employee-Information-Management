@@ -53,12 +53,19 @@ class CreateEmployeeProfile(View):
             demographics_form = DemographicsForm()
             hours_available_form = HoursAvailableForm()
             education_form = EducationForm()
+            training_form = ProfessionalTrainingForm()
+            skills_form = SkillsChecklistForm()
+            transportation_form = TransportationForm()
+
             # form = EmployeeForm(request.POST or None)
             context = {
                 'form': form,
                 'demographics_form': demographics_form,
                 'hours_available_form': hours_available_form,
                 'education_form': education_form,
+                'training_form': training_form,
+                'skills_form': skills_form,
+                'transportation_form': transportation_form,
             }
             return render(request, "index.html", context)
             # messages.success(request, 'Login Successful!!')
@@ -74,9 +81,13 @@ class CreateEmployeeProfile(View):
             demographics_form = DemographicsForm(request.POST or None)
             hours_available_form = HoursAvailableForm(request.POST or None)
             education_form = EducationForm(request.POST or None)
+            training_form = ProfessionalTrainingForm(request.POST or None)
+            skills_form = SkillsChecklistForm(request.POST or None)
+            transportation_form = TransportationForm(request.POST or None)
 
             if request.method == "POST" and demographics_form.is_valid() and form.is_valid()\
-                    and hours_available_form.is_valid() and education_form.is_valid():
+                    and hours_available_form.is_valid() and education_form.is_valid() and training_form.is_valid() \
+                    and skills_form.is_valid() and transportation_form.is_valid():
 
                 employee_id = form.cleaned_data.get('employee_id')
                 # name = request.POST.get('name')
@@ -98,12 +109,30 @@ class CreateEmployeeProfile(View):
                 education_form.employee_id = employee_id
                 education_form.save()
 
+                # training_form
+                training_form = training_form.save(commit=False)
+                training_form.employee_id = employee_id
+                training_form.save()
+
+                # training_form
+                skills_form = skills_form.save(commit=False)
+                skills_form.employee_id = employee_id
+                skills_form.save()
+
+                # transportation_form
+                transportation_form = transportation_form.save(commit=False)
+                transportation_form.employee_id = employee_id
+                transportation_form.save()
+
                 return redirect('index')
             context = {
                 'form': form,
                 'demographics_form': demographics_form,
                 'hours_available_form': hours_available_form,
                 'education_form': education_form,
+                'training_form': training_form,
+                'skills_form': skills_form,
+                'transportation_form': transportation_form,
             }
             return render(request, "index.html", context)
         except Exception as e:
