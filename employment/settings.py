@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'employee_app',
+    'admin_app',
     'jsignature',
     'widget_tweaks',
 ]

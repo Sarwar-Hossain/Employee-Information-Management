@@ -18,7 +18,7 @@ class LoginView(View):
             return redirect(request, 'log-in.html')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
     @staticmethod
     def post(request):
@@ -41,7 +41,7 @@ class LoginView(View):
             #     return redirect('login')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
 
 class CreateEmployeeProfile(View):
@@ -69,12 +69,12 @@ class CreateEmployeeProfile(View):
                 'transportation_form': transportation_form,
             }
 
-            return render(request, "index.html", context)
+            return render(request, "employee/index.html", context)
             # messages.success(request, 'Login Successful!!')
             # return render(request, 'index.html')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
     @staticmethod
     def post(request):
@@ -87,10 +87,9 @@ class CreateEmployeeProfile(View):
             skills_form = SkillsChecklistForm(request.POST or None)
             transportation_form = TransportationForm(request.POST or None)
 
-            if request.method == "POST" and demographics_form.is_valid() and form.is_valid()\
+            if request.method == "POST" and demographics_form.is_valid() and form.is_valid() \
                     and hours_available_form.is_valid() and education_form.is_valid() and training_form.is_valid() \
                     and skills_form.is_valid() and transportation_form.is_valid():
-
                 employee_id = form.cleaned_data.get('employee_id')
                 # name = request.POST.get('name')
                 form.save()
@@ -136,10 +135,10 @@ class CreateEmployeeProfile(View):
                 'skills_form': skills_form,
                 'transportation_form': transportation_form,
             }
-            return render(request, "index.html", context)
+            return render(request, "employee/index.html", context)
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
 
 class UpdateEmployeeProfile(View):
@@ -152,12 +151,12 @@ class UpdateEmployeeProfile(View):
 
             # form = EmployeeForm(request.POST or None)
             context = {'form': form}
-            return render(request, "name.html", context)
+            return render(request, "employee/name.html", context)
             # messages.success(request, 'Login Successful!!')
             # return render(request, 'index.html')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
     @staticmethod
     def post(request):
@@ -170,7 +169,7 @@ class UpdateEmployeeProfile(View):
                 return HttpResponse('POST')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )
 
 
 """ Logout View """
@@ -185,4 +184,4 @@ class LogoutView(View):
             return redirect('login')
         except Exception as e:
             print(e)
-            return render(request, 'log-in.html', )
+            return render(request, 'employee/log-in.html', )

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if toast_mes %}
+<script>swal("{{toast_mes.toast_message}}");</script>
+{% endif %}
+
+<section class="login-layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="login-flex">
+                    <div class="login-content">
+
+                    </div>
+                    <div class="login-box">
+                        <div class="logo-box">
+                              <img src="{% static 'icon-images/logo-2-1.png'%}" alt="">
+                        </div>
+                        <form method="post" id="login_form" name="login_form" enctype="multipart/form-data"
+                          onsubmit="return login_Form()">
+                               {% csrf_token %}
+                            <div class="billing-address">
+                                <fieldset class="billing-fieldset">
+                                    <legend class="rounded">sign in</legend>
+
+                                    <div class="form-group">
+                                          <label for="email" class="form-label">email</label>
+                                        <input type="email" name="email" id="email" class="form-control"
+                                               placeholder="Please enter your email"
+                                               autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                          <label for="password" class="form-label">password</label>
+                                        <input type="password" name="password" id="password" class="form-control"
+                                               placeholder="Please enter your password"
+                                               autocomplete="off">
+                                    </div>
+                                    <div class="w-100 text-center">
+                                           <button type="submit" id="login-btn" class="btn btn-primary login-btn">log in</button>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    function showLoader() {
+        document.getElementById("preloader").style.display = "block";
+    }
+
+    function showWarningToasty(message) {
+        Toastify({
+            text: message,
+            duration: 4000,
+            close: true,
+            backgroundColor: "#0000FF",
+        }).showToast();
+    }
+
+    function login_Form() {
+        if (document.login_form.email.value === "") {
+            showWarningToasty("Shop Email Id is Empty!");
+            document.login_form.email.focus();
+            return false;
+        } else if (document.login_form.password.value === "") {
+            showWarningToasty("Password is Empty!");
+            document.login_form.password.focus();
+            return false;
+        } else {
+            showLoader();
+        }
+    }
+
+</script>
+
+{% endblock %}
