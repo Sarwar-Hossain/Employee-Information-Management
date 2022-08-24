@@ -34,7 +34,7 @@
 
             <form action="" method="post">
                 {% csrf_token %}
-                <div class="step-1 d-none" id="step-1">
+                <div class="step-1" id="step-1">
                     <div class="row">
                         <div class="col-12 text-center">
                             <h3 class="common-header">
@@ -107,7 +107,7 @@
                                 <fieldset class="billing-fieldset">
                                     <legend class="rounded">demographics</legend>
                                     <div class="row">
-    
+
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                             {{ demographics_form.non_field_errors }}
                                             <div class="mb-3">
@@ -161,7 +161,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-    
+
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="mb-">
                                                 {{ demographics_form.home_phone.errors }}
@@ -339,7 +339,7 @@
                                             {{training_form.entrance_date}}
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-    
+
                                             <label for="" class="form-label">graduate (Y/N)</label>
                                             <br>
                                             {{ training_form.is_graduate.errors }}
@@ -615,7 +615,7 @@
                                                 {{ skills_form.other3.errors }}
                                             </div>
                                         </div>
-    
+
                                     </div>
                                 </fieldset>
                             </div>
@@ -717,11 +717,11 @@
                         </div>
                     </div>
                     <div class="step-btn">
-                        <!-- <a href="javascript:void(0)" class="btn next-btn step-1" type="submit">next</a> -->
-                        <button class="btn next-btn step-1" type="submit">Next</button>
+                         <a href="javascript:void(0)" class="btn next-btn step-one-btn" type="submit">next</a>
+<!--                        <button class="btn next-btn step-1" type="submit">Next</button>-->
                     </div>
                 </div>
-                <div class="step-2 " id="step2">
+                <div class="step-2 d-none" id="step-2">
                     <div class="steptwo-main">
                         <div class="left-box">
                             From <span>w-4</span> <br>(Rev. December 2020) Department of the Treasury Internal Revenue
@@ -1010,7 +1010,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="step-btn">
+                         <a href="javascript:void(0)" class="btn next-btn prev-two" type="">prev</a>
+                        <button class="btn next-btn step-1" type="submit">submit</button>
+                    </div>
                 </div>
+
             </form>
         </div>
     </div>
@@ -1026,10 +1031,14 @@
         }).showToast();
     }
 
-    // $('.step-1').click(function () {
-    //     $('#step-1').addClass('d-none');
-    //     $('#step2').removeClass('d-none');
-    // });
+    $('.step-one-btn').click(function () {
+        $('#step-1').addClass('d-none');
+        $('#step-2').removeClass('d-none');
+    });
+    $('.prev-two').click(function () {
+        $('#step-1').toggleClass('d-none');
+        $('#step-2').toggleClass('d-none');
+    });
 </script>
 
 {% endblock %}
