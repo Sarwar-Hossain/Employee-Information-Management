@@ -93,7 +93,19 @@ class CreateEmployeeProfile(View):
                         'transportation_form': transportation_form,
                     }
                     return render(request, "employee/index.html", context)
-            else:
+                else:
+                    context = {
+                        'employee_id': employee_id,
+                        'user_form': user_form,
+                        'demographics_form': demographics_form,
+                        'hours_available_form': hours_available_form,
+                        'education_form': education_form,
+                        'training_form': training_form,
+                        'skills_form': skills_form,
+                        'transportation_form': transportation_form,
+                    }
+                    return render(request, "employee/index.html", context)
+            elif Transportation.objects.filter(employee_id=employee_id).exists():
                 user = Users.objects.get(employee_id=employee_id)
                 demographics = Demographics.objects.get(employee_id=employee_id)
                 hours_available = HoursAvailable.objects.get(employee_id=employee_id)
@@ -122,7 +134,26 @@ class CreateEmployeeProfile(View):
                         'transportation_form': transportation_form,
                     }
                     return render(request, "employee/index.html", context)
-
+            else:
+                demographics_form = DemographicsForm()
+                hours_available_form = HoursAvailableForm()
+                education_form = EducationForm()
+                training_form = ProfessionalTrainingForm()
+                skills_form = SkillsChecklistForm()
+                transportation_form = TransportationForm()
+                if demographics_form and hours_available_form and education_form and training_form \
+                        and skills_form and transportation_form:
+                    context = {
+                        'employee_id': employee_id,
+                        'user_form': user_form,
+                        'demographics_form': demographics_form,
+                        'hours_available_form': hours_available_form,
+                        'education_form': education_form,
+                        'training_form': training_form,
+                        'skills_form': skills_form,
+                        'transportation_form': transportation_form,
+                    }
+                    return render(request, "employee/index.html", context)
         except Exception as e:
             print(e)
             return redirect('login')
