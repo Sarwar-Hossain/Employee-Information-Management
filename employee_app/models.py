@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from jsignature.fields import JSignatureField
+from admin_app.models import *
 
 
 # Create your models here.
@@ -9,14 +10,10 @@ class Employee(models.Model):
 
     employee_name = models.CharField(max_length=250, null=True)
     date_of_service = models.DateTimeField(null=False)
-    # signature = JSignatureField(max_length=1000, default=None)
     medicaid_id = models.IntegerField(null=True, blank=True)
     mobile_no = models.CharField(max_length=250, null=True)
     pa_name = models.CharField(max_length=250, null=True, default=None)
     employee_id = models.IntegerField(primary_key=True, null=False, blank=True, default=None)
-    is_active = models.BooleanField(null=True, default=True, blank=True)
-    password = models.CharField(max_length=250, null=True, blank=True)
-    email = models.CharField(max_length=250, null=True, blank=True)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -52,7 +49,7 @@ class SignatureModel(models.Model):
 class Demographics(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="demographics", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="demographics", null=True,
                                  blank=True, default=None)
 
     first_name = models.CharField(max_length=250, null=True, blank=True)
@@ -73,7 +70,7 @@ class Demographics(models.Model):
 class HoursAvailable(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="hoursavailable", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="hoursavailable", null=True,
                                  blank=True, default=None)
 
     is_day = models.BooleanField(null=True, blank=True, default=False)
@@ -96,7 +93,7 @@ class HoursAvailable(models.Model):
 class Education(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="education",
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="education",
                                  null=True, blank=True, default=None)
 
     high_school_name = models.CharField(max_length=600, null=True, blank=True)
@@ -113,7 +110,7 @@ class Education(models.Model):
 class ProfessionalTraining(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="professionaltraining", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="professionaltraining", null=True,
                                  blank=True)
 
     name_of_school_city_state = models.CharField(max_length=350, null=True, blank=True)
@@ -130,7 +127,7 @@ class ProfessionalTraining(models.Model):
 class SkillsChecklist(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="skillschecklist", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="skillschecklist", null=True,
                                  blank=True)
 
     is_home_care = models.BooleanField(null=True, blank=True, default=False)
@@ -167,7 +164,7 @@ class SkillsChecklist(models.Model):
 class Transportation(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="transportation", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="transportation", null=True,
                                  blank=True)
 
     is_bus_train_car = models.BooleanField(null=True, default=False, blank=True)
@@ -188,7 +185,7 @@ class Transportation(models.Model):
 class EmployeeWithholdingCertificate(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employeewithholdingcertificate",
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employeewithholdingcertificate",
                                  null=True, blank=True)
 
     first_middle_name = models.CharField(max_length=200, null=True, blank=True)
@@ -221,7 +218,7 @@ class EmployeeWithholdingCertificate(models.Model):
 class EmployeeWithholdingAllowanceCertificate(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="withholdingallowance", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="withholdingallowance", null=True,
                                  blank=True)
 
     first_middle_name = models.CharField(max_length=200, null=True, blank=True)
@@ -261,7 +258,7 @@ class EmployeeWithholdingAllowanceCertificate(models.Model):
 class EmployeeInformationAttestation(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="informationattestation", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="informationattestation", null=True,
                                  blank=True)
 
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -298,7 +295,7 @@ class EmployeeInformationAttestation(models.Model):
 class TranslatorCertificate(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="translator", null=True, blank=True)
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="translator", null=True, blank=True)
 
     is_use_translator = models.BooleanField(null=True, blank=True, default=False)
     is_preparer_assisted = models.BooleanField(null=True, blank=True, default=False)
@@ -320,7 +317,7 @@ class TranslatorCertificate(models.Model):
 class EmployerReviewVerification(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employerreviewr", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employerreviewr", null=True,
                                  blank=True)
 
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -364,7 +361,7 @@ class EmployerReviewVerification(models.Model):
 class EmploymentFirstDay(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employmentfirstday", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employmentfirstday", null=True,
                                  blank=True)
 
     employee_signature_img = JSignatureField(max_length=1000, default=None)
@@ -387,7 +384,7 @@ class EmploymentFirstDay(models.Model):
 class ReverificationRehires(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="reverificationrehires", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="reverificationrehires", null=True,
                                  blank=True)
 
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -410,7 +407,7 @@ class ReverificationRehires(models.Model):
 class AcknowledgementOfReceipt(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="acknowledgementreceipt", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="acknowledgementreceipt", null=True,
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=150, null=True, blank=True, default=None)
@@ -426,7 +423,7 @@ class AcknowledgementOfReceipt(models.Model):
 class VoluntaryIdentification(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="voluntaryidentification", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="voluntaryidentification", null=True,
                                  blank=True)
 
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -471,7 +468,7 @@ class VoluntaryIdentification(models.Model):
 class AuthorizationBackgroundCheck(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="backgroundcheck", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="backgroundcheck", null=True,
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -487,7 +484,7 @@ class AuthorizationBackgroundCheck(models.Model):
 class AgreementWithCompany(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="agreement", null=True, blank=True)
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="agreement", null=True, blank=True)
 
     employee_printed_name = models.CharField(max_length=100, null=True, blank=True, default=None)
     employee_signature_img = JSignatureField(max_length=1000, default=None)
@@ -502,7 +499,7 @@ class AgreementWithCompany(models.Model):
 class DrugTestGuidelines(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="drugtestguidelines", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="drugtestguidelines", null=True,
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -518,7 +515,7 @@ class DrugTestGuidelines(models.Model):
 class DisclosureDrugTesting(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="disclosuredrugtesting", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="disclosuredrugtesting", null=True,
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=100, null=True, blank=True, default=None)
@@ -534,7 +531,7 @@ class DisclosureDrugTesting(models.Model):
 class EmployerInformation(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employerinformation", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employerinformation", null=True,
                                  blank=True)
 
     name = models.CharField(max_length=250, null=True, blank=True, default=None)
@@ -553,7 +550,7 @@ class EmployerInformation(models.Model):
 class NoticeAcknowledgement(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="noticeacknowledgement", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="noticeacknowledgement", null=True,
                                  blank=True)
 
     is_at_hiring = models.BooleanField(null=True, blank=True, default=False)
@@ -588,7 +585,7 @@ class NoticeAcknowledgement(models.Model):
 class BenefitPortionCompensation(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="benefitportioncompensation",
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="benefitportioncompensation",
                                  null=True, blank=True)
 
     hourly_rate = models.IntegerField(null=True, blank=True, default=False)
@@ -606,7 +603,7 @@ class BenefitPortionCompensation(models.Model):
 class EmployeeAcknowledgement(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employeeacknowledgement", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employeeacknowledgement", null=True,
                                  blank=True)
 
     primary_language = models.CharField(max_length=250, null=True, blank=True, default=None)
@@ -625,7 +622,7 @@ class EmployeeAcknowledgement(models.Model):
 class DepositAuthorization(models.Model):
     objects = None
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="depositauthorization", null=True,
+    employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="depositauthorization", null=True,
                                  blank=True)
 
     name = models.CharField(max_length=500, null=True, blank=True, default=None)

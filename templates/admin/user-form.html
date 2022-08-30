@@ -1,0 +1,245 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+{% if toast_mes %}
+<script>swal("{{toast_mes.toast_message}}");</script>
+{% endif %}
+
+<section class="main-layout-bg">
+    <!--    Toast Messages-->
+    <div id="content">
+        {% include 'employee/messages.html' %}
+    </div>
+    <!--    Log out-->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a href="#" class="btn btn-primary log-out-btn" type="button">log out</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="loyalty-membership">
+                    <div class="loyalty-title-flex">
+                        <div class="title-box">
+                            <h3>Create Shop User</h3>
+                            <p id="demo"></p>
+                        </div>
+                        <div class="logo-box">
+                            <img src="{% static 'icon-images/bari-home-logo.png' %}" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                    <form method="post" id="user_form" name="user_form" enctype="multipart/form-data"
+                          onsubmit="return user_Form()">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                {{ user_form.non_field_errors }}
+                                <div class="form-group">
+                                    {{ user_form.employee_name.errors }}
+                                    <label  for="{{ user_form.employee_name.id_for_label }}">
+                                        <span>Member Name</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.employee_name }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.mobile_no.errors }}
+                                    <label for="{{ user_form.mobile_no.id_for_label }}">
+                                        <span>Mobile No</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.mobile_no }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.date_of_service.errors }}
+                                    <label for="{{ user_form.date_of_service.id_for_label }}">
+                                        <span>Date of Service</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.date_of_service }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.medicaid_id.errors }}
+                                    <label for="{{ user_form.medicaid_id.id_for_label }}">
+                                        <span>Medicaid Id</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.medicaid_id }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.pa_name.errors }}
+                                    <label for="{{ user_form.pa_name.id_for_label }}">
+                                        <span>PA Name</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.pa_name }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.employee_id.errors }}
+                                    <label for="{{ user_form.employee_id.id_for_label }}">
+                                        <span>Employee Id</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.employee_id }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.email.errors }}
+                                    <label for="{{ user_form.email.id_for_label }}">
+                                        <span>Email</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.email }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    {{ user_form.password.errors }}
+                                    <label for="{{ user_form.password.id_for_label }}">
+                                        <span>Password</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.password }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 text-center">
+                            <button id="button_reset" type="button"
+                                    onclick="ClearFields();"
+                                    class="btn btn-info login-btn">
+                                Reset
+                            </button>
+                            {% if single_user %}
+                            <input type="hidden" name="user_id" value="{{ single_user.id }}">
+                            <button name="button_update" type="submit" id="button_update"
+                                    value="{{ single_user.id }}"
+                                    class="btn btn-primary login-btn">
+                                Update
+                            </button>
+                            <button name="button_delete" type="submit" id="button_delete"
+                                    value="{{ single_user.id }}" onclick="return false"
+                                    class="btn btn-primary login-btn">
+                                Delete
+                            </button>
+                            {% else %}
+                            <button type="submit" name="button_submit" class="btn btn-primary login-btn"
+                                    value="button_submit">
+                                Create
+                            </button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h1 class="text-center">Shop Users</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="users_status" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User Name</th>
+                                <th>Mobile No</th>
+                                <th>Shop Email Id</th>
+                                <th>Shop Name</th>
+                                <th>Status</th>
+                                <th>Active/Deactivate</th>
+                                <th>Select User</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in shop_users %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ user.user_name }}</td>
+                                <td>{{ user.mobile_no }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.shop_name }}</td>
+                                <td>
+                                    {% if user.is_user_active == 1 %}
+                                    Active
+                                    {% else %}
+                                    Inactive
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {% if user.is_user_active == 1 %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button name="user_deactivate" type="submit"
+                                                class="btn btn-danger" value="{{ user.id }}">
+                                            Deactivate
+                                        </button>
+                                        {% else %}
+                                        <button name="user_activate" type="submit"
+                                                class="btn btn-success" value="{{ user.id }}">
+                                            Activate
+                                        </button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button name="button_select" type="submit"
+                                                class="btn btn-info" value="{{ user.id }}">
+                                            Select
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <form action="">
+                        <div class="w-100 text-center">
+                            <a class="btn btn-primary login-btn"
+                               href="#">Back To Home</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</section>
+<script src="{% static 'js/user-form.js' %}"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+
+<script>
+
+    let usersStatus = document.querySelector('#users_status');
+    let dataTable = new simpleDatatables.DataTable(usersStatus);
+
+</script>
+
+{% endblock %}
+
+{% block extra_media %}
+{{ user_form.media }}
+{% endblock %}

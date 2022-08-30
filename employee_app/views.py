@@ -1,11 +1,19 @@
 from django.contrib.auth import login
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.views import View
 from .models import *
 from django.contrib import messages
 from employee_app.forms import *
+from admin_app.models import Users
+from employee_app.models import *
+from admin_app.forms import UserForm
 from jsignature.utils import draw_signature
+import datetime
+from datetime import datetime
+
+""" emp_info = Employees.objects.get(pk=1)
+    emp_form = EmployeeForm(initial={'name': emp_info.name}) """
 
 """ Login View """
 
@@ -15,7 +23,7 @@ class LoginView(View):
     @staticmethod
     def get(request):
         try:
-            return redirect(request, 'log-in.html')
+            return render(request, 'employee/log-in.html')
         except Exception as e:
             print(e)
             return render(request, 'employee/log-in.html', )
@@ -26,8 +34,13 @@ class LoginView(View):
             email = request.POST.get('email')
             password = request.POST.get('password')
             # user = Employee.objects.get(email=email)
-            messages.success(request, 'Login Successful!!')
-            return redirect("index")
+
+            if email == 'admin@gmail.com':
+                messages.success(request, 'Login Successful!!')
+                return redirect("create_employee_user")
+            else:
+                employee_id = email
+                return redirect("index", employee_id)
 
             # if user is not None:
             #     if user.is_active:
@@ -41,45 +54,84 @@ class LoginView(View):
             #     return redirect('login')
         except Exception as e:
             print(e)
-            return render(request, 'employee/log-in.html', )
+            return redirect('login')
 
 
 class CreateEmployeeProfile(View):
 
     @staticmethod
-    def get(request):
+    def get(request, employee_id):
         try:
-            form = EmployeeForm()
-            demographics_form = DemographicsForm()
-            hours_available_form = HoursAvailableForm()
-            education_form = EducationForm()
-            training_form = ProfessionalTrainingForm()
-            skills_form = SkillsChecklistForm()
-            transportation_form = TransportationForm()
 
-            # form = EmployeeForm(request.POST or None)
+            user = Users.objects.get(employee_id=employee_id)
+            user_form = EmployeeForm(readonly_form=True, initial={
+                'employee_name': user.employee_name,
+                'date_of_service': user.date_of_service,
+                'medicaid_id': user.medicaid_id,
+                'pa_name': user.pa_name,
+                'employee_id': user.employee_id,
+                'mobile_no': user.mobile_no,
+            })
 
-            context = {
-                'form': form,
-                'demographics_form': demographics_form,
-                'hours_available_form': hours_available_form,
-                'education_form': education_form,
-                'training_form': training_form,
-                'skills_form': skills_form,
-                'transportation_form': transportation_form,
-            }
+            if not Transportation.objects.filter(employee_id=employee_id).exists():
+                demographics_form = DemographicsForm()
+                hours_available_form = HoursAvailableForm()
+                education_form = EducationForm()
+                training_form = ProfessionalTrainingForm()
+                skills_form = SkillsChecklistForm()
+                transportation_form = TransportationForm()
+                if demographics_form and hours_available_form and education_form and training_form \
+                        and skills_form and transportation_form:
+                    context = {
+                        'employee_id': employee_id,
+                        'user_form': user_form,
+                        'demographics_form': demographics_form,
+                        'hours_available_form': hours_available_form,
+                        'education_form': education_form,
+                        'training_form': training_form,
+                        'skills_form': skills_form,
+                        'transportation_form': transportation_form,
+                    }
+                    return render(request, "employee/index.html", context)
+            else:
+                user = Users.objects.get(employee_id=employee_id)
+                demographics = Demographics.objects.get(employee_id=employee_id)
+                hours_available = HoursAvailable.objects.get(employee_id=employee_id)
+                education = Education.objects.get(employee_id=employee_id)
+                training = ProfessionalTraining.objects.get(employee_id=employee_id)
+                skills = SkillsChecklist.objects.get(employee_id=employee_id)
+                transportation = Transportation.objects.get(employee_id=employee_id)
 
-            return render(request, "employee/index.html", context)
-            # messages.success(request, 'Login Successful!!')
-            # return render(request, 'index.html')
+                if user and demographics and hours_available and education and training and skills and transportation:
+                    user_form = EmployeeForm(instance=user, readonly_form=True)
+                    demographics_form = DemographicsForm(instance=demographics)
+                    hours_available_form = HoursAvailableForm(instance=hours_available)
+                    education_form = EducationForm(instance=education)
+                    training_form = ProfessionalTrainingForm(instance=training)
+                    skills_form = SkillsChecklistForm(instance=skills)
+                    transportation_form = TransportationForm(instance=transportation)
+
+                    context = {
+                        'employee_id': employee_id,
+                        'user_form': user_form,
+                        'demographics_form': demographics_form,
+                        'hours_available_form': hours_available_form,
+                        'education_form': education_form,
+                        'training_form': training_form,
+                        'skills_form': skills_form,
+                        'transportation_form': transportation_form,
+                    }
+                    return render(request, "employee/index.html", context)
+
         except Exception as e:
             print(e)
-            return render(request, 'employee/log-in.html', )
+            return redirect('login')
 
     @staticmethod
-    def post(request):
+    def post(request, employee_id):
         try:
-            form = EmployeeForm(request.POST or None)
+            employee_id = employee_id
+            # user_form = EmployeeForm(request.POST or None)
             demographics_form = DemographicsForm(request.POST or None)
             hours_available_form = HoursAvailableForm(request.POST or None)
             education_form = EducationForm(request.POST or None)
@@ -87,17 +139,14 @@ class CreateEmployeeProfile(View):
             skills_form = SkillsChecklistForm(request.POST or None)
             transportation_form = TransportationForm(request.POST or None)
 
-            if request.method == "POST" and demographics_form.is_valid() and form.is_valid() \
+            if request.method == "POST" and not Transportation.objects.filter(
+                    employee_id=employee_id).exists() and demographics_form.is_valid() \
                     and hours_available_form.is_valid() and education_form.is_valid() and training_form.is_valid() \
                     and skills_form.is_valid() and transportation_form.is_valid():
-                employee_id = form.cleaned_data.get('employee_id')
-                # name = request.POST.get('name')
-                form.save()
 
                 # demographics_form
                 demographics = demographics_form.save(commit=False)
                 demographics.employee_id = employee_id
-                # obj.save()
                 demographics_form.save()
 
                 # hours_available_form
@@ -125,20 +174,166 @@ class CreateEmployeeProfile(View):
                 transportation_form.employee_id = employee_id
                 transportation_form.save()
 
-                return redirect('index')
-            context = {
-                'form': form,
-                'demographics_form': demographics_form,
-                'hours_available_form': hours_available_form,
-                'education_form': education_form,
-                'training_form': training_form,
-                'skills_form': skills_form,
-                'transportation_form': transportation_form,
-            }
-            return render(request, "employee/index.html", context)
+                return redirect('section_w4', employee_id)
+            elif request.method == 'POST':
+                demographics = Demographics.objects.get(employee_id=employee_id)
+                demographics_form = DemographicsForm(data=request.POST, instance=demographics)
+                if demographics_form.is_valid():
+                    demographics = demographics_form.save(commit=False)
+                    demographics.employee_id = employee_id
+                    demographics.updated_at = datetime.now()
+                    demographics_form.save()
+
+                    hours_available = HoursAvailable.objects.get(employee_id=employee_id)
+                    hours_available_form = HoursAvailableForm(data=request.POST, instance=hours_available)
+                    if hours_available_form.is_valid():
+                        hours_available = demographics_form.save(commit=False)
+                        hours_available.employee_id = employee_id
+                        hours_available.updated_at = datetime.now()
+                        hours_available.save()
+
+                        education = Education.objects.get(employee_id=employee_id)
+                        education_form = EducationForm(data=request.POST, instance=education)
+                        if education_form.is_valid():
+                            education = education_form.save(commit=False)
+                            education.employee_id = employee_id
+                            education.updated_at = datetime.now()
+                            education.save()
+
+                            training = ProfessionalTraining.objects.get(employee_id=employee_id)
+                            training_form = ProfessionalTrainingForm(data=request.POST, instance=training)
+                            if training_form.is_valid():
+                                training = training_form.save(commit=False)
+                                training.employee_id = employee_id
+                                training.updated_at = datetime.now()
+                                training.save()
+
+                                skills = SkillsChecklist.objects.get(employee_id=employee_id)
+                                skills_form = SkillsChecklistForm(data=request.POST, instance=skills)
+                                if skills_form.is_valid():
+                                    skills = skills_form.save(commit=False)
+                                    skills.employee_id = employee_id
+                                    skills.updated_at = datetime.now()
+                                    skills.save()
+
+                                    transportation = Transportation.objects.get(employee_id=employee_id)
+                                    transportation_form = TransportationForm(data=request.POST,
+                                                                             instance=transportation)
+                                    if transportation_form.is_valid():
+                                        transportation = transportation_form.save(commit=False)
+                                        transportation.employee_id = employee_id
+                                        transportation.updated_at = datetime.now()
+                                        transportation.save()
+                                        return redirect('section_w4', employee_id)
+                else:
+                    context = {
+                        'employee_id': employee_id,
+                        # 'user_form': user_form,
+                        'demographics_form': demographics_form,
+                        'hours_available_form': hours_available_form,
+                        'education_form': education_form,
+                        'training_form': training_form,
+                        'skills_form': skills_form,
+                        'transportation_form': transportation_form,
+                    }
+                    return render(request, "employee/index.html", context)
+            else:
+                context = {
+                    'employee_id': employee_id,
+                    # 'user_form': user_form,
+                    'demographics_form': demographics_form,
+                    'hours_available_form': hours_available_form,
+                    'education_form': education_form,
+                    'training_form': training_form,
+                    'skills_form': skills_form,
+                    'transportation_form': transportation_form,
+                }
+                return render(request, "employee/index.html", context)
         except Exception as e:
             print(e)
-            return render(request, 'employee/log-in.html', )
+            return redirect('login')
+
+
+class CreateEmployeeProfileW4(View):
+    @staticmethod
+    def get(request, employee_id):
+        try:
+            if EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
+                demographics = Demographics.objects.get(employee_id=employee_id)
+                employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
+                withholding_certificate_form = EmployeeWithholdingCertificateForm(
+                    instance=employee_withholding_certificate,
+                    initial={
+                        'last_name': demographics.last_name,
+                        'social_security_number': demographics.social_security_number
+                    })
+
+                context = {
+                    'employee_id': employee_id,
+                    'withholding_certificate_form': withholding_certificate_form,
+                }
+
+                return render(request, "employee/section_w4.html", context)
+            else:
+
+                demographics = Demographics.objects.get(employee_id=employee_id)
+                withholding_certificate_form = EmployeeWithholdingCertificateForm(initial={
+                    'last_name': demographics.last_name,
+                    'social_security_number': demographics.social_security_number
+                })
+
+                # withholding_certificate_form = EmployeeWithholdingCertificateForm()
+                context = {
+                    'employee_id': employee_id,
+                    'withholding_certificate_form': withholding_certificate_form,
+                }
+
+                return render(request, "employee/section_w4.html", context)
+        except Exception as e:
+            print(e)
+            return redirect('login')
+
+    @staticmethod
+    def post(request, employee_id):
+        try:
+
+            withholding_certificate_form = EmployeeWithholdingCertificateForm(request.POST or None)
+            if not EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
+                if request.method == "POST" and withholding_certificate_form.is_valid():
+                    employee_id = employee_id
+
+                    # demographics_form
+                    withholding_certificate = withholding_certificate_form.save(commit=False)
+                    withholding_certificate.employee_id = employee_id
+                    withholding_certificate_form.save()
+
+                    return redirect('section_w4', employee_id)
+                else:
+                    context = {
+                        'employee_id': employee_id,
+                        'withholding_certificate_form': withholding_certificate_form,
+                    }
+                    return render(request, "employee/section_w4.html", context)
+
+            elif request.method == 'POST':
+                withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
+                withholding_certificate_form = EmployeeWithholdingCertificateForm(data=request.POST,
+                                                                                  instance=withholding_certificate)
+                if withholding_certificate_form.is_valid():
+                    withholding_certificate = withholding_certificate_form.save(commit=False)
+                    withholding_certificate.employee_id = employee_id
+                    withholding_certificate.updated_at = datetime.now()
+                    withholding_certificate.save()
+                    return redirect('section_w4', employee_id)
+            else:
+                context = {
+                    'employee_id': employee_id,
+                    'withholding_certificate_form': withholding_certificate_form,
+                }
+                return render(request, "employee/section_w4.html", context)
+        except Exception as e:
+            print(e)
+            return redirect('login')
 
 
 class UpdateEmployeeProfile(View):
@@ -156,7 +351,7 @@ class UpdateEmployeeProfile(View):
             # return render(request, 'index.html')
         except Exception as e:
             print(e)
-            return render(request, 'employee/log-in.html', )
+            return redirect('login')
 
     @staticmethod
     def post(request):
@@ -169,7 +364,7 @@ class UpdateEmployeeProfile(View):
                 return HttpResponse('POST')
         except Exception as e:
             print(e)
-            return render(request, 'employee/log-in.html', )
+            return redirect('login')
 
 
 """ Logout View """

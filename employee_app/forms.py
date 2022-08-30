@@ -1,4 +1,5 @@
 from django import forms
+from admin_app.models import Users
 from .models import *
 from jsignature.forms import JSignatureField
 from jsignature.widgets import JSignatureWidget
@@ -11,15 +12,18 @@ class SignatureForm(forms.Form):
 
 
 class EmployeeForm(forms.ModelForm):
+    READONLY_FIELDS = ('employee_name', 'date_of_service', 'medicaid_id', 'pa_name', 'employee_id', 'mobile_no')
+
     class Meta:
         model = Employee
-        exclude = ('created_by', 'created_at', 'updated_at', 'updated_by', 'email', 'password', 'is_active')
+        exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
         fields = '__all__'
         widgets = {
             'employee_name': forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder': 'Enter Member Name'}),
             'date_of_service': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'medicaid_id': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Medicaid Id'}),
+            'medicaid_id': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': 'Enter Medicaid Id'}),
             'pa_name': forms.TextInput(attrs={'class': 'form-control',
                                               'placeholder': 'Enter PA Name'}),
             'employee_id': forms.NumberInput(attrs={'class': 'form-control',
@@ -27,6 +31,12 @@ class EmployeeForm(forms.ModelForm):
             'mobile_no': forms.NumberInput(attrs={'class': 'form-control',
                                                   'placeholder': 'Enter Mobile No'}),
         }
+
+    def __init__(self, readonly_form=False, *args, **kwargs):
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        if readonly_form:
+            for field in self.READONLY_FIELDS:
+                self.fields[field].widget.attrs['readonly'] = True
 
 
 class DemographicsForm(forms.ModelForm):
@@ -197,26 +207,26 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'first_middle_name': forms.TextInput(attrs={'class': 'form-control',
-                                                        'placeholder': 'Type First Name'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control',
-                                                'placeholder': 'Type Last Name'}),
+                                                        'placeholder': 'Enter First name and middle initial'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
+                                                'placeholder': 'Enter Last name'}),
             'address': forms.TextInput(attrs={'class': 'form-control',
-                                              'placeholder': 'Type Address'}),
+                                              'placeholder': 'Enter your Address'}),
             'city_town_state_zip': forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': 'Type City or Town, state, and ZIP Code'}),
+                                                          'placeholder': 'Enter your City or Town, State, Zip Code'}),
             'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Type Employer Name and Address'}),
+                                                            'placeholder': 'Employer Name and Address'}),
 
             'social_security_number': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Type Social Security Number'}),
-            'children_under_age': forms.NumberInput(attrs={'class': 'form-control'}),
-            'others_dependents': forms.NumberInput(attrs={'class': 'form-control'}),
-            'total': forms.NumberInput(attrs={'class': 'form-control'}),
-            'other_income': forms.NumberInput(attrs={'class': 'form-control'}),
-            'deductions': forms.NumberInput(attrs={'class': 'form-control'}),
-            'extra_withholding': forms.NumberInput(attrs={'class': 'form-control'}),
+                attrs={'class': 'form-control', 'placeholder': 'Enter your social security number', 'readonly': True}),
+            'children_under_age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
+            'others_dependents': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
+            'total': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
+            'other_income': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
+            'deductions': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
+            'extra_withholding': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
             'employer_identification_no': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Enter Employer Identification No'}),
+                attrs={'class': 'form-control', 'placeholder': 'Employment identification number (EIN)'}),
 
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'first_date_of_employment': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
