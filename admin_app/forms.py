@@ -23,7 +23,7 @@ class UserForm(forms.ModelForm):
             'mobile_no': forms.NumberInput(attrs={'class': 'form-control',
                                                   'placeholder': 'Enter Mobile No'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'example@gmail.com'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '******'}),
+            'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Password'}),
         }
 
     # def __init__(self, readonly_form=False, *args, **kwargs):

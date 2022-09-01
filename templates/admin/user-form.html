@@ -11,11 +11,12 @@
     <div id="content">
         {% include 'employee/messages.html' %}
     </div>
+
     <!--    Log out-->
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <a href="#" class="btn btn-primary log-out-btn" type="button">log out</a>
+                <a href="{% url 'admin_logout' %}" class="btn btn-primary log-out-btn" type="button">log out</a>
             </div>
         </div>
     </div>
@@ -41,7 +42,7 @@
                                 {{ user_form.non_field_errors }}
                                 <div class="form-group">
                                     {{ user_form.employee_name.errors }}
-                                    <label  for="{{ user_form.employee_name.id_for_label }}">
+                                    <label for="{{ user_form.employee_name.id_for_label }}">
                                         <span>Member Name</span>
                                         <span class="asterisk-label">*</span>
                                     </label>
@@ -126,14 +127,14 @@
                                 Reset
                             </button>
                             {% if single_user %}
-                            <input type="hidden" name="user_id" value="{{ single_user.id }}">
+                            <!--                            <input type="hidden" name="user_id" value="{{ user.employee_id }}">-->
                             <button name="button_update" type="submit" id="button_update"
-                                    value="{{ single_user.id }}"
+                                    value="{{ single_user.employee_id }}"
                                     class="btn btn-primary login-btn">
                                 Update
                             </button>
                             <button name="button_delete" type="submit" id="button_delete"
-                                    value="{{ single_user.id }}" onclick="return false"
+                                    value="{{ single_user.employee_id }}" onclick="return false"
                                     class="btn btn-primary login-btn">
                                 Delete
                             </button>
@@ -158,22 +159,23 @@
                                 <th>User Name</th>
                                 <th>Mobile No</th>
                                 <th>Shop Email Id</th>
-                                <th>Shop Name</th>
+                                <th>Date of Service</th>
                                 <th>Status</th>
                                 <th>Active/Deactivate</th>
                                 <th>Select User</th>
+                                <th>Edit User</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for user in shop_users %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ user.user_name }}</td>
+                                <td>{{ user.employee_name }}</td>
                                 <td>{{ user.mobile_no }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.shop_name }}</td>
+                                <td>{{ user.date_of_service|date:"M. d,Y, f A" }}</td>
                                 <td>
-                                    {% if user.is_user_active == 1 %}
+                                    {% if user.is_active == 1 %}
                                     Active
                                     {% else %}
                                     Inactive
@@ -182,15 +184,14 @@
                                 <td>
                                     <form method="post">
                                         {% csrf_token %}
-                                        {% if user.is_user_active == 1 %}
-                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        {% if user.is_active == 1 %}
                                         <button name="user_deactivate" type="submit"
-                                                class="btn btn-danger" value="{{ user.id }}">
+                                                class="btn btn-danger" value="{{ user.employee_id }}">
                                             Deactivate
                                         </button>
                                         {% else %}
                                         <button name="user_activate" type="submit"
-                                                class="btn btn-success" value="{{ user.id }}">
+                                                class="btn btn-success" value="{{ user.employee_id }}">
                                             Activate
                                         </button>
                                         {% endif %}
@@ -199,12 +200,14 @@
                                 <td>
                                     <form method="post">
                                         {% csrf_token %}
-                                        <input type="hidden" name="user_id" value="{{ user.id }}">
                                         <button name="button_select" type="submit"
-                                                class="btn btn-info" value="{{ user.id }}">
+                                                class="btn btn-info" value="{{ user.employee_id }}">
                                             Select
                                         </button>
                                     </form>
+                                </td>
+                                <td>
+                                    <a href='#' class="btn btn-edit">Edit</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -235,6 +238,33 @@
 
     let usersStatus = document.querySelector('#users_status');
     let dataTable = new simpleDatatables.DataTable(usersStatus);
+
+    // Delete User
+    document.getElementById('button_delete').addEventListener('click', async (e) => {
+        await Swal.fire({
+            icon: "question",
+            title: "Are you Sure??",
+            showCancelButton: true,
+        }).then(function (result) {
+            if (result.value) {
+                var user_id = document.getElementById('button_delete').value;
+
+                $.ajax({
+                    url: '{% url "delete_user" %}',
+                    data: {
+                        'user_id': user_id,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data.toast_message)
+                        if (data) {
+                            window.location = "{% url 'create_employee_user' %}"
+                        }
+                    }
+                });
+            }
+        });
+    })
 
 </script>
 

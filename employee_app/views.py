@@ -11,6 +11,7 @@ from admin_app.forms import UserForm
 from jsignature.utils import draw_signature
 import datetime
 from datetime import datetime
+from admin_app.aes_cipher import AESCipher
 
 """ emp_info = Employees.objects.get(pk=1)
     emp_form = EmployeeForm(initial={'name': emp_info.name}) """
@@ -31,27 +32,62 @@ class LoginView(View):
     @staticmethod
     def post(request):
         try:
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            # user = Employee.objects.get(email=email)
+            request.session.flush()
 
-            if email == 'admin@gmail.com':
-                messages.success(request, 'Login Successful!!')
-                return redirect("create_employee_user")
+            user_id = request.POST.get('email').strip()
+            password = request.POST.get('password').strip()
+            # user = Users.objects.get(email=user_id)
+
+            if Users.objects.filter(email=user_id).exists():
+                # admin login
+                user = Users.objects.get(email=user_id)
+
+                db_pass = eval(user.password)
+                decoded_pass = AESCipher().decrypt(db_pass)
+                if password == decoded_pass and user_id == user.email:
+                    if user.is_admin is True:
+                        if user.is_active:
+                            request.session['user_name'] = user.employee_name
+                            messages.success(request, 'Login Successful!')
+                            return redirect("create_employee_user")
+                        else:
+                            messages.success(request, 'User is not Active!!')
+                            return redirect("login")
+                    else:
+                        messages.success(request, 'User is not Admin!!')
+                        return redirect("login")
+                else:
+                    messages.success(request, 'User Password or Email Does Not Matched!!')
+                    return redirect("login")
+
+            elif not Users.objects.filter(email=user_id).exists():
+                user = Users.objects.get(employee_id=user_id)
+                if user:
+                    # Employee login
+                    db_pass = eval(user.password)
+                    decoded_pass = AESCipher().decrypt(db_pass)
+
+                    if password == decoded_pass and int(user_id) == user.employee_id:
+                        if user.is_employee is True:
+                            if user.is_active:
+                                request.session['user_name'] = user.employee_name
+                                messages.success(request, 'Login Successful!')
+                                return redirect("index", user_id)
+                            else:
+                                messages.success(request, 'User is not Active!!')
+                                return redirect('login')
+                        else:
+                            messages.success(request, 'User is not Employee!!')
+                            return redirect('login')
+                    else:
+                        messages.success(request, 'User Password or Email Does Not Matched!!')
+                        return redirect('login')
+                else:
+                    messages.success(request, 'User Does Not Exits!')
+                    return redirect('login')
             else:
-                employee_id = email
-                return redirect("index", employee_id)
-
-            # if user is not None:
-            #     if user.is_active:
-            #         # login(request, user)
-            #         messages.success(request, 'Login Successful!!')
-            #         return redirect("index")
-            #     else:
-            #         messages.success(request, 'User in not Active!!')
-            #         return redirect("login")
-            # else:
-            #     return redirect('login')
+                messages.success(request, 'User Does Not Exits!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
