@@ -23,11 +23,11 @@ class LoginView(View):
     @staticmethod
     def post(request):
         try:
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            # user = Employee.objects.get(email=email)
-            messages.success(request, 'Login Successful!!')
-            return redirect("index")
+            # email = request.POST.get('email')
+            # password = request.POST.get('password')
+            # # user = Employee.objects.get(email=email)
+            # messages.success(request, 'Login Successful!!')
+            return render(request, 'index2.html')
 
             # if user is not None:
             #     if user.is_active:
