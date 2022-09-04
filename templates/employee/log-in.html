@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'employee/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -8,9 +8,9 @@
 
 <section class="login-layout">
     <!--    Toast Messages-->
-    <div id="content">
-        {% include 'employee/messages.html' %}
-    </div>
+        <div id="content">
+            {% include 'employee/messages.html' %}
+        </div>
 
     <div class="container">
         <div class="row">
@@ -21,29 +21,30 @@
                     </div>
                     <div class="login-box">
                         <div class="logo-box">
-                              <img src="{% static 'icon-images/logo-2-1.png'%}" alt="">
+                            <img src="{% static 'icon-images/logo-2-1.png'%}" alt="">
                         </div>
                         <form method="post" id="login_form" name="login_form" enctype="multipart/form-data"
-                          onsubmit="return login_Form()">
-                               {% csrf_token %}
+                              onsubmit="return login_Form()">
+                            {% csrf_token %}
                             <div class="billing-address">
                                 <fieldset class="billing-fieldset">
                                     <legend class="rounded">sign in</legend>
 
                                     <div class="form-group">
-                                          <label for="email" class="form-label">email</label>
+                                        <label for="email" class="form-label">email</label>
                                         <input type="text" name="email" id="email" class="form-control"
                                                placeholder="Please enter your email or employee ID"
                                                autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                          <label for="password" class="form-label">password</label>
+                                        <label for="password" class="form-label">password</label>
                                         <input type="password" name="password" id="password" class="form-control"
                                                placeholder="Please enter your password"
                                                autocomplete="off">
                                     </div>
                                     <div class="w-100 text-center">
-                                           <button type="submit" id="login-btn" class="btn btn-primary login-btn">log in</button>
+                                        <button type="submit" id="login-btn" class="btn btn-primary login-btn">log in
+                                        </button>
                                     </div>
                                 </fieldset>
                             </div>

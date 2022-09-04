@@ -563,11 +563,13 @@ img {
     width: calc(100% - 5px);
     left: 5px;
 }
-.steptwo-main:nth-child(8){
+
+.steptwo-main:nth-child(8) {
     align-items: unset;
     padding-top: 0;
 
 }
+
 .steptwo-main:nth-child(8) .left-box h3.step {
     text-transform: capitalize;
     font-weight: 600;
@@ -575,15 +577,18 @@ img {
     color: #000000;
     text-align: left;
 }
-.steptwo-main:nth-child(8) .middle-box{
+
+.steptwo-main:nth-child(8) .middle-box {
     flex-basis: 85%;
     border-right: none;
     text-align: left;
 
 }
-.steptwo-main:nth-child(9){
+
+.steptwo-main:nth-child(9) {
     padding-top: 0;
 }
+
 .steptwo-main:nth-child(9) .left-box h3.step {
     text-transform: capitalize;
     font-weight: 600;
@@ -591,9 +596,52 @@ img {
     color: #000000;
     text-align: left;
 }
-.steptwo-main:nth-child(9) .middle-box{
+
+.steptwo-main:nth-child(9) .middle-box {
     flex-basis: 85%;
     border-right: none;
     text-align: left;
     padding-top: 0;
+}
+
+/*Toast Messages*/
+
+#content {
+    position: absolute;
+    width: 300px;
+    right: 11px;
+    top: 33px;
+    z-index: 1;
+}
+
+#content .alert {
+    position: relative;
+    padding: 5px;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.msg {
+    -webkit-animation: fade-out 8s ease-out both;
+    animation: fade-out 8s ease-out both;
+}
+
+@-webkit-keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

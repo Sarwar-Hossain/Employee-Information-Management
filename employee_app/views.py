@@ -12,6 +12,7 @@ from jsignature.utils import draw_signature
 import datetime
 from datetime import datetime
 from admin_app.aes_cipher import AESCipher
+from validate_email_address import validate_email
 
 """ emp_info = Employees.objects.get(pk=1)
     emp_form = EmployeeForm(initial={'name': emp_info.name}) """
@@ -36,60 +37,60 @@ class LoginView(View):
 
             user_id = request.POST.get('email').strip()
             password = request.POST.get('password').strip()
-            # user = Users.objects.get(email=user_id)
 
-            if Users.objects.filter(email=user_id).exists():
-                # admin login
-                user = Users.objects.get(email=user_id)
+            if validate_email(user_id):
+                if Users.objects.filter(email=user_id).exists():
+                    # admin login
+                    user = Users.objects.get(email=user_id)
 
-                db_pass = eval(user.password)
-                decoded_pass = AESCipher().decrypt(db_pass)
-                if password == decoded_pass and user_id == user.email:
-                    if user.is_admin is True:
-                        if user.is_active:
-                            request.session['user_name'] = user.employee_name
-                            messages.success(request, 'Login Successful!')
-                            return redirect("create_employee_user")
-                        else:
-                            messages.success(request, 'User is not Active!!')
-                            return redirect("login")
-                    else:
-                        messages.success(request, 'User is not Admin!!')
-                        return redirect("login")
-                else:
-                    messages.success(request, 'User Password or Email Does Not Matched!!')
-                    return redirect("login")
-
-            elif not Users.objects.filter(email=user_id).exists():
-                user = Users.objects.get(employee_id=user_id)
-                if user:
-                    # Employee login
                     db_pass = eval(user.password)
                     decoded_pass = AESCipher().decrypt(db_pass)
-
-                    if password == decoded_pass and int(user_id) == user.employee_id:
-                        if user.is_employee is True:
+                    if password == decoded_pass and user_id == user.email:
+                        if user.is_admin is True:
                             if user.is_active:
                                 request.session['user_name'] = user.employee_name
                                 messages.success(request, 'Login Successful!')
-                                return redirect("index", user_id)
+                                return redirect("create_employee_user")
                             else:
-                                messages.success(request, 'User is not Active!!')
-                                return redirect('login')
+                                messages.error(request, 'User is not Active!!')
+                                return redirect("login")
                         else:
-                            messages.success(request, 'User is not Employee!!')
+                            messages.error(request, 'User is not Admin!!')
+                            return redirect("login")
+                    else:
+                        messages.error(request, 'User Password or Email Does Not Matched!!')
+                        return redirect("login")
+                else:
+                    messages.error(request, 'User Does not Exits!!')
+                    return redirect("login")
+
+            elif Users.objects.filter(employee_id=user_id).exists():
+                user = Users.objects.get(employee_id=user_id)
+                # Employee login
+                db_pass = eval(user.password)
+                decoded_pass = AESCipher().decrypt(db_pass)
+
+                if password == decoded_pass and int(user_id) == user.employee_id:
+                    if user.is_employee is True:
+                        if user.is_active:
+                            request.session['user_name'] = user.employee_name
+                            messages.success(request, 'Login Successful!')
+                            return redirect("index", user_id)
+                        else:
+                            messages.error(request, 'User is not Active!!')
                             return redirect('login')
                     else:
-                        messages.success(request, 'User Password or Email Does Not Matched!!')
+                        messages.error(request, 'User is not Employee!!')
                         return redirect('login')
                 else:
-                    messages.success(request, 'User Does Not Exits!')
+                    messages.error(request, 'User Password or Email Does Not Matched!!')
                     return redirect('login')
             else:
-                messages.success(request, 'User Does Not Exits!')
+                messages.error(request, 'User Does Not Exits!')
                 return redirect('login')
         except Exception as e:
             print(e)
+            messages.error(request, 'Something went wrong, Check your login Credentials!!')
             return redirect('login')
 
 
