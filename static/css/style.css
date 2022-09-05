@@ -311,6 +311,7 @@ img {
     font-size: 15px;
     margin-bottom: 5px;
     font-weight: 600;
+
 }
 
 .steptwo-main:nth-child(2) {
@@ -602,6 +603,93 @@ img {
     border-right: none;
     text-align: left;
     padding-top: 0;
+}
+
+.steptwo-main p.deptartment {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.steptwo-main span.nyc {
+    font-size: 18px;
+}
+
+.withcertificate-flex {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #000;
+    border-top: none;
+    min-height: 100px;
+
+}
+
+.withcertificate-flex .left-box {
+    flex-basis: 75%;
+    padding: 0px 5px 5px 5px;
+
+}
+
+.withcertificate-flex .right-box {
+    flex-basis: 25%;
+    padding: 0px 5px 5px 5px;
+    border-left: 1px solid #000;
+}
+
+.withcertificate-flex .row-border {
+
+}
+
+.withcertificate-flex .form-control {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.withcertificate-flex label {
+    margin-top: 5px;
+}
+
+.m-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+span.note {
+    font-size: 14px;
+    display: block;
+}
+
+.resident-box {
+    border: 1px solid #000000;
+    min-height: 200px;
+    border-top: none;
+    padding: 5px;
+
+}
+
+.certify-box {
+    border: 1px solid #000000;
+    padding: 5px;
+    margin-bottom: 5px;
+
+}
+
+p.certify {
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.certificate-record{
+    margin-top: 20px;
+    border-top: 1px solid #000000;
+    min-height: 100px;
+}
+
+.final-signature{
+    padding: 5px;
+    border: 1px solid #000000;
 }
 
 /*Toast Messages*/

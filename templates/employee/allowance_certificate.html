@@ -1,0 +1,348 @@
+{% extends "employee/base.html" %}
+{% load static %}
+{% load form_helpers %}
+
+
+{% block content %}
+
+<section class="page-one-main">
+    <nav class="navbar navbar-expand bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'icon-images/logo-2-1.png' %}">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link">page - 01 </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <div class="form-section">
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="steptwo-main">
+                    <div class="left-box">
+                        <span class="nyc">newyork city</span> <br>
+                        2022
+                    </div>
+                    <div class="middle-box">
+                        <p class="deptartment">Department of Taxation and Finance</p>
+                        <h3>Employee’s Withholding Allowance Certificate</h3>
+
+                        <div class="middle-list">
+                            <ul>
+                                <li style="list-style-type: none">
+
+                                    New York State • New York City • Yonkers
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <h3>IT-2104</h3>
+                    </div>
+                </div>
+                <div class="withcertificate-flex">
+                    <div class="left-box">
+                        <div class="row">
+                            {{ employee_withholding_allowance_certificate_form.non_field_errors }}
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-md-6">
+                                {{ employee_withholding_allowance_certificate_form.first_middle_name.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.first_middle_name.id_for_label }}">First
+                                        name and middle name</label>
+                                    {{ employee_withholding_allowance_certificate_form.first_middle_name }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-md-6">
+                                {{ employee_withholding_allowance_certificate_form.last_name.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.last_name.id_for_label }}">Last
+                                        name</label>
+                                    {{ employee_withholding_allowance_certificate_form.last_name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-border">
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-md-8">
+                                {{ employee_withholding_allowance_certificate_form.permanent_home_address.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.permanent_home_address.id_for_label }}">Permanent
+                                        home address (number and street or rural route) </label>
+                                    {{ employee_withholding_allowance_certificate_form.permanent_home_address }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-md-4">
+                                {{ employee_withholding_allowance_certificate_form.apartment_no.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.apartment_no.id_for_label }}">Apartment
+                                        number </label>
+                                    {{ employee_withholding_allowance_certificate_form.apartment_no }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row row-border">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-md-6">
+                                {{ employee_withholding_allowance_certificate_form.city_village_post_office.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.city_village_post_office.id_for_label }}">City,
+                                        village, or post office </label>
+                                    {{ employee_withholding_allowance_certificate_form.city_village_post_office }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-md-3">
+                                {{ employee_withholding_allowance_certificate_form.state.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.state.id_for_label }}">State </label>
+                                    {{ employee_withholding_allowance_certificate_form.state }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-md-3">
+                                {{ employee_withholding_allowance_certificate_form.zip_code.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.zip_code.id_for_label }}">Zip
+                                        code </label>
+                                    {{ employee_withholding_allowance_certificate_form.zip_code }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="row ">
+                            <div class="col-12">
+                                {{ employee_withholding_allowance_certificate_form.social_security_number.errors }}
+                                <div class="form-group">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.social_security_number.id_for_label }}">Your
+                                        social security number</label>
+                                    {{ employee_withholding_allowance_certificate_form.social_security_number }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-border">
+                            <div class="col-12">
+                                <div class="m-flex">
+                                    {{ employee_withholding_allowance_certificate_form.is_single_or_head_of_household.errors }}
+                                    <div class="form-check">
+                                        {{ employee_withholding_allowance_certificate_form.is_single_or_head_of_household|addcss:'form-check-input' }}
+                                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_single_or_head_of_household.id_for_label }}">
+                                            single or head of household
+                                        </label>
+                                    </div>
+                                    {{ employee_withholding_allowance_certificate_form.is_married.errors }}
+                                    <div class="form-check">
+                                        {{ employee_withholding_allowance_certificate_form.is_married|addcss:'form-check-input' }}
+                                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_married.id_for_label }}">
+                                            married
+                                        </label>
+                                    </div>
+                                    {{ employee_withholding_allowance_certificate_form.is_married_higher_single_rate.errors }}
+                                    <div class="form-check">
+                                        {{ employee_withholding_allowance_certificate_form.is_married_higher_single_rate|addcss:'form-check-input' }}
+                                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_married_higher_single_rate.id_for_label }}">
+                                            Married, but withhold at higher single rate
+                                        </label>
+                                    </div>
+                                </div>
+                                <span class="note"> <b>Note:</b> If married but legally separated, mark an X in the Single or Head of household box. </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="resident-box">
+                    <div class="check-inline-group">
+                        <label for="" class="form-label me-3">Are you a resident of New York City? </label>
+                        {{ employee_withholding_allowance_certificate_form.is_new_york_resident.errors }}
+                        <div class="form-check form-check-inline">
+                            {{ employee_withholding_allowance_certificate_form.is_new_york_resident|addcss:'form-check-input' }}
+                            <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_new_york_resident.id_for_label }}">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">No</label>
+                        </div>
+                    </div>
+                    <div class="check-inline-group">
+                        <label for="" class="form-label me-3">Are you a resident of Yonkers? </label>
+                        {{ employee_withholding_allowance_certificate_form.is_yonkers_resident.errors }}
+                        <div class="form-check form-check-inline">
+                            {{ employee_withholding_allowance_certificate_form.is_yonkers_resident|addcss:'form-check-input' }}
+                            <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_yonkers_resident.id_for_label }}">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox3">No</label>
+                        </div>
+                    </div>
+                    <h5><b>Complete the worksheet on page 4 before making any entries.</b></h5>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            {{ employee_withholding_allowance_certificate_form.total_newyork_yonkers_allowance.errors }}
+                            <div class="form-group mb-3">
+                                <label for="{{ employee_withholding_allowance_certificate_form.total_newyork_yonkers_allowance.id_for_label }}">1. total number of allowances you are claiming for New York State and
+                                    Yonkers, if applicable (from line 19)</label>
+                                {{ employee_withholding_allowance_certificate_form.total_newyork_yonkers_allowance}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            {{ employee_withholding_allowance_certificate_form.total_newyork_allowance.errors }}
+                            <div class="form-group mb-3">
+                                <label for="{{ employee_withholding_allowance_certificate_form.total_newyork_allowance.id_for_label }}">2. Total number of allowances for New York City (from line 31)</label>
+                                {{ employee_withholding_allowance_certificate_form.total_newyork_allowance}}
+                            </div>
+                        </div>
+                    </div>
+                    <h5><b>Use lines 3, 4, and 5 below to have additional withholding per pay period under special
+                        agreement with your employer.</b></h5>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            {{ employee_withholding_allowance_certificate_form.new_york_state_amount.errors }}
+                            <div class="form-group mb-">
+                                <label for="{{ employee_withholding_allowance_certificate_form.new_york_state_amount.id_for_label }}">3. New York State amount</label>
+                                {{ employee_withholding_allowance_certificate_form.new_york_state_amount}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            {{ employee_withholding_allowance_certificate_form.new_york_city_amount.errors }}
+                            <div class="form-group mb-">
+                                <label for="{{ employee_withholding_allowance_certificate_form.new_york_city_amount.id_for_label }}">4. New York City amount</label>
+                                {{ employee_withholding_allowance_certificate_form.new_york_city_amount}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            {{ employee_withholding_allowance_certificate_form.yonkers_amount.errors }}
+                            <div class="form-group ">
+                                <label for="{{ employee_withholding_allowance_certificate_form.yonkers_amount.id_for_label }}">5. Yonkers amount</label>
+                                {{ employee_withholding_allowance_certificate_form.yonkers_amount}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <p class="certify">I certify that I am entitled to the number of withholding allowances claimed on
+                    this certificate. </p>
+                <div class="certify-box">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            {{ employee_withholding_allowance_certificate_form.employee_signature_img.errors }}
+                            <div class="form-group ">
+                                <label for="{{ employee_withholding_allowance_certificate_form.employee_signature_img.id_for_label }}">Employee’s
+                                    signature </label>
+                                {{ employee_withholding_allowance_certificate_form.employee_signature_img }}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            {{ employee_withholding_allowance_certificate_form.date.errors }}
+                            <div class="form-group ">
+                                <label for="{{ employee_withholding_allowance_certificate_form.date.id_for_label }}">Date</label>
+                                {{ employee_withholding_allowance_certificate_form.date }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="note"> <b>Penalty</b> – A penalty of $500 may be imposed for any false statement you make that decreases the amount of money you have withheld
+                            from your wages. You may also be subject to criminal penalties.</span>
+                <span class="note">
+                        <b>Employee: Detach this page and give it to your employer; keep a copy for your records.</b>
+                    </span>
+                <div class="certificate-record">
+                        <span class="note">
+                            <b>Employer: Keep this certificate with your records.</b>
+                        </span>
+                    <span class="note">
+                            Mark an <b>X</b> in box A and/or box B to indicate why you are sending a copy of this form to New York State (see instructions):
+
+                        </span>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            {{ employee_withholding_allowance_certificate_form.is_exemption_allowances.errors }}
+                            <div class="form-check form-check-inline mt-3">
+                                {{ employee_withholding_allowance_certificate_form.is_exemption_allowances|addcss:'form-check-input' }}
+                                <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_exemption_allowances.id_for_label }}"> Employee claimed more than 14
+                                    exemption allowances for NYS </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            {{ employee_withholding_allowance_certificate_form.is_new_hire.errors }}
+                            <div class="form-check form-check-inline mt-3">
+                                {{ employee_withholding_allowance_certificate_form.is_new_hire|addcss:'form-check-input' }}
+                                <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_new_hire.id_for_label }}">Employee is a new hire or a
+                                    rehire</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    {{ employee_withholding_allowance_certificate_form.employee_performed_date.errors }}
+                    <div class="form-group my-3">
+                        <label for="{{ employee_withholding_allowance_certificate_form.employee_performed_date.id_for_label }}">First date employee performed
+                            services for pay (mm-dd-yyyy) (see instr.)</label>
+                        {{ employee_withholding_allowance_certificate_form.employee_performed_date }}
+                    </div>
+                    <div class="form-check form-check-inline ps-0">
+                        <label class="form-check-label" for="inlineCheckbox1">Are dependent health insurance
+                            benefits available for this employee?</label>
+                    </div>
+                    {{ employee_withholding_allowance_certificate_form.is_health_insurance.errors }}
+                    <div class="form-check form-check-inline">
+                        {{ employee_withholding_allowance_certificate_form.is_health_insurance|addcss:'form-check-input' }}
+                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_health_insurance.id_for_label }}">yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox4">no</label>
+                    </div>
+                    {{ employee_withholding_allowance_certificate_form.employee_qualifies_date.errors }}
+                    <div class="form-group my-3">
+                        <label for="{{ employee_withholding_allowance_certificate_form.employee_qualifies_date.id_for_label }}">If Yes, enter the date the employee qualifies (mm-dd-yyyy):</label>
+                        {{ employee_withholding_allowance_certificate_form.employee_qualifies_date }}
+                    </div>
+                    <div class="final-signature">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                                {{ employee_withholding_allowance_certificate_form.employer_name_address.errors }}
+                                <div class="form-group ">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_name_address.id_for_label }}">Employer’s name and address (Employer: complete this section only if
+                                        you are sending
+                                        a copy of this form to the NYS Tax Department.) </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_name_address }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                {{ employee_withholding_allowance_certificate_form.employer_identification_no.errors }}
+                                <div class="form-group ">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_identification_no.id_for_label }}">Employer identification number </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_identification_no }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-btn">
+                        <a href="{% url 'section_w4' employee_id %}" class="btn next-btn prev-two" type="">prev</a>
+                        <button class="btn next-btn step-1" type="submit">Next</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_media %}
+{{ employee_withholding_allowance_certificate_form.media }}
+{% endblock %}
+

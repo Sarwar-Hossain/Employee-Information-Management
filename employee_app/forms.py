@@ -251,28 +251,31 @@ class EmployeeWithholdingAllowanceCertificateForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'first_middle_name': forms.TextInput(attrs={'class': 'form-control',
-                                                        'placeholder': 'Type First Name'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control',
-                                                'placeholder': 'Type Last Name'}),
+                                                        'placeholder': 'First Name and Middle Name Initial'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
+                                                'placeholder': 'Last Name'}),
             'permanent_home_address': forms.TextInput(attrs={'class': 'form-control',
-                                                             'placeholder': 'Permanent Home Address'}),
+                                                             'placeholder': 'Permanent Home Address (number and street '
+                                                                            'or rural route )'}),
             'city_village_post_office': forms.TextInput(attrs={'class': 'form-control',
                                                                'placeholder': 'City, Village or Post Office'}),
             'state': forms.TextInput(attrs={'class': 'form-control',
-                                            'placeholder': 'Type State'}),
+                                            'placeholder': 'State'}),
             'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Type Employer Name and Address'}),
+                                                            'placeholder':
+                                                                'Employer\'s name and address (Employeer, complete '
+                                                                'this section only if you are '
+                                                                'sending a copy of this form to the NYS Tax Department)'}),
             'social_security_number': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Type Social Security Number'}),
+                attrs={'class': 'form-control', 'placeholder': 'Your Social Security Number', 'readonly': True}),
             'apartment_no': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Type Apartment Number'}),
-            'zip_code': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Type Zip Code'}),
+                attrs={'class': 'form-control', 'placeholder': 'Apartment Number'}),
+            'zip_code': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Zip Code', 'readonly': True}),
             'total_newyork_yonkers_allowance': forms.NumberInput(attrs={'class': 'form-control'}),
             'total_newyork_allowance': forms.NumberInput(attrs={'class': 'form-control'}),
             'new_york_state_amount': forms.NumberInput(attrs={'class': 'form-control'}),
-            'employer_identification_no': forms.NumberInput(attrs={'class': 'form-control'}),
-            'yonkers_amount': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Enter Employer Identification No'}),
+            'employer_identification_no': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
+            'yonkers_amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'new_york_city_amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'employee_performed_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
