@@ -348,6 +348,14 @@ p.sincere {
     color: #fff;
 }
 
+.main-layout-bg .card .btn-edit {
+    font-size: 12px;
+    padding: 0 5px;
+    border-radius: 0;
+    min-width: 65px;
+    color: #fff;
+}
+
 .card.show-comment-card {
     border: 1px solid #fff;
     min-height: 100px;
