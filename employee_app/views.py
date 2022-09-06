@@ -190,6 +190,7 @@ class CreateEmployeeProfile(View):
                         'skills_form': skills_form,
                         'transportation_form': transportation_form,
                     }
+
                     return render(request, "employee/index.html", context)
         except Exception as e:
             print(e)
@@ -242,6 +243,7 @@ class CreateEmployeeProfile(View):
                 transportation_form.employee_id = employee_id
                 transportation_form.save()
 
+                messages.success(request, 'Data Submission Successful!!')
                 return redirect('section_w4', employee_id)
             elif request.method == 'POST':
                 demographics = Demographics.objects.get(employee_id=employee_id)
@@ -292,6 +294,7 @@ class CreateEmployeeProfile(View):
                                         transportation.employee_id = employee_id
                                         transportation.updated_at = datetime.now()
                                         transportation.save()
+                                        messages.success(request, 'Step 2!!')
                                         return redirect('section_w4', employee_id)
                 else:
                     context = {
@@ -316,6 +319,7 @@ class CreateEmployeeProfile(View):
                     'skills_form': skills_form,
                     'transportation_form': transportation_form,
                 }
+                messages.success(request, 'Data Submission Successful!!')
                 return render(request, "employee/index.html", context)
         except Exception as e:
             print(e)
@@ -355,7 +359,7 @@ class CreateEmployeeProfileW4(View):
                     'employee_id': employee_id,
                     'withholding_certificate_form': withholding_certificate_form,
                 }
-
+                messages.success(request, 'Step 2!!')
                 return render(request, "employee/section_w4.html", context)
         except Exception as e:
             print(e)
@@ -374,13 +378,14 @@ class CreateEmployeeProfileW4(View):
                     withholding_certificate = withholding_certificate_form.save(commit=False)
                     withholding_certificate.employee_id = employee_id
                     withholding_certificate_form.save()
-
+                    messages.success(request, 'Data Submission Successful!!')
                     return redirect('allowance_certificate', employee_id)
                 else:
                     context = {
                         'employee_id': employee_id,
                         'withholding_certificate_form': withholding_certificate_form,
                     }
+                    messages.success(request, 'Form Validation Failed!!')
                     return render(request, "employee/section_w4.html", context)
 
             elif request.method == 'POST':
@@ -392,12 +397,14 @@ class CreateEmployeeProfileW4(View):
                     withholding_certificate.employee_id = employee_id
                     withholding_certificate.updated_at = datetime.now()
                     withholding_certificate.save()
+                    messages.success(request, 'Data Submission Successful!!')
                     return redirect('allowance_certificate', employee_id)
             else:
                 context = {
                     'employee_id': employee_id,
                     'withholding_certificate_form': withholding_certificate_form,
                 }
+                messages.success(request, 'Step 3!!')
                 return render(request, "employee/section_w4.html", context)
         except Exception as e:
             print(e)
@@ -506,6 +513,7 @@ class CreateEmployeeAllowanceCertificate(View):
                         'employee_id': employee_id,
                         'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
                     }
+                    messages.success(request, 'Data Submission Successful!!')
                     return render(request, "employee/allowance_certificate.html", context)
 
             elif request.method == 'POST':
@@ -519,12 +527,14 @@ class CreateEmployeeAllowanceCertificate(View):
                     allowance_certificate.employee_id = employee_id
                     allowance_certificate.updated_at = datetime.now()
                     allowance_certificate.save()
+                    messages.success(request, 'Data Submission Successful!!')
                     return redirect('allowance_certificate', employee_id)
                 else:
                     context = {
                         'employee_id': employee_id,
                         'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
                     }
+                    messages.success(request, 'Data Submission Failed!!')
                     return render(request, "employee/allowance_certificate.html", context)
             else:
                 context = {
