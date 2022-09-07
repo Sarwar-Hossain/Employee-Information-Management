@@ -31,7 +31,7 @@ class AdminLoginView(View):
             # user = Employee.objects.get(email=email)
             if email == 'admin@gmail.com':
                 messages.success(request, 'Login Successful!!')
-                return redirect("create_employee_user")
+                return redirect("create_employee_user_super_admin")
             else:
                 return redirect("index", employee_id)
 
@@ -50,7 +50,7 @@ class AdminLoginView(View):
             return render(request, 'admin/log-in.html', )
 
 
-class CreateEmployeeUser(View):
+class CreateUserSuperAdmin(View):
 
     @staticmethod
     def get(request):
@@ -63,7 +63,7 @@ class CreateEmployeeUser(View):
                 'shop_users': shop_users,
             }
 
-            return render(request, "admin/user-form.html", context)
+            return render(request, "admin/super_admin_user-form.html", context)
         except Exception as e:
             print(e)
             return redirect('login')
@@ -84,48 +84,142 @@ class CreateEmployeeUser(View):
                     'single_user': user,
                 }
                 messages.success(request, 'User Selected!!')
-                return render(request, "admin/user-form.html", context)
+                return render(request, "admin/super_admin_user-form.html", context)
 
             elif request.method == "POST" and request.POST.get('user_deactivate'):
 
                 user_deactivate_id = request.POST.get('user_deactivate')
                 Users.objects.filter(employee_id=user_deactivate_id).update(is_active=False, )
                 messages.success(request, 'User Deactivate Successfully!!')
-                return redirect('create_employee_user')
+                return redirect('create_employee_user_super_admin')
 
             elif request.method == "POST" and request.POST.get('user_activate'):
 
                 user_activate_id = request.POST.get('user_activate')
                 Users.objects.filter(employee_id=user_activate_id).update(is_active=True, )
                 messages.success(request, 'User Activate Successfully!!')
-                return redirect('create_employee_user')
+                return redirect('create_employee_user_super_admin')
 
             elif request.method == "POST" and request.POST.get('button_update'):
+                user_name = request.session.get('user_name')
                 update_user_id = request.POST.get('button_update')
                 user = Users.objects.get(employee_id=update_user_id)
                 user_form = UserForm(data=request.POST, instance=user)
                 if user_form.is_valid():
+                    password = user_form.cleaned_data.get('password')
                     user = user_form.save(commit=False)
                     user.updated_at = datetime.now()
+                    user.updated_by = user_name
+                    user.password = AESCipher().encrypt(password)
                     user.save()
                     messages.success(request, 'User Updated Successfully!!')
-                    return redirect('create_employee_user')
+                    return redirect('create_employee_user_super_admin')
 
             else:
                 user_form = UserForm(request.POST or None)
-
+                user_name = request.session.get('user_name')
                 if request.method == "POST" and user_form.is_valid():
                     password = user_form.cleaned_data.get('password')
                     user_form = user_form.save(commit=False)
+                    user_form.created_by = user_name
                     user_form.password = AESCipher().encrypt(password)
                     user_form.save()
                     messages.success(request, 'User Created Successfully!!')
-                    return redirect('create_employee_user')
+                    return redirect('create_employee_user_super_admin')
                 context = {
                     'shop_users': shop_users,
                     'user_form': user_form,
                 }
-                return render(request, "admin/user-form.html", context)
+                return render(request, "admin/super_admin_user-form.html", context)
+        except Exception as e:
+            print(e)
+            return redirect('login')
+
+
+class CreateUserAdmin(View):
+
+    @staticmethod
+    def get(request):
+        try:
+            user_name = request.session.get('user_name')
+            user_form = UserForm()
+            shop_users = Users.objects.filter(created_by=user_name).order_by('employee_name')
+
+            context = {
+                'user_form': user_form,
+                'shop_users': shop_users,
+            }
+
+            return render(request, "admin/super_admin_user-form.html", context)
+        except Exception as e:
+            print(e)
+            return redirect('login')
+
+    @staticmethod
+    def post(request):
+        try:
+            user_name = request.session.get('user_name')
+            shop_users = Users.objects.filter(created_by=user_name).order_by('employee_name')
+            employee_id = request.POST.get('button_select')
+            if request.method == "POST" and request.POST.get('button_select'):
+                user = Users.objects.get(employee_id=employee_id)
+                decoded_pass = eval(user.password)
+                password = AESCipher().decrypt(decoded_pass)
+                user_form = UserForm(instance=user, initial={'password': password})
+                context = {
+                    'shop_users': shop_users,
+                    'user_form': user_form,
+                    'single_user': user,
+                }
+                messages.success(request, 'User Selected!!')
+                return render(request, "admin/admin_user_form.html", context)
+
+            elif request.method == "POST" and request.POST.get('user_deactivate'):
+
+                user_deactivate_id = request.POST.get('user_deactivate')
+                Users.objects.filter(employee_id=user_deactivate_id).update(is_active=False, )
+                messages.success(request, 'User Deactivate Successfully!!')
+                return redirect('create_employee_user_admin')
+
+            elif request.method == "POST" and request.POST.get('user_activate'):
+
+                user_activate_id = request.POST.get('user_activate')
+                Users.objects.filter(employee_id=user_activate_id).update(is_active=True, )
+                messages.success(request, 'User Activate Successfully!!')
+                return redirect('create_employee_user_admin')
+
+            elif request.method == "POST" and request.POST.get('button_update'):
+                user_name = request.session.get('user_name')
+                update_user_id = request.POST.get('button_update')
+                user = Users.objects.get(employee_id=update_user_id)
+                user_form = UserForm(data=request.POST, instance=user)
+                if user_form.is_valid():
+                    password = user_form.cleaned_data.get('password')
+                    user = user_form.save(commit=False)
+                    user.updated_at = datetime.now()
+                    user.updated_by = user_name
+                    user.password = AESCipher().encrypt(password)
+                    user.save()
+                    messages.success(request, 'User Updated Successfully!!')
+                    return redirect('create_employee_user_admin')
+
+            else:
+                user_form = UserForm(request.POST or None)
+                user_name = request.session.get('user_name')
+
+                if request.method == "POST" and user_form.is_valid():
+                    password = user_form.cleaned_data.get('password')
+                    user_form = user_form.save(commit=False)
+                    user_form.created_by = user_name
+                    user_form.password = AESCipher().encrypt(password)
+                    user_form.save()
+                    messages.success(request, 'User Created Successfully!!')
+                    return redirect('create_employee_user_admin')
+                context = {
+                    'shop_users': shop_users,
+                    'user_form': user_form,
+                }
+                return render(request, "admin/admin_user_form.html", context)
         except Exception as e:
             print(e)
             return redirect('login')

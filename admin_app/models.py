@@ -14,9 +14,10 @@ class Users(models.Model):
     employee_id = models.IntegerField(primary_key=True, null=False, blank=True, default=None)
     is_active = models.BooleanField(null=True, default=True, blank=True)
     password = models.CharField(max_length=250, null=True, blank=True)
-    email = models.CharField(max_length=250, null=True, blank=True)
+    email = models.CharField(max_length=250, null=True, blank=True, unique=True)
     is_admin = models.BooleanField(null=True, default=False, blank=True)
-    is_employee = models.BooleanField(null=True, default=True, blank=True)
+    is_employee = models.BooleanField(null=True, default=False, blank=True)
+    is_super_admin = models.BooleanField(null=True, default=False, blank=True)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

@@ -50,12 +50,20 @@ class LoginView(View):
                             if user.is_active:
                                 request.session['user_name'] = user.employee_name
                                 messages.success(request, 'Login Successful!')
-                                return redirect("create_employee_user")
+                                return redirect("create_employee_user_admin")
+                            else:
+                                messages.error(request, 'User is not Active!!')
+                                return redirect("login")
+                        elif user.is_super_admin is True:
+                            if user.is_active:
+                                request.session['user_name'] = user.employee_name
+                                messages.success(request, 'Super Admin Login Successful!')
+                                return redirect("create_employee_user_super_admin")
                             else:
                                 messages.error(request, 'User is not Active!!')
                                 return redirect("login")
                         else:
-                            messages.error(request, 'User is not Admin!!')
+                            messages.error(request, 'User Role is not Defined!!')
                             return redirect("login")
                     else:
                         messages.error(request, 'User Password or Email Does Not Matched!!')
