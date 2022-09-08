@@ -1,6 +1,7 @@
 {% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
+{% load form_helpers %}
 
 {% if toast_mes %}
 <script>swal("{{toast_mes.toast_message}}");</script>
@@ -120,16 +121,13 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                {{ user_form.user_role.errors }}
                                 <div class="form-group">
-                                     <label for="role">
+                                     <label for="{{ user_form.user_role.id_for_label }}">
                                          <span>Role</span>
                                          <span class="asterisk-label">*</span>
                                     </label>
-                                    <select name="role" id="role" class="form-select form-control">
-                                        <option value="" selected disabled>Select Role</option>
-                                        <option value="">admin</option>
-                                        <option value="">employee</option>
-                                    </select>
+                                    {{ user_form.user_role|addcss:'form-control' }}
                                 </div>
                             </div>
                         </div>
@@ -174,6 +172,7 @@
                                 <th>Shop Email Id</th>
                                 <th>Date of Service</th>
                                 <th>Status</th>
+                                <th>Admin/Employee Status</th>
                                 <th>Active/Deactivate</th>
                                 <th>Select User</th>
                                 <th>Edit User</th>
@@ -187,11 +186,20 @@
                                 <td>{{ user.mobile_no }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.date_of_service|date:"M. d,Y, f A" }}</td>
-                                <td>
+                                <td class="text-center">
                                     {% if user.is_active == 1 %}
                                     Active
                                     {% else %}
                                     Inactive
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if user.is_admin == 1 %}
+                                    Admin
+                                    {% elif user.is_super_admin == 1 %}
+                                    Super Admin
+                                    {% else %}
+                                    Employee
                                     {% endif %}
                                 </td>
                                 <td>

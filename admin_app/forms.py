@@ -5,6 +5,8 @@ from jsignature.forms import JSignatureField
 
 class UserForm(forms.ModelForm):
     # READONLY_FIELDS = ('employee_name', 'date_of_service', 'medicaid_id', 'pa_name', 'employee_id', 'mobile_no')
+    CHOICES = (('admin', 'Admin'), ('employee', 'Employee'),)
+    user_role = forms.ChoiceField(choices=CHOICES, initial='admin', required=True)
 
     class Meta:
         model = Users

@@ -48,7 +48,7 @@ class LoginView(View):
                     if password == decoded_pass and user_id == user.email:
                         if user.is_admin is True:
                             if user.is_active:
-                                request.session['user_name'] = user.employee_name
+                                request.session['admin'] = user.employee_name
                                 messages.success(request, 'Login Successful!')
                                 return redirect("create_employee_user_admin")
                             else:
@@ -56,7 +56,7 @@ class LoginView(View):
                                 return redirect("login")
                         elif user.is_super_admin is True:
                             if user.is_active:
-                                request.session['user_name'] = user.employee_name
+                                request.session['super_admin'] = user.employee_name
                                 messages.success(request, 'Super Admin Login Successful!')
                                 return redirect("create_employee_user_super_admin")
                             else:
@@ -81,7 +81,7 @@ class LoginView(View):
                 if password == decoded_pass and int(user_id) == user.employee_id:
                     if user.is_employee is True:
                         if user.is_active:
-                            request.session['user_name'] = user.employee_name
+                            request.session['employee'] = user.employee_name
                             messages.success(request, 'Login Successful!')
                             return redirect("index", user_id)
                         else:
@@ -107,99 +107,102 @@ class CreateEmployeeProfile(View):
     @staticmethod
     def get(request, employee_id):
         try:
-
-            user = Users.objects.get(employee_id=employee_id)
-            user_form = EmployeeForm(readonly_form=True, initial={
-                'employee_name': user.employee_name,
-                'date_of_service': user.date_of_service,
-                'medicaid_id': user.medicaid_id,
-                'pa_name': user.pa_name,
-                'employee_id': user.employee_id,
-                'mobile_no': user.mobile_no,
-            })
-
-            if not Transportation.objects.filter(employee_id=employee_id).exists():
-                demographics_form = DemographicsForm()
-                hours_available_form = HoursAvailableForm()
-                education_form = EducationForm()
-                training_form = ProfessionalTrainingForm()
-                skills_form = SkillsChecklistForm()
-                transportation_form = TransportationForm()
-                if demographics_form and hours_available_form and education_form and training_form \
-                        and skills_form and transportation_form:
-                    context = {
-                        'employee_id': employee_id,
-                        'user_form': user_form,
-                        'demographics_form': demographics_form,
-                        'hours_available_form': hours_available_form,
-                        'education_form': education_form,
-                        'training_form': training_form,
-                        'skills_form': skills_form,
-                        'transportation_form': transportation_form,
-                    }
-                    return render(request, "employee/index.html", context)
-                else:
-                    context = {
-                        'employee_id': employee_id,
-                        'user_form': user_form,
-                        'demographics_form': demographics_form,
-                        'hours_available_form': hours_available_form,
-                        'education_form': education_form,
-                        'training_form': training_form,
-                        'skills_form': skills_form,
-                        'transportation_form': transportation_form,
-                    }
-                    return render(request, "employee/index.html", context)
-            elif Transportation.objects.filter(employee_id=employee_id).exists():
+            if request.session.get('employee'):
                 user = Users.objects.get(employee_id=employee_id)
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                hours_available = HoursAvailable.objects.get(employee_id=employee_id)
-                education = Education.objects.get(employee_id=employee_id)
-                training = ProfessionalTraining.objects.get(employee_id=employee_id)
-                skills = SkillsChecklist.objects.get(employee_id=employee_id)
-                transportation = Transportation.objects.get(employee_id=employee_id)
+                user_form = EmployeeForm(readonly_form=True, initial={
+                    'employee_name': user.employee_name,
+                    'date_of_service': user.date_of_service,
+                    'medicaid_id': user.medicaid_id,
+                    'pa_name': user.pa_name,
+                    'employee_id': user.employee_id,
+                    'mobile_no': user.mobile_no,
+                })
 
-                if user and demographics and hours_available and education and training and skills and transportation:
-                    user_form = EmployeeForm(instance=user, readonly_form=True)
-                    demographics_form = DemographicsForm(instance=demographics)
-                    hours_available_form = HoursAvailableForm(instance=hours_available)
-                    education_form = EducationForm(instance=education)
-                    training_form = ProfessionalTrainingForm(instance=training)
-                    skills_form = SkillsChecklistForm(instance=skills)
-                    transportation_form = TransportationForm(instance=transportation)
+                if not Transportation.objects.filter(employee_id=employee_id).exists():
+                    demographics_form = DemographicsForm()
+                    hours_available_form = HoursAvailableForm()
+                    education_form = EducationForm()
+                    training_form = ProfessionalTrainingForm()
+                    skills_form = SkillsChecklistForm()
+                    transportation_form = TransportationForm()
+                    if demographics_form and hours_available_form and education_form and training_form \
+                            and skills_form and transportation_form:
+                        context = {
+                            'employee_id': employee_id,
+                            'user_form': user_form,
+                            'demographics_form': demographics_form,
+                            'hours_available_form': hours_available_form,
+                            'education_form': education_form,
+                            'training_form': training_form,
+                            'skills_form': skills_form,
+                            'transportation_form': transportation_form,
+                        }
+                        return render(request, "employee/index.html", context)
+                    else:
+                        context = {
+                            'employee_id': employee_id,
+                            'user_form': user_form,
+                            'demographics_form': demographics_form,
+                            'hours_available_form': hours_available_form,
+                            'education_form': education_form,
+                            'training_form': training_form,
+                            'skills_form': skills_form,
+                            'transportation_form': transportation_form,
+                        }
+                        return render(request, "employee/index.html", context)
+                elif Transportation.objects.filter(employee_id=employee_id).exists():
+                    user = Users.objects.get(employee_id=employee_id)
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    hours_available = HoursAvailable.objects.get(employee_id=employee_id)
+                    education = Education.objects.get(employee_id=employee_id)
+                    training = ProfessionalTraining.objects.get(employee_id=employee_id)
+                    skills = SkillsChecklist.objects.get(employee_id=employee_id)
+                    transportation = Transportation.objects.get(employee_id=employee_id)
 
-                    context = {
-                        'employee_id': employee_id,
-                        'user_form': user_form,
-                        'demographics_form': demographics_form,
-                        'hours_available_form': hours_available_form,
-                        'education_form': education_form,
-                        'training_form': training_form,
-                        'skills_form': skills_form,
-                        'transportation_form': transportation_form,
-                    }
-                    return render(request, "employee/index.html", context)
+                    if user and demographics and hours_available and education and training and skills and transportation:
+                        user_form = EmployeeForm(instance=user, readonly_form=True)
+                        demographics_form = DemographicsForm(instance=demographics)
+                        hours_available_form = HoursAvailableForm(instance=hours_available)
+                        education_form = EducationForm(instance=education)
+                        training_form = ProfessionalTrainingForm(instance=training)
+                        skills_form = SkillsChecklistForm(instance=skills)
+                        transportation_form = TransportationForm(instance=transportation)
+
+                        context = {
+                            'employee_id': employee_id,
+                            'user_form': user_form,
+                            'demographics_form': demographics_form,
+                            'hours_available_form': hours_available_form,
+                            'education_form': education_form,
+                            'training_form': training_form,
+                            'skills_form': skills_form,
+                            'transportation_form': transportation_form,
+                        }
+                        return render(request, "employee/index.html", context)
+                else:
+                    demographics_form = DemographicsForm()
+                    hours_available_form = HoursAvailableForm()
+                    education_form = EducationForm()
+                    training_form = ProfessionalTrainingForm()
+                    skills_form = SkillsChecklistForm()
+                    transportation_form = TransportationForm()
+                    if demographics_form and hours_available_form and education_form and training_form \
+                            and skills_form and transportation_form:
+                        context = {
+                            'employee_id': employee_id,
+                            'user_form': user_form,
+                            'demographics_form': demographics_form,
+                            'hours_available_form': hours_available_form,
+                            'education_form': education_form,
+                            'training_form': training_form,
+                            'skills_form': skills_form,
+                            'transportation_form': transportation_form,
+                        }
+
+                        return render(request, "employee/index.html", context)
             else:
-                demographics_form = DemographicsForm()
-                hours_available_form = HoursAvailableForm()
-                education_form = EducationForm()
-                training_form = ProfessionalTrainingForm()
-                skills_form = SkillsChecklistForm()
-                transportation_form = TransportationForm()
-                if demographics_form and hours_available_form and education_form and training_form \
-                        and skills_form and transportation_form:
-                    context = {
-                        'employee_id': employee_id,
-                        'user_form': user_form,
-                        'demographics_form': demographics_form,
-                        'hours_available_form': hours_available_form,
-                        'education_form': education_form,
-                        'training_form': training_form,
-                        'skills_form': skills_form,
-                        'transportation_form': transportation_form,
-                    }
-
-                    return render(request, "employee/index.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
@@ -207,103 +210,116 @@ class CreateEmployeeProfile(View):
     @staticmethod
     def post(request, employee_id):
         try:
-            employee_id = employee_id
-            # user_form = EmployeeForm(request.POST or None)
-            demographics_form = DemographicsForm(request.POST or None)
-            hours_available_form = HoursAvailableForm(request.POST or None)
-            education_form = EducationForm(request.POST or None)
-            training_form = ProfessionalTrainingForm(request.POST or None)
-            skills_form = SkillsChecklistForm(request.POST or None)
-            transportation_form = TransportationForm(request.POST or None)
+            if request.session.get('employee'):
+                employee_id = employee_id
+                # user_form = EmployeeForm(request.POST or None)
+                demographics_form = DemographicsForm(request.POST or None)
+                hours_available_form = HoursAvailableForm(request.POST or None)
+                education_form = EducationForm(request.POST or None)
+                training_form = ProfessionalTrainingForm(request.POST or None)
+                skills_form = SkillsChecklistForm(request.POST or None)
+                transportation_form = TransportationForm(request.POST or None)
 
-            if request.method == "POST" and not Transportation.objects.filter(
-                    employee_id=employee_id).exists() and demographics_form.is_valid() \
-                    and hours_available_form.is_valid() and education_form.is_valid() and training_form.is_valid() \
-                    and skills_form.is_valid() and transportation_form.is_valid():
+                if request.method == "POST" and not Transportation.objects.filter(
+                        employee_id=employee_id).exists() and demographics_form.is_valid() \
+                        and hours_available_form.is_valid() and education_form.is_valid() and training_form.is_valid() \
+                        and skills_form.is_valid() and transportation_form.is_valid():
 
-                # demographics_form
-                demographics = demographics_form.save(commit=False)
-                demographics.employee_id = employee_id
-                demographics_form.save()
-
-                # hours_available_form
-                hours_available_form = hours_available_form.save(commit=False)
-                hours_available_form.employee_id = employee_id
-                hours_available_form.save()
-
-                # education_form
-                education_form = education_form.save(commit=False)
-                education_form.employee_id = employee_id
-                education_form.save()
-
-                # training_form
-                training_form = training_form.save(commit=False)
-                training_form.employee_id = employee_id
-                training_form.save()
-
-                # training_form
-                skills_form = skills_form.save(commit=False)
-                skills_form.employee_id = employee_id
-                skills_form.save()
-
-                # transportation_form
-                transportation_form = transportation_form.save(commit=False)
-                transportation_form.employee_id = employee_id
-                transportation_form.save()
-
-                messages.success(request, 'Data Submission Successful!!')
-                return redirect('section_w4', employee_id)
-            elif request.method == 'POST':
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                demographics_form = DemographicsForm(data=request.POST, instance=demographics)
-                if demographics_form.is_valid():
+                    # demographics_form
                     demographics = demographics_form.save(commit=False)
                     demographics.employee_id = employee_id
-                    demographics.updated_at = datetime.now()
                     demographics_form.save()
 
-                    hours_available = HoursAvailable.objects.get(employee_id=employee_id)
-                    hours_available_form = HoursAvailableForm(data=request.POST, instance=hours_available)
-                    if hours_available_form.is_valid():
-                        hours_available = demographics_form.save(commit=False)
-                        hours_available.employee_id = employee_id
-                        hours_available.updated_at = datetime.now()
-                        hours_available.save()
+                    # hours_available_form
+                    hours_available_form = hours_available_form.save(commit=False)
+                    hours_available_form.employee_id = employee_id
+                    hours_available_form.save()
 
-                        education = Education.objects.get(employee_id=employee_id)
-                        education_form = EducationForm(data=request.POST, instance=education)
-                        if education_form.is_valid():
-                            education = education_form.save(commit=False)
-                            education.employee_id = employee_id
-                            education.updated_at = datetime.now()
-                            education.save()
+                    # education_form
+                    education_form = education_form.save(commit=False)
+                    education_form.employee_id = employee_id
+                    education_form.save()
 
-                            training = ProfessionalTraining.objects.get(employee_id=employee_id)
-                            training_form = ProfessionalTrainingForm(data=request.POST, instance=training)
-                            if training_form.is_valid():
-                                training = training_form.save(commit=False)
-                                training.employee_id = employee_id
-                                training.updated_at = datetime.now()
-                                training.save()
+                    # training_form
+                    training_form = training_form.save(commit=False)
+                    training_form.employee_id = employee_id
+                    training_form.save()
 
-                                skills = SkillsChecklist.objects.get(employee_id=employee_id)
-                                skills_form = SkillsChecklistForm(data=request.POST, instance=skills)
-                                if skills_form.is_valid():
-                                    skills = skills_form.save(commit=False)
-                                    skills.employee_id = employee_id
-                                    skills.updated_at = datetime.now()
-                                    skills.save()
+                    # training_form
+                    skills_form = skills_form.save(commit=False)
+                    skills_form.employee_id = employee_id
+                    skills_form.save()
 
-                                    transportation = Transportation.objects.get(employee_id=employee_id)
-                                    transportation_form = TransportationForm(data=request.POST,
-                                                                             instance=transportation)
-                                    if transportation_form.is_valid():
-                                        transportation = transportation_form.save(commit=False)
-                                        transportation.employee_id = employee_id
-                                        transportation.updated_at = datetime.now()
-                                        transportation.save()
-                                        messages.success(request, 'Step 2!!')
-                                        return redirect('section_w4', employee_id)
+                    # transportation_form
+                    transportation_form = transportation_form.save(commit=False)
+                    transportation_form.employee_id = employee_id
+                    transportation_form.save()
+
+                    messages.success(request, 'Data Submission Successful!!')
+                    return redirect('section_w4', employee_id)
+                elif request.method == 'POST':
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    demographics_form = DemographicsForm(data=request.POST, instance=demographics)
+                    if demographics_form.is_valid():
+                        demographics = demographics_form.save(commit=False)
+                        demographics.employee_id = employee_id
+                        demographics.updated_at = datetime.now()
+                        demographics_form.save()
+
+                        hours_available = HoursAvailable.objects.get(employee_id=employee_id)
+                        hours_available_form = HoursAvailableForm(data=request.POST, instance=hours_available)
+                        if hours_available_form.is_valid():
+                            hours_available = demographics_form.save(commit=False)
+                            hours_available.employee_id = employee_id
+                            hours_available.updated_at = datetime.now()
+                            hours_available.save()
+
+                            education = Education.objects.get(employee_id=employee_id)
+                            education_form = EducationForm(data=request.POST, instance=education)
+                            if education_form.is_valid():
+                                education = education_form.save(commit=False)
+                                education.employee_id = employee_id
+                                education.updated_at = datetime.now()
+                                education.save()
+
+                                training = ProfessionalTraining.objects.get(employee_id=employee_id)
+                                training_form = ProfessionalTrainingForm(data=request.POST, instance=training)
+                                if training_form.is_valid():
+                                    training = training_form.save(commit=False)
+                                    training.employee_id = employee_id
+                                    training.updated_at = datetime.now()
+                                    training.save()
+
+                                    skills = SkillsChecklist.objects.get(employee_id=employee_id)
+                                    skills_form = SkillsChecklistForm(data=request.POST, instance=skills)
+                                    if skills_form.is_valid():
+                                        skills = skills_form.save(commit=False)
+                                        skills.employee_id = employee_id
+                                        skills.updated_at = datetime.now()
+                                        skills.save()
+
+                                        transportation = Transportation.objects.get(employee_id=employee_id)
+                                        transportation_form = TransportationForm(data=request.POST,
+                                                                                 instance=transportation)
+                                        if transportation_form.is_valid():
+                                            transportation = transportation_form.save(commit=False)
+                                            transportation.employee_id = employee_id
+                                            transportation.updated_at = datetime.now()
+                                            transportation.save()
+                                            messages.success(request, 'Step 2!!')
+                                            return redirect('section_w4', employee_id)
+                    else:
+                        context = {
+                            'employee_id': employee_id,
+                            # 'user_form': user_form,
+                            'demographics_form': demographics_form,
+                            'hours_available_form': hours_available_form,
+                            'education_form': education_form,
+                            'training_form': training_form,
+                            'skills_form': skills_form,
+                            'transportation_form': transportation_form,
+                        }
+                        return render(request, "employee/index.html", context)
                 else:
                     context = {
                         'employee_id': employee_id,
@@ -315,20 +331,11 @@ class CreateEmployeeProfile(View):
                         'skills_form': skills_form,
                         'transportation_form': transportation_form,
                     }
+                    messages.success(request, 'Data Submission Successful!!')
                     return render(request, "employee/index.html", context)
             else:
-                context = {
-                    'employee_id': employee_id,
-                    # 'user_form': user_form,
-                    'demographics_form': demographics_form,
-                    'hours_available_form': hours_available_form,
-                    'education_form': education_form,
-                    'training_form': training_form,
-                    'skills_form': skills_form,
-                    'transportation_form': transportation_form,
-                }
-                messages.success(request, 'Data Submission Successful!!')
-                return render(request, "employee/index.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
