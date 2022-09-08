@@ -73,7 +73,7 @@
 
     function login_Form() {
         if (document.login_form.email.value === "") {
-            showWarningToasty("Shop Email Id is Empty!");
+            showWarningToasty("Email or Id is Empty!");
             document.login_form.email.focus();
             return false;
         } else if (document.login_form.password.value === "") {

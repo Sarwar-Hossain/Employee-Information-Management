@@ -6,15 +6,15 @@ from django.db import models
 class Users(models.Model):
     objects = None
 
-    employee_name = models.CharField(max_length=250, null=True, blank=True)
-    date_of_service = models.DateTimeField(null=True, blank=True)
-    medicaid_id = models.IntegerField(null=True, blank=True, default=None)
-    mobile_no = models.CharField(max_length=250, null=True, blank=True, default=None)
-    pa_name = models.CharField(max_length=250, null=True, blank=True, default=None)
-    employee_id = models.IntegerField(primary_key=True, null=False, blank=True, default=None)
+    employee_name = models.CharField(max_length=250, null=False, blank=False, default=None)
+    date_of_service = models.DateTimeField(null=False, blank=False, default=None)
+    medicaid_id = models.IntegerField(null=False, blank=False, default=None)
+    mobile_no = models.CharField(max_length=250, null=False, blank=False, default=None)
+    pa_name = models.CharField(max_length=250, null=False, blank=False, default=None)
+    employee_id = models.IntegerField(primary_key=True, null=False, blank=False, default=None)
     is_active = models.BooleanField(null=True, default=True, blank=True)
-    password = models.CharField(max_length=250, null=True, blank=True)
-    email = models.CharField(max_length=250, null=True, blank=True, unique=True)
+    password = models.CharField(max_length=250, null=False, blank=False, default=None)
+    email = models.CharField(max_length=250, null=False, blank=False, unique=True, default=None)
     is_admin = models.BooleanField(null=True, default=False, blank=True)
     is_employee = models.BooleanField(null=True, default=False, blank=True)
     is_super_admin = models.BooleanField(null=True, default=False, blank=True)
