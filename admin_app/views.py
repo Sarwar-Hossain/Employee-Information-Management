@@ -293,30 +293,14 @@ class DeleteUser(View):
                 'toast_message': 'User Deleted Successfully!!',
             }
             return JsonResponse(context)
-        finally:
+        except Exception as e:
+            print(e)
             context = {
                 'toast_type': 'error',
-                'toast_message': 'User Could not be Deleted!!',
+                'toast_message': 'User could not be Deleted!!',
             }
             return JsonResponse(context)
 
-    @staticmethod
-    def post(request):
-        try:
-            # user_id = request.GET.get('user_id')
-            # user_deleted = Users.objects.filter(id=user_id).delete()
-
-            context = {
-                'toast_type': 'info',
-                'toast_message': 'User Deleted Successfully!!',
-            }
-            return JsonResponse(context)
-        finally:
-            context = {
-                'toast_type': 'error',
-                'toast_message': 'User Could not be Deleted!!',
-            }
-            return JsonResponse(context)
 
 
 """ Logout View """
