@@ -8,6 +8,7 @@ from employee_app.forms import EmployeeForm
 import datetime
 from datetime import datetime
 from admin_app.aes_cipher import AESCipher
+from employment.settings import MEDIA_URL, MEDIA_ROOT
 
 """ Admin Login View """
 
@@ -84,12 +85,15 @@ class CreateUserSuperAdmin(View):
                     user = Users.objects.get(employee_id=employee_id)
                     decoded_pass = eval(user.password)
                     password = AESCipher().decrypt(decoded_pass)
+
                     if user.is_admin is True:
                         user_form = UserForm(instance=user, initial={'password': password, 'user_role': 'admin'})
                         context = {
                             'shop_users': shop_users,
                             'user_form': user_form,
                             'single_user': user,
+                            'nid_img': user.nid_img,
+                            'employee_img': user.employee_img,
                         }
                         messages.success(request, 'User Selected!!')
                         return render(request, "admin/super_admin_user-form.html", context)
@@ -99,6 +103,8 @@ class CreateUserSuperAdmin(View):
                             'shop_users': shop_users,
                             'user_form': user_form,
                             'single_user': user,
+                            'nid_img': user.nid_img,
+                            'employee_img': user.employee_img,
                         }
                         messages.success(request, 'User Selected!!')
                         return render(request, "admin/super_admin_user-form.html", context)
@@ -118,10 +124,10 @@ class CreateUserSuperAdmin(View):
                     return redirect('create_employee_user_super_admin')
 
                 elif request.method == "POST" and request.POST.get('button_update'):
-                    user_name = request.session.get('user_name')
+                    user_name = request.session.get('super_admin')
                     update_user_id = request.POST.get('button_update')
                     user = Users.objects.get(employee_id=update_user_id)
-                    user_form = UserForm(data=request.POST, instance=user)
+                    user_form = UserForm(request.POST, request.FILES, instance=user)
                     if user_form.is_valid():
                         user_role = user_form.cleaned_data.get('user_role')
                         if user_role == 'employee':
@@ -148,8 +154,8 @@ class CreateUserSuperAdmin(View):
                         return redirect('create_employee_user_super_admin')
 
                 else:
-                    user_form = UserForm(request.POST or None)
-                    user_name = request.session.get('user_name')
+                    user_form = UserForm(request.POST or None, request.FILES)
+                    user_name = request.session.get('super_admin')
                     if request.method == "POST" and user_form.is_valid():
                         user_role = user_form.cleaned_data.get('user_role')
                         if user_role == 'admin':
@@ -300,7 +306,6 @@ class DeleteUser(View):
                 'toast_message': 'User could not be Deleted!!',
             }
             return JsonResponse(context)
-
 
 
 """ Logout View """

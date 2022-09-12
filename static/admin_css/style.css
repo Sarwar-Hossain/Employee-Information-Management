@@ -433,6 +433,14 @@ p.sincere {
     }
 }
 
+.img_center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+    width: 150px;
+}
+
 /* CSS for input fields while doing form validation and submitting form */
 
 .has-danger .col-form-label, .has-danger .custom-control, .has-danger .form-check-label, .has-danger .form-control-feedback, .has-danger .form-control-label {

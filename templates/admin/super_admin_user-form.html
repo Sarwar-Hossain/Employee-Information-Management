@@ -50,6 +50,7 @@
                                     {{ user_form.employee_name }}
                                 </div>
                             </div>
+
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group" id="mobile_no">
                                     {{ user_form.mobile_no.errors }}
@@ -128,6 +129,32 @@
                                          <span class="asterisk-label">*</span>
                                     </label>
                                     {{ user_form.user_role|addcss:'form-control' }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="nid_img">
+                                    {{ user_form.nid_img.errors }}
+                                    <label for="{{ user_form.nid_img.id_for_label }}">
+                                        <span>Employee NID</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.nid_img|addcss:'form-control' }}
+                                    {% if nid_img %}
+                                    <img src="{{nid_img.url}}" alt="{% static 'icon-images/dummy_img.jpg' %}" class="img_center">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="employee_img">
+                                    {{ user_form.employee_img.errors }}
+                                    <label for="{{ user_form.employee_img.id_for_label }}">
+                                        <span>Employee Image</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.employee_img|addcss:'form-control' }}
+                                    {% if employee_img %}
+                                    <img src="{{employee_img.url}}" alt="Image Not Found" class="img_center">
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

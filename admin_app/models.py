@@ -18,6 +18,9 @@ class Users(models.Model):
     is_admin = models.BooleanField(null=True, default=False, blank=True)
     is_employee = models.BooleanField(null=True, default=False, blank=True)
     is_super_admin = models.BooleanField(null=True, default=False, blank=True)
+    nid_img = models.ImageField(upload_to="nid_images/", null=False, blank=False, default='nid_img/default.jpg')
+    employee_img = models.ImageField(upload_to="employee_images/", null=False, blank=False,
+                                     default='employee_img/default.jpg')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

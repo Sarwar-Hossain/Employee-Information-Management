@@ -8,6 +8,9 @@ class UserForm(forms.ModelForm):
     CHOICES = (('admin', 'Admin'), ('employee', 'Employee'),)
     user_role = forms.ChoiceField(choices=CHOICES, initial='admin', required=True)
 
+    nid_img = forms.ImageField(required=True)
+    employee_img = forms.ImageField(required=True)
+
     class Meta:
         model = Users
         exclude = ('created_by', 'created_at', 'updated_at', 'updated_by', 'is_active', 'is_admin', 'is_employee')

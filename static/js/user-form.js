@@ -22,6 +22,8 @@ function myFunc() {
     const email = $("#id_email").val();
     const password = $("#id_password").val();
     const user_role = $("#id_user_role").val();
+    const nid_img = $("#id_nid_img").val();
+    const employee_img = $("#id_employee_img").val();
 
     if (!employee_name) {
         $("#employee_name").addClass("has-danger");
@@ -61,6 +63,16 @@ function myFunc() {
         $("#email").removeClass("has-danger")
         $("#password").addClass("has-danger");
         showWarningToasty('Password field is blank!')
+        return false;
+    }  else if (!nid_img) {
+        $("#password").removeClass("has-danger")
+        $("#nid_img").addClass("has-danger");
+        showWarningToasty('NID Image is not Selected!')
+        return false;
+    }  else if (!employee_img) {
+        $("#nid_img").removeClass("has-danger")
+        $("#employee_img").addClass("has-danger");
+        showWarningToasty('Employee Image is not Selected!')
         return false;
     } else if (!user_role) {
         showWarningToasty('User Role is not selected!')
