@@ -24,7 +24,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link">page - 01 </a>
+                        <a class="nav-link">page - 03 </a>
                     </li>
                 </ul>
             </div>
@@ -314,13 +314,19 @@
                     </div>
                     <div class="final-signature">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-                                {{ employee_withholding_allowance_certificate_form.employer_name_address.errors }}
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                {{ employee_withholding_allowance_certificate_form.employer_name.errors }}
                                 <div class="form-group ">
-                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_name_address.id_for_label }}">Employer’s name and address (Employer: complete this section only if
-                                        you are sending
-                                        a copy of this form to the NYS Tax Department.) </label>
-                                    {{ employee_withholding_allowance_certificate_form.employer_name_address }}
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_name.id_for_label }}">Employer’s name (Complete this section only if
+                                        sending a copy to the NYS Tax Department.) </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_name }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                {{ employee_withholding_allowance_certificate_form.employer_address.errors }}
+                                <div class="form-group ">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_address.id_for_label }}">Employer’s Address </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_address }}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

@@ -692,6 +692,11 @@ p.certify {
     border: 1px solid #000000;
 }
 
+.footer {
+    background: #34353a;
+    color: #c79439;
+}
+
 /*Toast Messages*/
 
 #content {

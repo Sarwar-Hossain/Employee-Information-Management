@@ -52,14 +52,14 @@ class Demographics(models.Model):
     employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="demographics", null=True,
                                  blank=True, default=None)
 
-    first_name = models.CharField(max_length=250, null=True, blank=True)
-    last_name = models.CharField(max_length=250, null=True, blank=True)
-    social_security_number = models.IntegerField(null=True, blank=True)
-    street_address = models.CharField(max_length=250, null=True, blank=True)
-    city_town = models.CharField(max_length=250, null=True, blank=True)
-    state_zip_code = models.IntegerField(null=True, blank=True)
-    home_phone = models.CharField(max_length=250, null=True, blank=True)
-    cell_phone = models.CharField(max_length=250, null=True, default=None)
+    first_name = models.CharField(max_length=250, null=False, default='')
+    last_name = models.CharField(max_length=250,null=False, default='')
+    social_security_number = models.IntegerField(null=False, default='')
+    street_address = models.CharField(max_length=250, null=False, default='')
+    city_town = models.CharField(max_length=250, null=False, default='')
+    state_zip_code = models.IntegerField(null=False, default=None)
+    home_phone = models.CharField(max_length=250, null=False, default='')
+    cell_phone = models.CharField(max_length=250, null=False, default='')
 
     created_by = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -115,8 +115,8 @@ class ProfessionalTraining(models.Model):
 
     name_of_school_city_state = models.CharField(max_length=350, null=True, blank=True)
     entrance_date = models.DateTimeField(null=True, blank=True, default=None)
-    is_graduate = models.BooleanField(null=False, blank=True)
-    certificate_degree = models.CharField(max_length=500, null=True, blank=True)
+    is_graduate = models.BooleanField(null=True, blank=True, default=False)
+    certificate_degree = models.CharField(max_length=500, null=True, blank=True, default='')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -205,9 +205,10 @@ class EmployeeWithholdingCertificate(models.Model):
     extra_withholding = models.IntegerField(null=True, blank=True, default=None)
     employee_signature_img = JSignatureField(max_length=1000, default=None)
     date = models.DateTimeField(null=True, blank=True, default=None)
-    employer_name_address = models.CharField(max_length=500, null=True, blank=True, default=None)
+    employer_name = models.CharField(max_length=500, null=True, blank=True, default=None)
     first_date_of_employment = models.DateTimeField(null=True, blank=True, default=None)
-    employer_identification_no = models.IntegerField(null=True, blank=True, default=None)
+    employer_identification_no = models.IntegerField(null=False, default=821481444)
+    employer_address = models.CharField(max_length=500, null=False, default='469 Donald Blvd, Holbrook, NY 11741')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -246,8 +247,9 @@ class EmployeeWithholdingAllowanceCertificate(models.Model):
     employee_performed_date = models.DateTimeField(null=True, blank=True, default=None)
     is_health_insurance = models.BooleanField(null=True, blank=True, default=False)
     employee_qualifies_date = models.DateTimeField(null=True, blank=True, default=None)
-    employer_name_address = models.CharField(max_length=600, null=True, blank=True)
-    employer_identification_no = models.IntegerField(null=False)
+    employer_name = models.CharField(max_length=600, null=True, blank=True)
+    employer_identification_no = models.IntegerField(null=False, default=821481444)
+    employer_address = models.CharField(max_length=600, null=False, default='469 Donald Blvd, Holbrook, NY 11741')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

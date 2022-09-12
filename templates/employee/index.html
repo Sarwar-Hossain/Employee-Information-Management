@@ -349,19 +349,11 @@
                                             {{training_form.entrance_date}}
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-
-                                            <label for="" class="form-label">graduate (Y/N)</label>
+                                            <label for="{{ training_form.is_graduate.id_for_label }}" class="form-label">graduate (Y/N)</label>
                                             <br>
                                             {{ training_form.is_graduate.errors }}
                                             <div class="form-check form-check-inline">
-                                                {{training_form.is_graduate|addcss:'form-check-input'}}
-                                                <label class="form-check-label"
-                                                       for="{{ training_form.is_graduate.id_for_label }}">yes</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="graduate"
-                                                       value="option2">
-                                                <label class="form-check-label" for="graduate">no</label>
+                                                {{training_form.is_graduate}}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

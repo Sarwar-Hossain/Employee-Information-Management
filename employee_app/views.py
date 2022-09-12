@@ -345,37 +345,43 @@ class CreateEmployeeProfileW4(View):
     @staticmethod
     def get(request, employee_id):
         try:
-            if EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
-                withholding_certificate_form = EmployeeWithholdingCertificateForm(
-                    instance=employee_withholding_certificate,
-                    initial={
+            if request.session.get('employee'):
+                if EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
+                        employee_id=employee_id)
+                    withholding_certificate_form = EmployeeWithholdingCertificateForm(
+                        instance=employee_withholding_certificate,
+                        initial={
+                            'last_name': demographics.last_name,
+                            'social_security_number': demographics.social_security_number
+                        })
+
+                    context = {
+                        'employee_id': employee_id,
+                        'withholding_certificate_form': withholding_certificate_form,
+                    }
+
+                    return render(request, "employee/section_w4.html", context)
+                else:
+
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    withholding_certificate_form = EmployeeWithholdingCertificateForm(initial={
                         'last_name': demographics.last_name,
                         'social_security_number': demographics.social_security_number
                     })
 
-                context = {
-                    'employee_id': employee_id,
-                    'withholding_certificate_form': withholding_certificate_form,
-                }
+                    # withholding_certificate_form = EmployeeWithholdingCertificateForm()
+                    context = {
+                        'employee_id': employee_id,
+                        'withholding_certificate_form': withholding_certificate_form,
+                    }
+                    messages.success(request, 'Step 2!!')
+                    return render(request, "employee/section_w4.html", context)
 
-                return render(request, "employee/section_w4.html", context)
             else:
-
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                withholding_certificate_form = EmployeeWithholdingCertificateForm(initial={
-                    'last_name': demographics.last_name,
-                    'social_security_number': demographics.social_security_number
-                })
-
-                # withholding_certificate_form = EmployeeWithholdingCertificateForm()
-                context = {
-                    'employee_id': employee_id,
-                    'withholding_certificate_form': withholding_certificate_form,
-                }
-                messages.success(request, 'Step 2!!')
-                return render(request, "employee/section_w4.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
@@ -383,44 +389,47 @@ class CreateEmployeeProfileW4(View):
     @staticmethod
     def post(request, employee_id):
         try:
+            if request.session.get('employee'):
+                withholding_certificate_form = EmployeeWithholdingCertificateForm(request.POST or None)
+                if not EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
+                    if request.method == "POST" and withholding_certificate_form.is_valid():
+                        employee_id = employee_id
 
-            withholding_certificate_form = EmployeeWithholdingCertificateForm(request.POST or None)
-            if not EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
-                if request.method == "POST" and withholding_certificate_form.is_valid():
-                    employee_id = employee_id
+                        # demographics_form
+                        withholding_certificate = withholding_certificate_form.save(commit=False)
+                        withholding_certificate.employee_id = employee_id
+                        withholding_certificate_form.save()
+                        messages.success(request, 'Data Submission Successful!!')
+                        return redirect('allowance_certificate', employee_id)
+                    else:
+                        context = {
+                            'employee_id': employee_id,
+                            'withholding_certificate_form': withholding_certificate_form,
+                        }
+                        messages.success(request, 'Form Validation Failed!!')
+                        return render(request, "employee/section_w4.html", context)
 
-                    # demographics_form
-                    withholding_certificate = withholding_certificate_form.save(commit=False)
-                    withholding_certificate.employee_id = employee_id
-                    withholding_certificate_form.save()
-                    messages.success(request, 'Data Submission Successful!!')
-                    return redirect('allowance_certificate', employee_id)
+                elif request.method == 'POST':
+                    withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
+                    withholding_certificate_form = EmployeeWithholdingCertificateForm(data=request.POST,
+                                                                                      instance=withholding_certificate)
+                    if withholding_certificate_form.is_valid():
+                        withholding_certificate = withholding_certificate_form.save(commit=False)
+                        withholding_certificate.employee_id = employee_id
+                        withholding_certificate.updated_at = datetime.now()
+                        withholding_certificate.save()
+                        messages.success(request, 'Data Submission Successful!!')
+                        return redirect('allowance_certificate', employee_id)
                 else:
                     context = {
                         'employee_id': employee_id,
                         'withholding_certificate_form': withholding_certificate_form,
                     }
-                    messages.success(request, 'Form Validation Failed!!')
+                    messages.success(request, 'Step 3!!')
                     return render(request, "employee/section_w4.html", context)
-
-            elif request.method == 'POST':
-                withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
-                withholding_certificate_form = EmployeeWithholdingCertificateForm(data=request.POST,
-                                                                                  instance=withholding_certificate)
-                if withholding_certificate_form.is_valid():
-                    withholding_certificate = withholding_certificate_form.save(commit=False)
-                    withholding_certificate.employee_id = employee_id
-                    withholding_certificate.updated_at = datetime.now()
-                    withholding_certificate.save()
-                    messages.success(request, 'Data Submission Successful!!')
-                    return redirect('allowance_certificate', employee_id)
             else:
-                context = {
-                    'employee_id': employee_id,
-                    'withholding_certificate_form': withholding_certificate_form,
-                }
-                messages.success(request, 'Step 3!!')
-                return render(request, "employee/section_w4.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
@@ -461,47 +470,51 @@ class CreateEmployeeAllowanceCertificate(View):
     @staticmethod
     def get(request, employee_id):
         try:
-            if EmployeeWithholdingAllowanceCertificate.objects.filter(employee_id=employee_id).exists():
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
-                    employee_id=employee_id)
+            if request.session.get('employee'):
+                if EmployeeWithholdingAllowanceCertificate.objects.filter(employee_id=employee_id).exists():
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
+                        employee_id=employee_id)
 
-                employee_withholding_allowance_certificate = EmployeeWithholdingAllowanceCertificate.objects.get(
-                    employee_id=employee_id)
-                employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
-                    instance=employee_withholding_allowance_certificate,
-                    initial={
+                    employee_withholding_allowance_certificate = EmployeeWithholdingAllowanceCertificate.objects.get(
+                        employee_id=employee_id)
+                    employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
+                        instance=employee_withholding_allowance_certificate,
+                        initial={
+                            'last_name': demographics.last_name,
+                            'social_security_number': demographics.social_security_number,
+                            'zip_code': demographics.state_zip_code,
+                            'employer_identification_no': employee_withholding_certificate.employer_identification_no,
+                        })
+
+                    context = {
+                        'employee_id': employee_id,
+                        'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
+                    }
+
+                    return render(request, "employee/allowance_certificate.html", context)
+                else:
+
+                    demographics = Demographics.objects.get(employee_id=employee_id)
+                    employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
+                        employee_id=employee_id)
+                    employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(initial={
                         'last_name': demographics.last_name,
                         'social_security_number': demographics.social_security_number,
                         'zip_code': demographics.state_zip_code,
                         'employer_identification_no': employee_withholding_certificate.employer_identification_no,
                     })
 
-                context = {
-                    'employee_id': employee_id,
-                    'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
-                }
+                    # withholding_certificate_form = EmployeeWithholdingCertificateForm()
+                    context = {
+                        'employee_id': employee_id,
+                        'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
+                    }
 
-                return render(request, "employee/allowance_certificate.html", context)
+                    return render(request, "employee/allowance_certificate.html", context)
             else:
-
-                demographics = Demographics.objects.get(employee_id=employee_id)
-                employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
-                    employee_id=employee_id)
-                employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(initial={
-                    'last_name': demographics.last_name,
-                    'social_security_number': demographics.social_security_number,
-                    'zip_code': demographics.state_zip_code,
-                    'employer_identification_no': employee_withholding_certificate.employer_identification_no,
-                })
-
-                # withholding_certificate_form = EmployeeWithholdingCertificateForm()
-                context = {
-                    'employee_id': employee_id,
-                    'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
-                }
-
-                return render(request, "employee/allowance_certificate.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')
@@ -509,54 +522,57 @@ class CreateEmployeeAllowanceCertificate(View):
     @staticmethod
     def post(request, employee_id):
         try:
-
-            employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
-                request.POST or None)
-            if not EmployeeWithholdingAllowanceCertificate.objects.filter(employee_id=employee_id).exists():
-                if request.method == "POST" and employee_withholding_allowance_certificate_form.is_valid():
-                    employee_id = employee_id
-
-                    # demographics_form
-                    withholding_allowance_certificate = employee_withholding_allowance_certificate_form.save(
-                        commit=False)
-                    withholding_allowance_certificate.employee_id = employee_id
-                    employee_withholding_allowance_certificate_form.save()
-
-                    return redirect('allowance_certificate', employee_id)
-                else:
-                    context = {
-                        'employee_id': employee_id,
-                        'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
-                    }
-                    messages.success(request, 'Data Submission Successful!!')
-                    return render(request, "employee/allowance_certificate.html", context)
-
-            elif request.method == 'POST':
-                withholding_allowance_certificate = EmployeeWithholdingAllowanceCertificate.objects.get(
-                    employee_id=employee_id)
+            if request.session.get('employee'):
                 employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
-                    data=request.POST,
-                    instance=withholding_allowance_certificate)
-                if employee_withholding_allowance_certificate_form.is_valid():
-                    allowance_certificate = employee_withholding_allowance_certificate_form.save(commit=False)
-                    allowance_certificate.employee_id = employee_id
-                    allowance_certificate.updated_at = datetime.now()
-                    allowance_certificate.save()
-                    messages.success(request, 'Data Submission Successful!!')
-                    return redirect('allowance_certificate', employee_id)
+                    request.POST or None)
+                if not EmployeeWithholdingAllowanceCertificate.objects.filter(employee_id=employee_id).exists():
+                    if request.method == "POST" and employee_withholding_allowance_certificate_form.is_valid():
+                        employee_id = employee_id
+
+                        # demographics_form
+                        withholding_allowance_certificate = employee_withholding_allowance_certificate_form.save(
+                            commit=False)
+                        withholding_allowance_certificate.employee_id = employee_id
+                        employee_withholding_allowance_certificate_form.save()
+
+                        return redirect('allowance_certificate', employee_id)
+                    else:
+                        context = {
+                            'employee_id': employee_id,
+                            'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
+                        }
+                        messages.success(request, 'Data Submission Successful!!')
+                        return render(request, "employee/allowance_certificate.html", context)
+
+                elif request.method == 'POST':
+                    withholding_allowance_certificate = EmployeeWithholdingAllowanceCertificate.objects.get(
+                        employee_id=employee_id)
+                    employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
+                        data=request.POST,
+                        instance=withholding_allowance_certificate)
+                    if employee_withholding_allowance_certificate_form.is_valid():
+                        allowance_certificate = employee_withholding_allowance_certificate_form.save(commit=False)
+                        allowance_certificate.employee_id = employee_id
+                        allowance_certificate.updated_at = datetime.now()
+                        allowance_certificate.save()
+                        messages.success(request, 'Data Submission Successful!!')
+                        return redirect('allowance_certificate', employee_id)
+                    else:
+                        context = {
+                            'employee_id': employee_id,
+                            'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
+                        }
+                        messages.success(request, 'Data Submission Failed!!')
+                        return render(request, "employee/allowance_certificate.html", context)
                 else:
                     context = {
                         'employee_id': employee_id,
                         'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
                     }
-                    messages.success(request, 'Data Submission Failed!!')
                     return render(request, "employee/allowance_certificate.html", context)
             else:
-                context = {
-                    'employee_id': employee_id,
-                    'employee_withholding_allowance_certificate_form': employee_withholding_allowance_certificate_form,
-                }
-                return render(request, "employee/allowance_certificate.html", context)
+                messages.error(request, 'Session Expired!!')
+                return redirect('login')
         except Exception as e:
             print(e)
             return redirect('login')

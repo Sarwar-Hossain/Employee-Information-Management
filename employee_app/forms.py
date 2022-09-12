@@ -118,8 +118,10 @@ class EducationForm(forms.ModelForm):
 
 
 class ProfessionalTrainingForm(forms.ModelForm):
-    is_graduate: forms.BooleanField(required=False, initial=False)
-
+    # is_graduate: forms.BooleanField(initial=False)
+    CHOICES = [('True', 'Yes'),
+               ('False', 'No')]
+    is_graduate = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
     class Meta:
         model = ProfessionalTraining
         exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
@@ -130,8 +132,7 @@ class ProfessionalTrainingForm(forms.ModelForm):
             'entrance_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
 
             'certificate_degree': forms.TextInput(attrs={'class': 'form-control',
-                                                         'placeholder': 'Enter certificate / degree',
-                                                         'required': 'required'}),
+                                                         'placeholder': 'Enter certificate / degree'}),
         }
 
 
@@ -214,8 +215,10 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
                                               'placeholder': 'Enter your Address'}),
             'city_town_state_zip': forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': 'Enter your City or Town, State, Zip Code'}),
-            'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Employer Name and Address'}),
+            'employer_name': forms.TextInput(attrs={'class': 'form-control',
+                                                    'placeholder': 'Employer Name'}),
+            'employer_address': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
+                                                       'placeholder': 'Employer Address'}),
 
             'social_security_number': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': 'Enter your social security number', 'readonly': True}),
@@ -226,7 +229,8 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
             'deductions': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
             'extra_withholding': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '$'}),
             'employer_identification_no': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Employment identification number (EIN)'}),
+                attrs={'class': 'form-control', 'readonly': True,
+                       'placeholder': 'Employment identification number (EIN)'}),
 
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'first_date_of_employment': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -261,11 +265,9 @@ class EmployeeWithholdingAllowanceCertificateForm(forms.ModelForm):
                                                                'placeholder': 'City, Village or Post Office'}),
             'state': forms.TextInput(attrs={'class': 'form-control',
                                             'placeholder': 'State'}),
-            'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder':
-                                                                'Employer\'s name and address (Employeer, complete '
-                                                                'this section only if you are '
-                                                                'sending a copy of this form to the NYS Tax Department)'}),
+            'employer_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Name'}),
+            'employer_address': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Enter Address', 'readonly': True}),
             'social_security_number': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': 'Your Social Security Number', 'readonly': True}),
             'apartment_no': forms.NumberInput(
