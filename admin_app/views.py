@@ -162,6 +162,7 @@ class CreateUserSuperAdmin(View):
                             password = user_form.cleaned_data.get('password')
                             user_form = user_form.save(commit=False)
                             user_form.is_admin = True
+                            user_form.is_employee = True
                             user_form.created_by = user_name
                             user_form.password = AESCipher().encrypt(password)
                             user_form.save()

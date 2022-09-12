@@ -46,7 +46,7 @@ class LoginView(View):
                     db_pass = eval(user.password)
                     decoded_pass = AESCipher().decrypt(db_pass)
                     if password == decoded_pass and user_id == user.email:
-                        if user.is_admin is True:
+                        if user.is_admin is True and user.is_employee:
                             if user.is_active:
                                 request.session['admin'] = user.employee_name
                                 messages.success(request, 'Login Successful!')
