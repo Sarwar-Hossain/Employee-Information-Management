@@ -202,10 +202,17 @@ class TransportationForm(forms.ModelForm):
 
 
 class EmployeeWithholdingCertificateForm(forms.ModelForm):
-    is_single_or_married = forms.BooleanField(required=False, initial=False)
-    is_married_jointly = forms.BooleanField(required=False, initial=False)
-    is_head_of_household = forms.BooleanField(required=False, initial=False)
-    is_two_jobs_total = forms.BooleanField(required=False, initial=False)
+    CHOICES = [('True', 'Yes'),
+               ('False', 'No')]
+    is_single_or_married = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_married_jointly = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_head_of_household = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_two_jobs_total = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+
+    # is_single_or_married = forms.BooleanField(required=False, initial=False)
+    # is_married_jointly = forms.BooleanField(required=False, initial=False)
+    # is_head_of_household = forms.BooleanField(required=False, initial=False)
+    # is_two_jobs_total = forms.BooleanField(required=False, initial=False)
 
     employee_signature_img = JSignatureField()
 
