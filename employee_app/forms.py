@@ -122,6 +122,7 @@ class ProfessionalTrainingForm(forms.ModelForm):
     CHOICES = [('True', 'Yes'),
                ('False', 'No')]
     is_graduate = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+
     class Meta:
         model = ProfessionalTraining
         exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
@@ -221,10 +222,10 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
                                               'placeholder': 'Enter your Address'}),
             'city_town_state_zip': forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': 'Enter your City or Town, State, Zip Code'}),
-            'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
+            'employer_name': forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder': 'Employer Name'}),
-            # 'employer_address': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
-            #                                            'placeholder': 'Employer Address'}),
+            'employer_address': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
+                                                       'placeholder': 'Employer Address'}),
 
             'social_security_number': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': 'Enter your social security number', 'readonly': True}),
