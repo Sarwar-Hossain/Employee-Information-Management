@@ -352,7 +352,7 @@
                                             <label for="{{ training_form.is_graduate.id_for_label }}" class="form-label">graduate (Y/N)</label>
                                             <br>
                                             {{ training_form.is_graduate.errors }}
-                                            <div class="form-check form-check-inline">
+                                            <div class="form-check form-check-inline custom-radio-btn">
                                                 {{training_form.is_graduate}}
                                             </div>
                                         </div>
@@ -634,18 +634,11 @@
                                     </legend>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  mb-3">
-                                            <label class="form-check-label me-3" for="">Bus/Train/Car</label>
+                                            <label for="{{ transportation_form.is_bus_train_car.id_for_label }}" class="form-check-label me-3" for="">Bus/Train/Car</label>
                                             {{ transportation_form.non_field_errors }}
-                                            <div class="form-check form-check-inline">
-                                                {{transportation_form.is_bus_train_car|addcss:'form-check-input'}}
-                                                <label class="form-check-label"
-                                                       for="{{ transportation_form.is_bus_train_car.id_for_label }}">yes</label>
+                                            <div class="form-check form-check-inline custom-radio-btn">
+                                                {{transportation_form.is_bus_train_car}}
                                                 {{ transportation_form.is_bus_train_car.errors }}
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="bus"
-                                                       value="option2">
-                                                <label class="form-check-label" for="bus">no</label>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 mb-3">
@@ -653,17 +646,10 @@
                                             {{transportation_form.routes}}
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                            <label class="form-check-label me-3" for="">valid licenses</label>
-                                            <div class="form-check form-check-inline">
-                                                {{transportation_form.is_valid_licenses|addcss:'form-check-input'}}
-                                                <label class="form-check-label"
-                                                       for="{{ transportation_form.is_valid_licenses.id_for_label }}">yes</label>
+                                            <label for="{{ transportation_form.is_valid_licenses.id_for_label }}" class="form-check-label me-3" for="">valid licenses</label>
+                                            <div class="form-check form-check-inline custom-radio-btn">
+                                                {{transportation_form.is_valid_licenses}}
                                                 {{ transportation_form.is_valid_licenses.errors }}
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="licenses"
-                                                       value="option2">
-                                                <label class="form-check-label" for="licenses">no</label>
                                             </div>
                                         </div>
                                     </div>
@@ -673,33 +659,20 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="form-check-label me-3" for="">Do you give permission for a criminal background
+                            <label for="{{ transportation_form.is_permission_for_criminal_background.id_for_label }}" class="form-check-label me-3" for="">Do you give permission for a criminal background
                                 screen to be conducted by the consumers:</label>
-                            <div class="form-check form-check-inline">
-                                {{transportation_form.is_permission_for_criminal_background|addcss:'form-check-input'}}
-                                <label class="form-check-label"
-                                       for="{{ transportation_form.is_permission_for_criminal_background.id_for_label }}">yes</label>
+                            <div class="form-check form-check-inline custom-radio-btn">
+                                {{transportation_form.is_permission_for_criminal_background}}
                                 {{ transportation_form.is_permission_for_criminal_background.errors }}
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="criminal_background"
-                                       value="option2">
-                                <label class="form-check-label" for="criminal_background">no</label>
                             </div>
                         </div>
                         <div class="col-12">
-                            <label class="form-check-label me-3" for="">I have received the Personal Assistant Guide to
+                            <label for="{{ transportation_form.is_personal_assistant_guide.id_for_label }}" class="form-check-label me-3" for="">I have received the Personal Assistant Guide to
                                 the
                                 Consumer Directed Personal Assistance Programs:</label>
-                            <div class="form-check form-check-inline">
-                                {{transportation_form.is_personal_assistant_guide|addcss:'form-check-input'}}
-                                <label class="form-check-label"
-                                       for="{{ transportation_form.is_personal_assistant_guide.id_for_label }}">yes</label>
+                            <div class="form-check form-check-inline custom-radio-btn">
+                                {{transportation_form.is_personal_assistant_guide}}
                                 {{ transportation_form.is_personal_assistant_guide.errors }}
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="guide" value="option2">
-                                <label class="form-check-label" for="guide">no</label>
                             </div>
                         </div>
                     </div>

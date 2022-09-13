@@ -205,10 +205,9 @@ class EmployeeWithholdingCertificate(models.Model):
     extra_withholding = models.IntegerField(null=True, blank=True, default=None)
     employee_signature_img = JSignatureField(max_length=1000, default=None)
     date = models.DateTimeField(null=True, blank=True, default=None)
-    employer_name = models.CharField(max_length=500, null=True, blank=True, default=None)
+    employer_name_address = models.CharField(max_length=500, null=True, blank=True, default='469 Donald Blvd, Holbrook, NY 11741')
     first_date_of_employment = models.DateTimeField(null=True, blank=True, default=None)
     employer_identification_no = models.IntegerField(null=False, default=821481444)
-    employer_address = models.CharField(max_length=500, null=False, default='469 Donald Blvd, Holbrook, NY 11741')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

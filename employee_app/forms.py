@@ -121,7 +121,7 @@ class ProfessionalTrainingForm(forms.ModelForm):
     # is_graduate: forms.BooleanField(initial=False)
     CHOICES = [('True', 'Yes'),
                ('False', 'No')]
-    is_graduate = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    is_graduate = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
     class Meta:
         model = ProfessionalTraining
         exclude = ('created_by', 'created_at', 'updated_at', 'updated_by')
@@ -175,10 +175,16 @@ class SkillsChecklistForm(forms.ModelForm):
 
 # Complete till TransportationForm
 class TransportationForm(forms.ModelForm):
-    is_bus_train_car = forms.BooleanField(required=False, initial=False)
-    is_valid_licenses = forms.BooleanField(required=False, initial=False)
-    is_permission_for_criminal_background = forms.BooleanField(required=False, initial=False)
-    is_personal_assistant_guide = forms.BooleanField(required=False, initial=False)
+    CHOICES = [('True', 'Yes'),
+               ('False', 'No')]
+    is_bus_train_car = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_valid_licenses = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_permission_for_criminal_background = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_personal_assistant_guide = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    # is_bus_train_car = forms.BooleanField(required=False, initial=False)
+    # is_valid_licenses = forms.BooleanField(required=False, initial=False)
+    # is_permission_for_criminal_background = forms.BooleanField(required=False, initial=False)
+    # is_personal_assistant_guide = forms.BooleanField(required=False, initial=False)
     signature_img = JSignatureField()
 
     class Meta:
@@ -215,10 +221,10 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
                                               'placeholder': 'Enter your Address'}),
             'city_town_state_zip': forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': 'Enter your City or Town, State, Zip Code'}),
-            'employer_name': forms.TextInput(attrs={'class': 'form-control',
+            'employer_name_address': forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder': 'Employer Name'}),
-            'employer_address': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
-                                                       'placeholder': 'Employer Address'}),
+            # 'employer_address': forms.TextInput(attrs={'class': 'form-control', 'readonly': True,
+            #                                            'placeholder': 'Employer Address'}),
 
             'social_security_number': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': 'Enter your social security number', 'readonly': True}),
@@ -238,14 +244,20 @@ class EmployeeWithholdingCertificateForm(forms.ModelForm):
 
 
 class EmployeeWithholdingAllowanceCertificateForm(forms.ModelForm):
+    CHOICES = [('True', 'Yes'),
+               ('False', 'No')]
+    is_new_york_resident = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_yonkers_resident = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+    is_health_insurance = forms.ChoiceField(choices=CHOICES, initial=False, widget=forms.RadioSelect)
+
     is_single_or_head_of_household = forms.BooleanField(required=False, initial=False)
     is_married = forms.BooleanField(required=False, initial=False)
     is_married_higher_single_rate = forms.BooleanField(required=False, initial=False)
-    is_new_york_resident = forms.BooleanField(required=False, initial=False)
-    is_yonkers_resident = forms.BooleanField(required=False, initial=False)
+    # is_new_york_resident = forms.BooleanField(required=False, initial=False)
+    # is_yonkers_resident = forms.BooleanField(required=False, initial=False)
     is_exemption_allowances = forms.BooleanField(required=False, initial=False)
     is_new_hire = forms.BooleanField(required=False, initial=False)
-    is_health_insurance = forms.BooleanField(required=False, initial=False)
+    # is_health_insurance = forms.BooleanField(required=False, initial=False)
 
     employee_signature_img = JSignatureField()
 

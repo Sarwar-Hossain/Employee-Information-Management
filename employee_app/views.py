@@ -388,51 +388,44 @@ class CreateEmployeeProfileW4(View):
 
     @staticmethod
     def post(request, employee_id):
-        try:
-            if request.session.get('employee'):
-                withholding_certificate_form = EmployeeWithholdingCertificateForm(request.POST or None)
-                if not EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
-                    if request.method == "POST" and withholding_certificate_form.is_valid():
-                        employee_id = employee_id
 
-                        # demographics_form
-                        withholding_certificate = withholding_certificate_form.save(commit=False)
-                        withholding_certificate.employee_id = employee_id
-                        withholding_certificate_form.save()
-                        messages.success(request, 'Data Submission Successful!!')
-                        return redirect('allowance_certificate', employee_id)
-                    else:
-                        context = {
-                            'employee_id': employee_id,
-                            'withholding_certificate_form': withholding_certificate_form,
-                        }
-                        messages.success(request, 'Form Validation Failed!!')
-                        return render(request, "employee/section_w4.html", context)
+        withholding_certificate_form = EmployeeWithholdingCertificateForm(request.POST or None)
+        if not EmployeeWithholdingCertificate.objects.filter(employee_id=employee_id).exists():
+            if request.method == "POST" and withholding_certificate_form.is_valid():
+                employee_id = employee_id
 
-                elif request.method == 'POST':
-                    withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
-                    withholding_certificate_form = EmployeeWithholdingCertificateForm(data=request.POST,
-                                                                                      instance=withholding_certificate)
-                    if withholding_certificate_form.is_valid():
-                        withholding_certificate = withholding_certificate_form.save(commit=False)
-                        withholding_certificate.employee_id = employee_id
-                        withholding_certificate.updated_at = datetime.now()
-                        withholding_certificate.save()
-                        messages.success(request, 'Data Submission Successful!!')
-                        return redirect('allowance_certificate', employee_id)
-                else:
-                    context = {
-                        'employee_id': employee_id,
-                        'withholding_certificate_form': withholding_certificate_form,
-                    }
-                    messages.success(request, 'Step 3!!')
-                    return render(request, "employee/section_w4.html", context)
+                # demographics_form
+                withholding_certificate = withholding_certificate_form.save(commit=False)
+                withholding_certificate.employee_id = employee_id
+                withholding_certificate_form.save()
+                messages.success(request, 'Data Submission Successful!!')
+                return redirect('allowance_certificate', employee_id)
             else:
-                messages.error(request, 'Session Expired!!')
-                return redirect('login')
-        except Exception as e:
-            print(e)
-            return redirect('login')
+                context = {
+                    'employee_id': employee_id,
+                    'withholding_certificate_form': withholding_certificate_form,
+                }
+                messages.success(request, 'Form Validation Failed!!')
+                return render(request, "employee/section_w4.html", context)
+
+        elif request.method == 'POST':
+            withholding_certificate = EmployeeWithholdingCertificate.objects.get(employee_id=employee_id)
+            withholding_certificate_form = EmployeeWithholdingCertificateForm(data=request.POST,
+                                                                              instance=withholding_certificate)
+            if withholding_certificate_form.is_valid():
+                withholding_certificate = withholding_certificate_form.save(commit=False)
+                withholding_certificate.employee_id = employee_id
+                withholding_certificate.updated_at = datetime.now()
+                withholding_certificate.save()
+                messages.success(request, 'Data Submission Successful!!')
+                return redirect('allowance_certificate', employee_id)
+        else:
+            context = {
+                'employee_id': employee_id,
+                'withholding_certificate_form': withholding_certificate_form,
+            }
+            messages.success(request, 'Step 3!!')
+            return render(request, "employee/section_w4.html", context)
 
 
 class UpdateEmployeeProfile(View):
@@ -498,12 +491,13 @@ class CreateEmployeeAllowanceCertificate(View):
                     demographics = Demographics.objects.get(employee_id=employee_id)
                     employee_withholding_certificate = EmployeeWithholdingCertificate.objects.get(
                         employee_id=employee_id)
-                    employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(initial={
-                        'last_name': demographics.last_name,
-                        'social_security_number': demographics.social_security_number,
-                        'zip_code': demographics.state_zip_code,
-                        'employer_identification_no': employee_withholding_certificate.employer_identification_no,
-                    })
+                    employee_withholding_allowance_certificate_form = EmployeeWithholdingAllowanceCertificateForm(
+                        initial={
+                            'last_name': demographics.last_name,
+                            'social_security_number': demographics.social_security_number,
+                            'zip_code': demographics.state_zip_code,
+                            'employer_identification_no': employee_withholding_certificate.employer_identification_no,
+                        })
 
                     # withholding_certificate_form = EmployeeWithholdingCertificateForm()
                     context = {

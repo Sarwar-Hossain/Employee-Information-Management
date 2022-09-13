@@ -738,3 +738,11 @@ p.certify {
         opacity: 0;
     }
 }
+/*css add by sarwar*/
+.custom-radio-btn ul{
+    display: flex;
+}
+.custom-radio-btn ul li{
+    list-style-type: none;
+    margin-right: 10px;
+}
