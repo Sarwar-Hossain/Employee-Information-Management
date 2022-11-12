@@ -24,7 +24,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link">page - 01 </a>
+                        <a class="nav-link">page - 03 </a>
                     </li>
                 </ul>
             </div>
@@ -166,27 +166,17 @@
                 </div>
                 <div class="resident-box">
                     <div class="check-inline-group">
-                        <label for="" class="form-label me-3">Are you a resident of New York City? </label>
+                        <label for="{{ employee_withholding_allowance_certificate_form.is_new_york_resident.id_for_label }}" class="form-label me-3">Are you a resident of New York City? </label>
                         {{ employee_withholding_allowance_certificate_form.is_new_york_resident.errors }}
-                        <div class="form-check form-check-inline">
-                            {{ employee_withholding_allowance_certificate_form.is_new_york_resident|addcss:'form-check-input' }}
-                            <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_new_york_resident.id_for_label }}">Yes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">No</label>
+                        <div class="form-check form-check-inline custom-radio-btn">
+                            {{ employee_withholding_allowance_certificate_form.is_new_york_resident }}
                         </div>
                     </div>
                     <div class="check-inline-group">
-                        <label for="" class="form-label me-3">Are you a resident of Yonkers? </label>
+                        <label for="{{ employee_withholding_allowance_certificate_form.is_yonkers_resident.id_for_label }}" class="form-label me-3">Are you a resident of Yonkers? </label>
                         {{ employee_withholding_allowance_certificate_form.is_yonkers_resident.errors }}
-                        <div class="form-check form-check-inline">
-                            {{ employee_withholding_allowance_certificate_form.is_yonkers_resident|addcss:'form-check-input' }}
-                            <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_yonkers_resident.id_for_label }}">Yes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox3">No</label>
+                        <div class="form-check form-check-inline custom-radio-btn">
+                            {{ employee_withholding_allowance_certificate_form.is_yonkers_resident }}
                         </div>
                     </div>
                     <h5><b>Complete the worksheet on page 4 before making any entries.</b></h5>
@@ -295,17 +285,12 @@
                         {{ employee_withholding_allowance_certificate_form.employee_performed_date }}
                     </div>
                     <div class="form-check form-check-inline ps-0">
-                        <label class="form-check-label" for="inlineCheckbox1">Are dependent health insurance
+                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_health_insurance.id_for_label }}">Are dependent health insurance
                             benefits available for this employee?</label>
                     </div>
                     {{ employee_withholding_allowance_certificate_form.is_health_insurance.errors }}
-                    <div class="form-check form-check-inline">
-                        {{ employee_withholding_allowance_certificate_form.is_health_insurance|addcss:'form-check-input' }}
-                        <label class="form-check-label" for="{{ employee_withholding_allowance_certificate_form.is_health_insurance.id_for_label }}">yes</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox4">no</label>
+                    <div class="form-check form-check-inline custom-radio-btn">
+                        {{ employee_withholding_allowance_certificate_form.is_health_insurance }}
                     </div>
                     {{ employee_withholding_allowance_certificate_form.employee_qualifies_date.errors }}
                     <div class="form-group my-3">
@@ -314,13 +299,19 @@
                     </div>
                     <div class="final-signature">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-                                {{ employee_withholding_allowance_certificate_form.employer_name_address.errors }}
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                {{ employee_withholding_allowance_certificate_form.employer_name.errors }}
                                 <div class="form-group ">
-                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_name_address.id_for_label }}">Employer’s name and address (Employer: complete this section only if
-                                        you are sending
-                                        a copy of this form to the NYS Tax Department.) </label>
-                                    {{ employee_withholding_allowance_certificate_form.employer_name_address }}
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_name.id_for_label }}">Employer’s name (Complete this section only if
+                                        sending a copy to the NYS Tax Department.) </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_name }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                {{ employee_withholding_allowance_certificate_form.employer_address.errors }}
+                                <div class="form-group ">
+                                    <label for="{{ employee_withholding_allowance_certificate_form.employer_address.id_for_label }}">Employer’s Address </label>
+                                    {{ employee_withholding_allowance_certificate_form.employer_address }}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -340,7 +331,20 @@
             </form>
         </div>
     </div>
+    <nav class="navbar navbar-expand bg-white shadow-sm">
+        <div class="container-fluid text-center">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                {% include 'employee/pagination.html' %}
+            </div>
+        </div>
+    </nav>
 </section>
+
+<script>
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 2);
+    document.getElementById('id_date').valueAsDate = new Date();
+</script>
 
 {% endblock %}
 

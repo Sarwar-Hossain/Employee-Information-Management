@@ -11,31 +11,71 @@ function showWarningToasty(message) {
     }).showToast();
 }
 
-// Form Validation
-function user_Form() {
-    if (document.user_form.user_name.value === "") {
-        showWarningToasty("User Name is Empty!");
-        document.user_form.user_name.focus();
+function myFunc() {
+
+    const employee_name = $("#id_employee_name").val();
+    const mobile_no = $("#id_mobile_no").val();
+    const date_of_service = $("#id_date_of_service").val();
+    const medicaid_id = $("#id_medicaid_id").val();
+    const pa_name = $("#id_pa_name").val();
+    const employee_id = $("#id_employee_id").val();
+    const email = $("#id_email").val();
+    const password = $("#id_password").val();
+    const user_role = $("#id_user_role").val();
+    const nid_img = $("#id_nid_img").val();
+    const employee_img = $("#id_employee_img").val();
+
+    if (!employee_name) {
+        $("#employee_name").addClass("has-danger");
+        showWarningToasty('Employee field is blank!')
         return false;
-    } else if (document.user_form.mobile_no.value === "") {
-        showWarningToasty("Mobile No is Empty!");
-        document.user_form.mobile_no.focus();
+    } else if (!mobile_no) {
+        $("#employee_name").removeClass("has-danger")
+        $("#mobile_no").addClass("has-danger");
+        showWarningToasty('Mobile No field is blank!')
         return false;
-    } else if (document.user_form.email.value === "") {
-        showWarningToasty("Email Id is Empty!");
-        document.user_form.email.focus();
+    } else if (!date_of_service) {
+        $("#mobile_no").removeClass("has-danger")
+        $("#date_of_service").addClass("has-danger");
+        showWarningToasty('Date of service field is blank!')
         return false;
-    } else if (document.user_form.password.value === "") {
-        showWarningToasty("Password is Empty!");
-        document.user_form.password.focus();
+    } else if (!medicaid_id) {
+        $("#date_of_service").removeClass("has-danger")
+        $("#medicaid_id").addClass("has-danger");
+        showWarningToasty('Medicaid id field is blank!')
         return false;
-    } else if (document.user_form.shop_name.value === "") {
-        showWarningToasty("Shop Name is Empty!");
-        document.user_form.shop_name.focus();
+    } else if (!pa_name) {
+        $("#medicaid_id").removeClass("has-danger")
+        $("#pa_name").addClass("has-danger");
+        showWarningToasty('PA name field is blank!')
         return false;
-    } else if (document.user_form.shop_id.value === "") {
-        showWarningToasty("Shop Id is Empty!");
-        document.user_form.shop_id.focus();
+    } else if (!employee_id) {
+        $("#pa_name").removeClass("has-danger")
+        $("#employee_id").addClass("has-danger");
+        showWarningToasty('Employee id field is blank!')
+        return false;
+    } else if (!email) {
+        $("#employee_id").removeClass("has-danger")
+        $("#email").addClass("has-danger");
+        showWarningToasty('Email field is blank!')
+        return false;
+    } else if (!password) {
+        $("#email").removeClass("has-danger")
+        $("#password").addClass("has-danger");
+        showWarningToasty('Password field is blank!')
+        return false;
+    }  else if (!nid_img) {
+        $("#password").removeClass("has-danger")
+        $("#nid_img").addClass("has-danger");
+        showWarningToasty('NID Image is not Selected!')
+        return false;
+    }  else if (!employee_img) {
+        $("#nid_img").removeClass("has-danger")
+        $("#employee_img").addClass("has-danger");
+        showWarningToasty('Employee Image is not Selected!')
+        return false;
+    } else if (!user_role) {
+        showWarningToasty('User Role is not selected!')
         return false;
     } else {
         showLoader();
@@ -44,11 +84,28 @@ function user_Form() {
 
 // Reset Form
 function ClearFields() {
-    document.getElementById("user_name").value = "";
-    document.getElementById("mobile_no").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("shop_name").value = "";
-    document.getElementById("shop_id").value = "";
+
+    document.getElementById("id_employee_name").value = "";
+    document.getElementById("id_mobile_no").value = "";
+    document.getElementById("id_date_of_service").value = "";
+    document.getElementById("id_medicaid_id").value = "";
+    document.getElementById("id_pa_name").value = "";
+    document.getElementById("id_employee_id").value = "";
+    document.getElementById("id_email").value = "";
+    document.getElementById("id_password").value = "";
 }
 
+// Client Side form validation while submitting form
+
+// $("#user_form").submit(function () {
+//     const employee_name = $("#employee_name").val();
+//
+//     if (!employee_name) {
+//         $("#id_employee_name").addClass("has-danger");
+//         showWarningToasty('Employee Field is blank')
+//         return false; // no submission
+//     }
+//
+//     alert("Field is filled. The form will submit.");
+//     return true; // form submits
+// });

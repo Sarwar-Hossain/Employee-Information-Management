@@ -26,7 +26,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link">page - 01 </a>
+                        <a class="nav-link">page - 02 </a>
                     </li>
                 </ul>
             </div>
@@ -58,8 +58,12 @@
                             </div>
                         </div>
                         <div class="right-box">
+
                             <p>OMB No. 1545-0074</p>
-                            <h3><span>20</span>21</h3>
+                            <h3><span id="year"></span></h3>
+
+<!--                            <p>OMB No. 1545-0074</p>-->
+<!--                            <h3><span>20</span>21</h3>-->
                         </div>
                     </div>
                     <div class="steptwo-main">
@@ -110,28 +114,34 @@
                             <div class="row row-border">
                                 <div class="col-12">
                                     <div class="form-check">
-                                        {{ withholding_certificate_form.is_single_or_married|addcss:'form-check-input' }}
                                         <label class="form-check-label"
                                                for="{{ withholding_certificate_form.is_single_or_married.id_for_label }}">
                                             <span>single</span> or <span>married</span> filling separately
                                         </label>
+                                        <div class="form-check form-check-inline custom-radio-btn">
+                                        {{ withholding_certificate_form.is_single_or_married }}
                                         {{ withholding_certificate_form.is_single_or_married.errors }}
+                                        </div>
                                     </div>
                                     <div class="form-check">
-                                        {{ withholding_certificate_form.is_married_jointly|addcss:'form-check-input' }}
                                         <label class="form-check-label" for="{{ withholding_certificate_form.is_married_jointly.id_for_label }}">
                                             <span>married filling jointly</span> or <span>quality widow(er) </span>
                                         </label>
+                                        <div class="form-check form-check-inline custom-radio-btn">
+                                        {{ withholding_certificate_form.is_married_jointly }}
                                         {{ withholding_certificate_form.is_married_jointly.errors }}
+                                        </div>
                                     </div>
                                     <div class="form-check">
-                                        {{ withholding_certificate_form.is_head_of_household|addcss:'form-check-input' }}
                                         <label class="form-check-label" for="{{ withholding_certificate_form.is_head_of_household.id_for_label }}">
                                             <span>head of household</span> (check only if you're unmarried and pay more
                                             than half the costs of keeping up a home for yourself
                                             and a quality individual.)
                                         </label>
+                                        <div class="form-check form-check-inline custom-radio-btn">
+                                        {{ withholding_certificate_form.is_head_of_household }}
                                         {{ withholding_certificate_form.is_head_of_household.errors }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +179,7 @@
                                     This option is accurate for jobs with similar pay; otherwise, more tax than
                                     necessary may be withheld
                                     <div class="form-check">
-                                        {{ withholding_certificate_form.is_two_jobs_total|addcss:'form-check-input' }}
+                                        {{ withholding_certificate_form.is_two_jobs_total }}
                                     </div>
                                     {{ withholding_certificate_form.is_two_jobs_total.errors }}
                                 </li>
@@ -316,13 +326,21 @@
                         </div>
                         <div class="middle-box">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                     <div class="form-group mb-3">
-                                        <label for="{{ withholding_certificate_form.employer_name_address.id_for_label }}" class="form-label">
-                                            Employer's Name and address</label>
-                                        {{ withholding_certificate_form.employer_name_address }}
+                                        <label for="{{ withholding_certificate_form.employer_name.id_for_label }}" class="form-label">
+                                            Employer's Name</label>
+                                        {{ withholding_certificate_form.employer_name }}
                                     </div>
-                                    {{ withholding_certificate_form.employer_name_address.errors }}
+                                    {{ withholding_certificate_form.employer_name.errors }}
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                    <div class="form-group mb-3">
+                                        <label for="{{ withholding_certificate_form.employer_address.id_for_label }}" class="form-label">
+                                            Address</label>
+                                        {{ withholding_certificate_form.employer_address }}
+                                    </div>
+                                    {{ withholding_certificate_form.employer_address.errors }}
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                     <div class="form-group mb-3">
@@ -350,6 +368,13 @@
             </form>
         </div>
     </div>
+    <nav class="navbar navbar-expand bg-white shadow-sm">
+        <div class="container-fluid text-center">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                {% include 'employee/pagination.html' %}
+            </div>
+        </div>
+    </nav>
 </section>
 
 <script>
@@ -362,14 +387,17 @@
         }).showToast();
     }
 
-    // $('.step-one-btn').click(function () {
-    //     $('#step-1').addClass('d-none');
-    //     $('#step-2').removeClass('d-none');
-    // });
-    // $('.prev-two').click(function () {
-    //     $('#step-1').toggleClass('d-none');
-    //     $('#step-2').toggleClass('d-none');
-    // });
+    function getCurrentYear() {
+        return new Date().getFullYear(); // returns the year via local timing
+    }
+
+    document.getElementById("year").innerHTML = getCurrentYear();
+
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 2);
+    document.getElementById('id_date').valueAsDate = new Date();
+    document.getElementById('id_first_date_of_employment').valueAsDate = new Date();
+
 </script>
 
 {% endblock %}

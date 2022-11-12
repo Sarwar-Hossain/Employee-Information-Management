@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-                  path('', views.AdminLoginView.as_view(), name='admin_login'),
                   path('create/employee/user/super/admin/', views.CreateUserSuperAdmin.as_view(),
                        name='create_employee_user_super_admin'),
                   path('create/employee/user/admin', views.CreateUserAdmin.as_view(),

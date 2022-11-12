@@ -52,14 +52,14 @@ class Demographics(models.Model):
     employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="demographics", null=True,
                                  blank=True, default=None)
 
-    first_name = models.CharField(max_length=250, null=True, blank=True)
-    last_name = models.CharField(max_length=250, null=True, blank=True)
-    social_security_number = models.IntegerField(null=True, blank=True)
-    street_address = models.CharField(max_length=250, null=True, blank=True)
-    city_town = models.CharField(max_length=250, null=True, blank=True)
-    state_zip_code = models.IntegerField(null=True, blank=True)
-    home_phone = models.CharField(max_length=250, null=True, blank=True)
-    cell_phone = models.CharField(max_length=250, null=True, default=None)
+    first_name = models.CharField(max_length=250, null=False, default='')
+    last_name = models.CharField(max_length=250, null=False, default='')
+    social_security_number = models.IntegerField(null=False, default='')
+    street_address = models.CharField(max_length=250, null=False, default='')
+    city_town = models.CharField(max_length=250, null=False, default='')
+    state_zip_code = models.IntegerField(null=False, default=None)
+    home_phone = models.CharField(max_length=250, null=False, default='')
+    cell_phone = models.CharField(max_length=250, null=False, default='')
 
     created_by = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -115,8 +115,8 @@ class ProfessionalTraining(models.Model):
 
     name_of_school_city_state = models.CharField(max_length=350, null=True, blank=True)
     entrance_date = models.DateTimeField(null=True, blank=True, default=None)
-    is_graduate = models.BooleanField(null=False, blank=True)
-    certificate_degree = models.CharField(max_length=500, null=True, blank=True)
+    is_graduate = models.BooleanField(null=True, blank=True, default=False)
+    certificate_degree = models.CharField(max_length=500, null=True, blank=True, default='')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -205,9 +205,11 @@ class EmployeeWithholdingCertificate(models.Model):
     extra_withholding = models.IntegerField(null=True, blank=True, default=None)
     employee_signature_img = JSignatureField(max_length=1000, default=None)
     date = models.DateTimeField(null=True, blank=True, default=None)
-    employer_name_address = models.CharField(max_length=500, null=True, blank=True, default=None)
+    employer_name = models.CharField(max_length=500, null=True, blank=True, default=None)
     first_date_of_employment = models.DateTimeField(null=True, blank=True, default=None)
-    employer_identification_no = models.IntegerField(null=True, blank=True, default=None)
+    employer_identification_no = models.IntegerField(null=False, default=821481444)
+    employer_address = models.CharField(max_length=500, null=True, blank=True,
+                                        default='469 Donald Blvd, Holbrook, NY 11741')
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -246,13 +248,14 @@ class EmployeeWithholdingAllowanceCertificate(models.Model):
     employee_performed_date = models.DateTimeField(null=True, blank=True, default=None)
     is_health_insurance = models.BooleanField(null=True, blank=True, default=False)
     employee_qualifies_date = models.DateTimeField(null=True, blank=True, default=None)
-    employer_name_address = models.CharField(max_length=600, null=True, blank=True)
-    employer_identification_no = models.IntegerField(null=False)
+    employer_identification_no = models.IntegerField(null=False, default=821481444)
+    employer_name = models.CharField(max_length=600, null=True, blank=True)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_by = models.CharField(max_length=100, null=True)
     updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
+    employer_address = models.CharField(max_length=600, null=False, default='469 Donald Blvd, Holbrook, NY 11741')
 
 
 class EmployeeInformationAttestation(models.Model):
@@ -271,20 +274,30 @@ class EmployeeInformationAttestation(models.Model):
     state = models.CharField(max_length=500, null=True, blank=True, default=None)
     zip_code = models.IntegerField(null=True, blank=True, default=None)
     date_of_birth = models.DateTimeField(null=True, blank=True, default=None)
-    social_security_no = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_1 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_2 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_3 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_4 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_5 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_6 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_7 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_8 = models.IntegerField(null=True, blank=True, default=None)
+    ss_no_9 = models.IntegerField(null=True, blank=True, default=None)
     employee_email_address = models.EmailField(max_length=150, blank=True, null=True, unique=True)
     employee_tp_no = models.CharField(max_length=15, null=True, blank=True, default=None)
     is_citizen_us = models.BooleanField(null=True, blank=True, default=False)
     is_non_citizen_us = models.BooleanField(null=True, blank=True, default=False)
     is_lawful_resident = models.BooleanField(null=True, blank=True, default=False)
-    authorize_to_work = models.CharField(max_length=500, null=True, blank=True, default=None)
+    is_alien_authorize_to_work = models.BooleanField(null=True, blank=True, default=False)
     alien_reg_no = models.IntegerField(null=True, blank=True, default=None)
     admission_no = models.IntegerField(null=True, blank=True, default=None)
     foreign_passport_no = models.IntegerField(null=True, blank=True, default=None)
     country_of_issuance = models.CharField(max_length=500, null=True, blank=True, default=None)
-    qr_code = models.IntegerField(null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    # qr_code = models.IntegerField(null=True, blank=True, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
     today_date = models.DateTimeField(null=True, blank=True, default=None)
+    expire_date = models.DateTimeField(null=True, blank=True, default=None)
+    uscis_no = models.IntegerField(null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -299,12 +312,12 @@ class TranslatorCertificate(models.Model):
 
     is_use_translator = models.BooleanField(null=True, blank=True, default=False)
     is_preparer_assisted = models.BooleanField(null=True, blank=True, default=False)
-    preparer_signature_img = JSignatureField(max_length=1000, default=None)
-    today_date = models.DateTimeField(null=True, blank=True, default=None)
+    preparer_signature_img = JSignatureField(max_length=1000, default=None, null=True, blank=True)
+    translator_today_date = models.DateTimeField(null=True, blank=True, default=None)
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
     last_name = models.CharField(max_length=150, null=True, blank=True, default=None)
     address = models.CharField(max_length=800, null=True, blank=True, default=None)
-    city = models.CharField(max_length=500, null=True, blank=True, default=None)
+    city_town = models.CharField(max_length=500, null=True, blank=True, default=None)
     state = models.CharField(max_length=500, null=True, blank=True, default=None)
     zip_code = models.IntegerField(null=True, blank=True, default=False)
 
@@ -322,7 +335,7 @@ class EmployerReviewVerification(models.Model):
 
     first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
     last_name = models.CharField(max_length=150, null=True, blank=True, default=None)
-    mi = models.CharField(max_length=150, null=True, blank=True, default=None)
+    middle_initial = models.CharField(max_length=150, null=True, blank=True, default=None)
     citizenship_status = models.CharField(max_length=150, null=True, blank=True, default=None)
 
     document_title_list_a_1 = models.CharField(max_length=150, null=True, blank=True, default=None)
@@ -349,8 +362,8 @@ class EmployerReviewVerification(models.Model):
     issuing_authority_list_c = models.CharField(max_length=150, null=True, blank=True, default=None)
     document_no_e_list_c = models.CharField(max_length=150, null=True, blank=True, default=None)
     expire_date_e_list_c = models.DateTimeField(null=True, blank=True, default=None)
-    additional_info_b_n_c = models.CharField(max_length=1000, null=True, blank=True, default=None)
-    qr_code = models.CharField(max_length=100, null=True, blank=True, default=None)
+    additional_info_b_n_c = models.TextField(max_length=1000, null=True, blank=True, default=None)
+    # qr_code = models.CharField(max_length=100, null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -364,8 +377,9 @@ class EmploymentFirstDay(models.Model):
     employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="employmentfirstday", null=True,
                                  blank=True)
 
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    first_day_employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
     today_date = models.DateTimeField(null=True, blank=True, default=None)
+    employee_first_day = models.DateTimeField(null=True, blank=True, default=None)
     employer_title = models.CharField(max_length=200, null=True, blank=True, default=None)
     employer_first_name = models.CharField(max_length=200, null=True, blank=True, default=None)
     employer_last_name = models.CharField(max_length=200, null=True, blank=True, default=None)
@@ -391,11 +405,12 @@ class ReverificationRehires(models.Model):
     middle_name = models.CharField(max_length=150, null=True, blank=True, default=None)
     last_name = models.CharField(max_length=200, null=True, blank=True, default=None)
     date_of_rehire = models.DateTimeField(null=True, blank=True, default=None)
+    today_s_date = models.DateTimeField(null=True, blank=True, default=None)
     document_title = models.CharField(max_length=150, null=True, blank=True, default=None)
     document_no = models.CharField(max_length=150, null=True, blank=True, default=None)
     expire_date = models.DateTimeField(null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
-    today_date = models.DateTimeField(null=True, blank=True, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
+    reh_today_date = models.DateTimeField(null=True, blank=True, default=None)
     employer_name = models.CharField(max_length=150, null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -411,7 +426,7 @@ class AcknowledgementOfReceipt(models.Model):
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=150, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
     date = models.DateTimeField(null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -445,6 +460,7 @@ class VoluntaryIdentification(models.Model):
     is_two_or_more_races = models.BooleanField(null=True, blank=True, default=False)
     is_disclose_info = models.BooleanField(null=True, blank=True, default=False)
     is_disabled_veteran = models.BooleanField(null=True, blank=True, default=False)
+    is_recently_separated = models.BooleanField(null=True, blank=True, default=False)
     date_of_active_duty = models.DateTimeField(null=True, blank=True, default=None)
     is_armed_forces = models.BooleanField(null=True, blank=True, default=False)
     is_other_protected_veteran = models.BooleanField(null=True, blank=True, default=False)
@@ -456,7 +472,7 @@ class VoluntaryIdentification(models.Model):
     is_disclose_disability = models.BooleanField(null=True, blank=True, default=False)
     nature_of_disability = models.CharField(max_length=800, null=True, blank=True, default=None)
     voluntarily_info = models.CharField(max_length=1000, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
     sign_date = models.DateTimeField(null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -472,7 +488,7 @@ class AuthorizationBackgroundCheck(models.Model):
                                  blank=True)
 
     employee_printed_name = models.CharField(max_length=200, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, null=False, blank=False)
     date = models.DateTimeField(null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -487,7 +503,7 @@ class AgreementWithCompany(models.Model):
     employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="agreement", null=True, blank=True)
 
     employee_printed_name = models.CharField(max_length=100, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, blank=False, null=False)
     date = models.DateTimeField(null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -538,8 +554,8 @@ class EmployerInformation(models.Model):
     business = models.CharField(max_length=800, null=True, blank=True, default=None)
     fein = models.CharField(max_length=400, null=True, blank=True, default=None)
     physical_address = models.CharField(max_length=800, null=True, blank=True, default=None)
-    mail_address = models.EmailField(max_length=250, blank=True, null=True, unique=True)
-    phone = models.CharField(max_length=15, null=True, blank=True, default=None)
+    mail_address = models.CharField(max_length=500, blank=True, null=True)
+    phone = models.CharField(max_length=20, null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -555,26 +571,49 @@ class NoticeAcknowledgement(models.Model):
 
     is_at_hiring = models.BooleanField(null=True, blank=True, default=False)
     is_before_change = models.BooleanField(null=True, blank=True, default=False)
-    employee_rates = models.IntegerField(null=True, blank=True, default=False)
-    wage_parity_rates = models.IntegerField(null=True, blank=True, default=False)
-    is_none = models.BooleanField(null=True, blank=True, default=False)
-    tips = models.IntegerField(null=True, blank=True, default=False)
-    meals = models.IntegerField(null=True, blank=True, default=False)
-    loading = models.CharField(max_length=200, null=True, blank=True, default=None)
-    allowance_other = models.CharField(max_length=200, null=True, blank=True, default=None)
-    regular_payday = models.CharField(max_length=200, null=True, blank=True, default=None)
+    employee_rates_a_1 = models.IntegerField(null=True, blank=True, default=0)
+    employee_rates_a_2 = models.CharField(null=True, blank=True, max_length=500)
+
+    employee_rates_b_1 = models.IntegerField(null=True, blank=True, default=0)
+    employee_rates_b_2 = models.CharField(null=True, blank=True, max_length=500)
+
+    employee_rates_c_1 = models.IntegerField(null=True, blank=True, default=0)
+    employee_rates_c_2 = models.CharField(null=True, blank=True, max_length=500)
+
+    wage_parity_rates_a = models.IntegerField(null=True, blank=True, default=0)
+    wage_parity_rates_b = models.IntegerField(null=True, blank=True, default=0)
+    wage_parity_rates_c = models.IntegerField(null=True, blank=True, default=0)
+
+    is_allowance_none = models.BooleanField(null=True, blank=True, default=False)
+    is_tips_allowance = models.BooleanField(null=True, blank=True, default=False)
+    allowance_tips = models.IntegerField(null=True, blank=True, default=0)
+
+    is_allowance_meals = models.BooleanField(null=True, blank=True, default=False)
+    allowance_meals = models.IntegerField(null=True, blank=True, default=0)
+
+    is_allowance_loading = models.BooleanField(null=True, blank=True, default=False)
+    allowance_loading = models.CharField(max_length=200, null=True, blank=True)
+
+    is_allowance_other = models.BooleanField(null=True, blank=True, default=False)
+    allowance_other = models.CharField(max_length=200, null=True, blank=True)
+
+    regular_payday = models.CharField(max_length=200, null=True, blank=True)
+
     is_weekly = models.BooleanField(null=True, blank=True, default=False)
-    is_bi_weekly = models.BooleanField(null=True, blank=True, default=False)
-    pay_other = models.CharField(max_length=200, null=True, blank=True, default=None)
-    single_pay_rate = models.IntegerField(null=True, blank=True, default=False)
-    wage_parity_pay_rates = models.IntegerField(null=True, blank=True, default=False)
-    multiple_pay_rates = models.IntegerField(null=True, blank=True, default=False)
-    is_notice_in_english = models.BooleanField(null=True, blank=True, default=False)
-    primary_language = models.CharField(max_length=100, null=True, blank=True, default=None)
-    employee_printed_name = models.CharField(max_length=100, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    is_pay_bi_weekly = models.BooleanField(null=True, blank=True, default=False)
+    is_pay_other = models.BooleanField(null=True, blank=True, default=False)
+    pay_other = models.CharField(max_length=200, null=True, blank=True)
+
+    single_pay_rate = models.IntegerField(null=True, blank=True, default=0)
+    wage_parity_pay_rates = models.IntegerField(null=True, blank=True, default=0)
+    multiple_pay_rates = models.IntegerField(null=True, blank=True, default=0)
+    is_notice_english = models.BooleanField(null=True, blank=True, default=False)
+    is_my_primary_language = models.BooleanField(null=True, blank=True, default=False)
+    primary_language = models.CharField(max_length=100, null=True, blank=True)
+    employee_printed_name = models.CharField(max_length=100, null=True, blank=True)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, blank=False, null=False)
     date = models.DateTimeField(null=True, blank=True, default=None)
-    papers_name_title = models.CharField(max_length=200, null=True, blank=True, default=None)
+    papers_name_title = models.CharField(max_length=200, null=True, blank=True)
 
     created_by = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -588,10 +627,18 @@ class BenefitPortionCompensation(models.Model):
     employee = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="benefitportioncompensation",
                                  null=True, blank=True)
 
-    hourly_rate = models.IntegerField(null=True, blank=True, default=False)
-    type_of_supplement = models.CharField(max_length=500, null=True, blank=True, default=None)
-    provider_name_address = models.CharField(max_length=800, null=True, blank=True, default=None)
-    agreement_info = models.CharField(max_length=1000, null=True, blank=True, default=None)
+    hourly_rate1 = models.IntegerField(null=True, blank=True, default=0)
+    hourly_rate2 = models.IntegerField(null=True, blank=True, default=0)
+    hourly_rate3 = models.IntegerField(null=True, blank=True, default=0)
+    type_of_supplement1 = models.CharField(max_length=500, null=True, blank=True)
+    type_of_supplement2 = models.CharField(max_length=500, null=True, blank=True)
+    type_of_supplement3 = models.CharField(max_length=500, null=True, blank=True)
+    provider_name_address1 = models.CharField(max_length=800, null=True, blank=True)
+    provider_name_address2 = models.CharField(max_length=800, null=True, blank=True)
+    provider_name_address3 = models.CharField(max_length=800, null=True, blank=True)
+    agreement_info1 = models.CharField(max_length=1000, null=True, blank=True)
+    agreement_info2 = models.CharField(max_length=1000, null=True, blank=True)
+    agreement_info3 = models.CharField(max_length=1000, null=True, blank=True)
     obtained_by = models.CharField(max_length=400, null=True, blank=True, default=None)
 
     created_by = models.CharField(max_length=100, null=True)
@@ -609,7 +656,7 @@ class EmployeeAcknowledgement(models.Model):
     primary_language = models.CharField(max_length=250, null=True, blank=True, default=None)
     is_notice_given = models.BooleanField(null=True, blank=True, default=False)
     employee_printed_name = models.CharField(max_length=200, null=True, blank=True, default=None)
-    employee_signature_img = JSignatureField(max_length=1000, default=None)
+    employee_signature_img = JSignatureField(max_length=1000, default=None, blank=False, null=False)
     sign_date = models.DateTimeField(null=True, blank=True, default=None)
     papers_name_title = models.CharField(max_length=500, null=True, blank=True, default=None)
 
@@ -631,8 +678,7 @@ class DepositAuthorization(models.Model):
     name_of_bank = models.CharField(max_length=500, null=True, blank=True, default=None)
     account = models.IntegerField(null=True, blank=True, default=False)
     digit_routing = models.IntegerField(null=True, blank=True, default=False)
-    is_checking = models.BooleanField(null=True, blank=True, default=False)
-    is_savings = models.BooleanField(null=True, blank=True, default=False)
+    type_of_account = models.BooleanField(null=True, blank=True, default=False)
     employee_signature_img = JSignatureField(max_length=1000, default=None)
     date = models.DateTimeField(null=True, blank=True, default=None)
 

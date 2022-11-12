@@ -1,6 +1,7 @@
 {% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
+{% load form_helpers %}
 
 {% if toast_mes %}
 <script>swal("{{toast_mes.toast_message}}");</script>
@@ -40,7 +41,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 {{ user_form.non_field_errors }}
-                                <div class="form-group">
+                                <div class="form-group" id="employee_name">
                                     {{ user_form.employee_name.errors }}
                                     <label for="{{ user_form.employee_name.id_for_label }}">
                                         <span>Member Name</span>
@@ -49,8 +50,9 @@
                                     {{ user_form.employee_name }}
                                 </div>
                             </div>
+
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                                <div class="form-group" id="mobile_no">
                                     {{ user_form.mobile_no.errors }}
                                     <label for="{{ user_form.mobile_no.id_for_label }}">
                                         <span>Mobile No</span>
@@ -60,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                                <div class="form-group" id="date_of_service">
                                     {{ user_form.date_of_service.errors }}
                                     <label for="{{ user_form.date_of_service.id_for_label }}">
                                         <span>Date of Service</span>
@@ -70,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                                <div class="form-group" id="medicaid_id">
                                     {{ user_form.medicaid_id.errors }}
                                     <label for="{{ user_form.medicaid_id.id_for_label }}">
                                         <span>Medicaid Id</span>
@@ -80,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                                <div class="form-group" id="pa_name">
                                     {{ user_form.pa_name.errors }}
                                     <label for="{{ user_form.pa_name.id_for_label }}">
                                         <span>PA Name</span>
@@ -90,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                                <div class="form-group" id="employee_id">
                                     {{ user_form.employee_id.errors }}
                                     <label for="{{ user_form.employee_id.id_for_label }}">
                                         <span>Employee Id</span>
@@ -99,8 +101,8 @@
                                     {{ user_form.employee_id }}
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="form-group" id="email">
                                     {{ user_form.email.errors }}
                                     <label for="{{ user_form.email.id_for_label }}">
                                         <span>Email</span>
@@ -109,14 +111,50 @@
                                     {{ user_form.email }}
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="form-group" id="password">
                                     {{ user_form.password.errors }}
                                     <label for="{{ user_form.password.id_for_label }}">
                                         <span>Password</span>
                                         <span class="asterisk-label">*</span>
                                     </label>
                                     {{ user_form.password }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                {{ user_form.user_role.errors }}
+                                <div class="form-group">
+                                     <label for="{{ user_form.user_role.id_for_label }}">
+                                         <span>Role</span>
+                                         <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.user_role|addcss:'form-control' }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="nid_img">
+                                    {{ user_form.nid_img.errors }}
+                                    <label for="{{ user_form.nid_img.id_for_label }}">
+                                        <span>Employee NID</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.nid_img|addcss:'form-control' }}
+                                    {% if nid_img %}
+                                    <img src="{{nid_img.url}}" alt="{% static 'icon-images/dummy_img.jpg' %}" class="img_center">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="employee_img">
+                                    {{ user_form.employee_img.errors }}
+                                    <label for="{{ user_form.employee_img.id_for_label }}">
+                                        <span>Employee Image</span>
+                                        <span class="asterisk-label">*</span>
+                                    </label>
+                                    {{ user_form.employee_img|addcss:'form-control' }}
+                                    {% if employee_img %}
+                                    <img src="{{employee_img.url}}" alt="Image Not Found" class="img_center">
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -207,7 +245,7 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <a href='#' class="btn btn-edit"><b>Edit</b></a>
+                                    <a href="{% url 'index' user.employee_id %}?user_id={{admin}}" class="btn btn-edit"><b>Edit</b></a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -215,14 +253,14 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-12 text-center">
-                    <form action="">
-                        <div class="w-100 text-center">
-                            <a class="btn btn-primary login-btn"
-                               href="#">Back To Home</a>
-                        </div>
-                    </form>
-                </div>
+<!--                <div class="col-12 text-center">-->
+<!--                    <form action="">-->
+<!--                        <div class="w-100 text-center">-->
+<!--                            <a class="btn btn-primary login-btn"-->
+<!--                               href="#">Back To Home</a>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -238,6 +276,10 @@
 
     let usersStatus = document.querySelector('#users_status');
     let dataTable = new simpleDatatables.DataTable(usersStatus);
+
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 2);
+    document.getElementById('id_date_of_service').valueAsDate = new Date();
 
     // Delete User
     document.getElementById('button_delete').addEventListener('click', async (e) => {
